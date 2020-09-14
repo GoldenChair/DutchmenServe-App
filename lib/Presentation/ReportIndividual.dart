@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'reportGroupAddStudents.dart';
 import 'ReportHoursPage.dart';
 
-class NewReportIndividual extends StatelessWidget {
+class ReportIndividual extends StatelessWidget {
   int _value = 1;
 
   @override

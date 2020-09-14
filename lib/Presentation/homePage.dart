@@ -7,7 +7,6 @@ import 'OrganizationsPage.dart';
 import 'RegisteredPage.dart';
 import 'connectWUsPage.dart';
 
-
 //Add to drawer "Your registed events" and your favorite events or add a bottom bar
 
 class HomePage extends StatelessWidget {
@@ -22,14 +21,14 @@ class HomePage extends StatelessWidget {
           style: TextStyle(fontFamily: 'BebasNeue', fontSize: 40),
         )),
       ),
-      /* bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-            icon: new Icon(Icons.pan_tool),
-            title: new Text('Your Registered Events')),
-        BottomNavigationBarItem(
-            icon: new Icon(Icons.favorite),
-            title: new Text('Your Favorite Events'))
-      ]),*/
+      // /* bottomNavigationBar: BottomNavigationBar(items: [
+      //   BottomNavigationBarItem(
+      //       icon: new Icon(Icons.pan_tool),
+      //       title: new Text('Your Registered Events')),
+      //   BottomNavigationBarItem(
+      //       icon: new Icon(Icons.favorite),
+      //       title: new Text('Your Favorite Events'))
+      // ]),*/
       drawer: Drawer(
         child: ListView(
           children: [

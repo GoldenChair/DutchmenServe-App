@@ -5,7 +5,7 @@ import 'eventsList.dart';
 import 'eventsOngoing.dart';
 import 'homePage.dart';
 
-class OppsCalendar extends StatelessWidget {
+class EventsCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(

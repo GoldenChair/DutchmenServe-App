@@ -5,7 +5,7 @@ import 'eventsCalendar.dart';
 import 'homePage.dart';
 
 // Opportunities Card with filter at top
-class OppsCards extends StatelessWidget {
+class EventsList extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(

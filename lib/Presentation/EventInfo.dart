@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Opp extends StatelessWidget {
+class EventInfo extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(

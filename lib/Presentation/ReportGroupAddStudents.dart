@@ -8,7 +8,7 @@ class NewItem {
   NewItem(this.isExpanded, this.header, this.body, this.iconpic);
 }
 
-class ReportAddStudents extends StatelessWidget {
+class ReportGroupAddStudents extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(

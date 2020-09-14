@@ -65,7 +65,8 @@ class OrganizationsPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           ctxt,
-                          MaterialPageRoute(builder: (context) => ServiceOrg()),
+                          MaterialPageRoute(
+                              builder: (context) => OrganizationInfo()),
                         );
                       },
                     ),

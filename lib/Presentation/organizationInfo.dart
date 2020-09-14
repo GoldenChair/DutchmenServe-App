@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ServiceOrg extends StatelessWidget {
+class OrganizationInfo extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
