@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ReportGroupAddStudents.dart';
+import 'reportGroupAddStudents.dart';
 import 'ReportHoursPage.dart';
 
 class NewReportIndividual extends StatelessWidget {

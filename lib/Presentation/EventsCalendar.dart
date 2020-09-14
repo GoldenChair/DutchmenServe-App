@@ -1,9 +1,9 @@
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 
-import 'EventsList.dart';
-import 'EventsOngoing.dart';
-import 'HomePage.dart';
+import 'eventsList.dart';
+import 'eventsOngoing.dart';
+import 'homePage.dart';
 
 class OppsCalendar extends StatelessWidget {
   @override

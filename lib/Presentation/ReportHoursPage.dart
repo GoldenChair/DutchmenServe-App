@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import 'ReportIndividual.dart';
+import 'reportIndividual.dart';
 
 // TO DO: Pages to implement
 class ReportHoursPage extends StatelessWidget {

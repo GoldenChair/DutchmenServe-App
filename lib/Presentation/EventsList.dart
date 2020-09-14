@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'EventInfo.dart';
-import 'EventsCalendar.dart';
-import 'HomePage.dart';
+import 'eventInfo.dart';
+import 'eventsCalendar.dart';
+import 'homePage.dart';
 
 // Opportunities Card with filter at top
 class OppsCards extends StatelessWidget {

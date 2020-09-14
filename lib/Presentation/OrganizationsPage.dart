@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'OrganizationInfo.dart';
+import 'organizationInfo.dart';
 
 class OrganizationsPage extends StatelessWidget {
   void _incrementCounter() {}
