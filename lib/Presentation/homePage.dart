@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'FavoritedPage.dart';
 import 'OrganizationsPage.dart';
 import 'RegisteredPage.dart';
+import 'ReportHoursPage.dart';
 import 'connectWUsPage.dart';
 
 //Add to drawer "Your registed events" and your favorite events or add a bottom bar
@@ -79,12 +80,12 @@ class HomePage extends StatelessWidget {
                 'Report Hours',
                 style: TextStyle(fontSize: 20),
               ),
-              /*onTap: () {
+              onTap: () {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (context) => ReportHoursPage()));
-              },*/
+              },
             ),
             SizedBox(
               height: 10,
