@@ -29,7 +29,7 @@ class ProfilePageState extends State<ProfilePage> {
         body: Column(
           children: [
             SizedBox(
-              height: 30,
+              height: 40,
             ),
             Container(
               child: Center(
