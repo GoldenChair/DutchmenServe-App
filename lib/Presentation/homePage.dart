@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
 import 'FavoritedPage.dart';
 import 'OrganizationsPage.dart';
 import 'RegisteredPage.dart';

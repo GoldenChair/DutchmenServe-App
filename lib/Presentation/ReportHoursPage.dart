@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import 'reportIndividual.dart';
+import 'ReportIndividual.dart';
 
 // TO DO: Pages to implement
 class ReportHoursPage extends StatelessWidget {
@@ -46,7 +46,7 @@ class ReportHoursPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => NewReportIndividual()),
+                MaterialPageRoute(builder: (context) => ReportIndividual()),
               );
             },
           ),
@@ -57,7 +57,7 @@ class ReportHoursPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => NewReportIndividual()),
+                MaterialPageRoute(builder: (context) => ReportIndividual()),
               );
             },
           ),

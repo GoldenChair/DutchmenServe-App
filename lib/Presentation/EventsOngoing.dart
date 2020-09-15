@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'eventInfo.dart';
-import 'eventsCalendar.dart';
+import 'EventInfo.dart';
+import 'EventsCalendar.dart';
 import 'homePage.dart';
 
 class EventsOngoing extends StatelessWidget {
@@ -27,7 +27,7 @@ class EventsOngoing extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => OppsCalendar()),
+                MaterialPageRoute(builder: (context) => EventsCalendar()),
               );
             },
           )
@@ -71,7 +71,7 @@ GestureDetector createEventCard(BuildContext ctxt, String eventName,
     onTap: () {
       Navigator.push(
         ctxt,
-        MaterialPageRoute(builder: (context) => Opp()),
+        MaterialPageRoute(builder: (context) => EventInfo()),
       );
     },
     child: Container(

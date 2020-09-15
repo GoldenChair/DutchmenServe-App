@@ -1,8 +1,8 @@
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 
-import 'eventsList.dart';
-import 'eventsOngoing.dart';
+import 'EventsList.dart';
+import 'EventsOngoing.dart';
 import 'homePage.dart';
 
 class EventsCalendar extends StatelessWidget {
@@ -28,7 +28,7 @@ class EventsCalendar extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => OppsCards()),
+                MaterialPageRoute(builder: (context) => EventsList()),
               );
             },
           )
@@ -41,7 +41,7 @@ class EventsCalendar extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               ctxt,
-              MaterialPageRoute(builder: (context) => OngoingCards()),
+              MaterialPageRoute(builder: (context) => EventsOngoing()),
             );
           },
         ),

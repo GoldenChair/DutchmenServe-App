@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'homePage.dart';
 import 'profilePage.dart';
 
-
 class LoginHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,9 +21,9 @@ class LoginHome extends StatelessWidget {
         Container(
           child: Column(
             children: [
-              SizedBox(
-                height: 600,
-              ),
+              // SizedBox(
+              //   height: 600,
+              // ),
               Container(
                 child: Align(
                   alignment: Alignment.bottomCenter,

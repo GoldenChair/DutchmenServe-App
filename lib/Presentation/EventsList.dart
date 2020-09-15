@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'eventInfo.dart';
-import 'eventsCalendar.dart';
+import 'EventsCalendar.dart';
+import 'EventInfo.dart';
 import 'homePage.dart';
 
 // Opportunities Card with filter at top
@@ -28,7 +28,7 @@ class EventsList extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => OppsCalendar()),
+                MaterialPageRoute(builder: (context) => EventsCalendar()),
               );
             },
           )
@@ -72,7 +72,7 @@ GestureDetector createEventCard(BuildContext ctxt, String eventName,
     onTap: () {
       Navigator.push(
         ctxt,
-        MaterialPageRoute(builder: (context) => Opp()),
+        MaterialPageRoute(builder: (context) => EventInfo()),
       );
     },
     child: Container(

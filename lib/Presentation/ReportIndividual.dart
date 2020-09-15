@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'reportGroupAddStudents.dart';
+import 'ReportGroupAddStudents.dart';
 import 'ReportHoursPage.dart';
 
 class ReportIndividual extends StatelessWidget {
@@ -131,7 +130,8 @@ class _NRIState extends State<NRIStateful> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReportAddStudents()),
+                MaterialPageRoute(
+                    builder: (context) => ReportGroupAddStudents()),
               );
             },
           ),
