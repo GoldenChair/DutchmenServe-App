@@ -190,40 +190,43 @@ class SetUpPg2 extends State<_setUpPg2> {
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
             Widget>[
+          SizedBox(
+            height: 30,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ToggleButtons(
                 isSelected: _selections,
                 children: [
                   Container(
-                    height: 175,
-                    width: 204,
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(left: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 40,
-                        ),
+                        Spacer(),
                         Icon(
                           Icons.gavel,
                           size: 100,
                           color:
                               _selections[0] ? Colors.blue[800] : Colors.black,
                         ),
-                        Text('Advocacy & Human Rights'),
+                        Flexible(
+                          child: Text('Advocacy & Human Rights'),
+                        ),
                       ],
                     ),
                   ),
                   Container(
-                    height: 175,
-                    width: 204,
+                    margin: EdgeInsets.only(right: 30),
+                    // height: 175,
+                    width: 150,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 40,
-                        ),
+                        Spacer(),
                         Icon(Icons.pets,
                             size: 100,
                             color: _selections[1]
@@ -242,6 +245,9 @@ class SetUpPg2 extends State<_setUpPg2> {
               ),
             ],
           ),
+          SizedBox(
+            height: 30,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -249,30 +255,30 @@ class SetUpPg2 extends State<_setUpPg2> {
                   isSelected: s2,
                   children: [
                     Container(
-                      height: 175,
-                      width: 204,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Icon(Icons.color_lens,
-                              size: 100,
-                              color: s2[0] ? Colors.blue[800] : Colors.black),
-                          Text('Arts & Culture'),
-                        ],
+                      margin: EdgeInsets.only(left: 30),
+                      // height: 175,
+                      width: 150,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Spacer(),
+                            Icon(Icons.color_lens,
+                                size: 100,
+                                color: s2[0] ? Colors.blue[800] : Colors.black),
+                            Text('Arts & Culture'),
+                          ],
+                        ),
                       ),
                     ),
                     Container(
-                      height: 175,
-                      width: 204,
+                      //height: 175,
+                      margin: EdgeInsets.only(right: 30),
+                      width: 150,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 40,
-                          ),
+                          Spacer(),
                           Icon(Icons.child_care,
                               size: 100,
                               color: s2[1] ? Colors.blue[800] : Colors.black),
@@ -288,6 +294,9 @@ class SetUpPg2 extends State<_setUpPg2> {
                   }),
             ],
           ),
+          SizedBox(
+            height: 30,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -295,13 +304,14 @@ class SetUpPg2 extends State<_setUpPg2> {
                 isSelected: s3,
                 children: [
                   Container(
-                    height: 175,
-                    width: 204,
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(left: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 40,
+                        Spacer(
+                          flex: 1,
                         ),
                         Icon(Icons.group,
                             size: 100,
@@ -311,19 +321,20 @@ class SetUpPg2 extends State<_setUpPg2> {
                     ),
                   ),
                   Container(
-                    height: 175,
-                    width: 204,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Icon(Icons.computer,
-                            size: 100,
-                            color: s3[1] ? Colors.blue[800] : Colors.black),
-                        Text('Computers & Technology'),
-                      ],
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(right: 30),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Spacer(),
+                          Icon(Icons.computer,
+                              size: 100,
+                              color: s3[1] ? Colors.blue[800] : Colors.black),
+                          Text('Technology'),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -335,6 +346,9 @@ class SetUpPg2 extends State<_setUpPg2> {
               ),
             ],
           ),
+          SizedBox(
+            height: 30,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -342,14 +356,13 @@ class SetUpPg2 extends State<_setUpPg2> {
                 isSelected: s4,
                 children: [
                   Container(
-                    height: 175,
-                    width: 204,
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(left: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 40,
-                        ),
+                        Spacer(),
                         Icon(Icons.school,
                             size: 100,
                             color: s4[0] ? Colors.blue[800] : Colors.black),
@@ -358,12 +371,13 @@ class SetUpPg2 extends State<_setUpPg2> {
                     ),
                   ),
                   Container(
-                    height: 175,
-                    width: 204,
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(right: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 40),
+                        Spacer(),
                         Icon(Icons.face,
                             size: 100,
                             color: s4[1] ? Colors.blue[800] : Colors.black),
@@ -380,6 +394,9 @@ class SetUpPg2 extends State<_setUpPg2> {
               ),
             ],
           ),
+          SizedBox(
+            height: 30,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -387,12 +404,13 @@ class SetUpPg2 extends State<_setUpPg2> {
                 isSelected: s5,
                 children: [
                   Container(
-                    height: 175,
-                    width: 204,
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(left: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 40),
+                        Spacer(),
                         Icon(
                           Icons.more_horiz,
                           size: 100,
@@ -403,14 +421,13 @@ class SetUpPg2 extends State<_setUpPg2> {
                     ),
                   ),
                   Container(
-                    height: 175,
-                    width: 204,
+                    // height: 175,
+                    width: 150,
+                    margin: EdgeInsets.only(right: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 40,
-                        ),
+                        Spacer(),
                         Icon(
                           Icons.all_inclusive,
                           size: 100,
