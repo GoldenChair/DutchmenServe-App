@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       // onGenerateRoute: ,
       // navigatorKey: ,
 
-      home: HomePage(),
+      home: InitialLoginHome(),
       routes: <String, WidgetBuilder>{
         '/profile': (BuildContext context) => new ProfilePage(),
       },

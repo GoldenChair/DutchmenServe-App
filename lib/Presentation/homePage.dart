@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'EventsList.dart';
 import 'FavoritedPage.dart';
 import 'OrganizationsPage.dart';
 import 'RegisteredPage.dart';
@@ -65,10 +66,10 @@ class HomePage extends StatelessWidget {
                 'Service Events',
                 style: TextStyle(fontSize: 20),
               ),
-              /* onTap: () {
+              onTap: () {
                 Navigator.push(context,
                     new MaterialPageRoute(builder: (context) => EventsList()));
-              },*/
+              },
             ),
             SizedBox(
               height: 10,

@@ -432,7 +432,7 @@ class SetUpPg2 extends State<_setUpPg2> {
             color: Colors.blue[800],
             onPressed: () {
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => SetUpOrg()));
+                  new MaterialPageRoute(builder: (context) => _setUpOrgPage()));
             },
             child: Text('Next ',
                 style: TextStyle(
@@ -445,32 +445,75 @@ class SetUpPg2 extends State<_setUpPg2> {
   }
 }
 
-class SetUpOrg extends StatelessWidget {
+class _setUpOrgPage extends StatefulWidget {
+  _setUpOrgPage({Key key}) : super(key: key);
+
+  @override
+  SetUpOrg createState() {
+    return SetUpOrg();
+  }
+}
+
+class SetUpOrg extends State<_setUpOrgPage> {
+  final List<String> entries = <String>[
+    'Alpha Phi Omega',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M'
+  ];
+  List<bool> _isChecked = List.generate(13, (index) => false);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Selct your Organizations'),
-      ),
-      body: ListView(
-        children: [
-          Center(
-            child: Container(
-              height: 50,
-              width: 200,
-              color: Colors.blue[300],
-              child: Text('Organization 1'),
+        appBar: AppBar(
+          title: Text('Selct your Organizations'),
+        ),
+        body: Column(
+          children: [
+            new Expanded(
+                child: ListView.separated(
+                    padding: const EdgeInsets.all(20.0),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)),
+                        child: CheckboxListTile(
+                          title: Text('${entries[index]}'),
+                          activeColor: Colors.blue[900],
+                          value: _isChecked[index],
+                          onChanged: (value) {
+                            setState(() {
+                              _isChecked[index] = !_isChecked[index];
+                            });
+                          },
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                    itemCount: entries.length)),
+            RaisedButton(
+              color: Colors.blue[800],
+              onPressed: () {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => SetUpPg3()));
+              },
+              child: Text('Next ',
+                  style: TextStyle(
+                    fontSize: 20,
+                  )),
             ),
-          ),
-          Container(
-            child: Text('Organization 1'),
-          ),
-          Container(
-            child: Text('Organization 1'),
-          )
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }
 
@@ -488,5 +531,134 @@ class SetUpPg3 extends StatelessWidget {
           backgroundColor: Colors.blue[800],
         ),
         body: ProfilePage());
+  }
+}
+
+class InitialLoginHome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[900],
+        title: Center(
+            child: Text(
+          'Dutchmen Serve',
+          style: TextStyle(fontFamily: 'BebasNeue', fontSize: 40),
+        )),
+      ),
+      body: Column(
+        //have row and then put in the column
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        children: [
+          SizedBox(
+            height: 30,
+          ),
+          Container(
+              decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(70.0),
+                      bottomRight: Radius.circular(70.0))),
+              height: 130,
+              width: 400,
+              //color: Colors.teal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.public,
+                    size: 50,
+                    color: Colors.black,
+                  ),
+                  SizedBox(width: 20),
+                  Flexible(
+                      child: Text(
+                    'We empower students for a life of citizenship both in our community and around the globe',
+                    style: TextStyle(fontFamily: 'KiteOne', fontSize: 20),
+                  ))
+                ],
+              )),
+          SizedBox(
+            height: 35,
+          ),
+          Container(
+              decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(70),
+                      bottomRight: Radius.circular(70))),
+              height: 130,
+              width: 350,
+              //color: Colors.teal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.people,
+                    size: 50,
+                    color: Colors.black,
+                  ),
+                  SizedBox(width: 20),
+                  Flexible(
+                      child: Text(
+                    'Students may enhance their self-knowledge as they examine their own identity and purpose in the context of a diverse world in which a variety of needs and injustices exist',
+                    style: TextStyle(fontFamily: 'KiteOne', fontSize: 15),
+                  ))
+                ],
+              )),
+          SizedBox(
+            height: 35,
+          ),
+          Container(
+              decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(70.0),
+                      bottomRight: Radius.circular(70.0))),
+              height: 130,
+              width: 300,
+              //color: Colors.teal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.gavel,
+                    size: 45,
+                    color: Colors.black,
+                  ),
+                  SizedBox(width: 20),
+                  Flexible(
+                      child: Text(
+                    'Students may grow their awareness and knowledge regarding needs and justice issues in a variety of areas',
+                    style: TextStyle(fontFamily: 'KiteOne', fontSize: 14),
+                  ))
+                ],
+              )),
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Container(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: RaisedButton(
+                  color: Colors.blue[800],
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => SetUpPg1()));
+                  },
+                  child: Text('Log In ',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
