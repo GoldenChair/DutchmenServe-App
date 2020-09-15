@@ -158,19 +158,23 @@ class HomePage extends StatelessWidget {
         //have row and then put in the column
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
-          SizedBox(
-            height: 30,
-          ),
-          Container(
+          Spacer(),
+          Expanded(
+            flex: 2,
+            child: Container(
+              margin: const EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
                   border: Border.all(),
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(70.0),
                       bottomRight: Radius.circular(70.0))),
-              height: 130,
-              width: 400,
-              //color: Colors.teal,
+
+              // height: 130,
+
+              // width: 400,
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -179,70 +183,87 @@ class HomePage extends StatelessWidget {
                     size: 50,
                     color: Colors.black,
                   ),
-                  SizedBox(width: 20),
+                  //SizedBox(width: 20),
                   Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
                       child: Text(
-                    'We empower students for a life of citizenship both in our community and around the globe',
-                    style: TextStyle(fontFamily: 'KiteOne', fontSize: 20),
-                  ))
+                        'We empower students for a life of citizenship both in our community and around the globe',
+                        style: TextStyle(fontFamily: 'KiteOne', fontSize: 14),
+                      ),
+                    ),
+                  )
                 ],
-              )),
-          SizedBox(
-            height: 35,
+              ),
+            ),
           ),
-          Container(
-              decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(70),
-                      bottomRight: Radius.circular(70))),
-              height: 130,
-              width: 350,
-              //color: Colors.teal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.people,
-                    size: 50,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 20),
-                  Flexible(
+          Spacer(),
+          Expanded(
+            flex: 2,
+            child: Container(
+                margin: const EdgeInsets.only(right: 40),
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(70),
+                        bottomRight: Radius.circular(70))),
+                // height: 130,
+                // width: 350,
+                //color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.people,
+                      size: 50,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 20),
+                    Flexible(
+                        child: Padding(
+                      padding: const EdgeInsets.all(12.0),
                       child: Text(
-                    'Students may enhance their self-knowledge as they examine their own identity and purpose in the context of a diverse world in which a variety of needs and injustices exist',
-                    style: TextStyle(fontFamily: 'KiteOne', fontSize: 15),
-                  ))
-                ],
-              )),
-          SizedBox(
-            height: 35,
+                        'Students may enhance their self-knowledge as they examine their own identity and purpose in the context of a diverse world in which a variety of needs and injustices exist',
+                        style: TextStyle(fontFamily: 'KiteOne', fontSize: 14),
+                      ),
+                    ))
+                  ],
+                )),
           ),
-          Container(
-              decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(70.0),
-                      bottomRight: Radius.circular(70.0))),
-              height: 130,
-              width: 300,
-              //color: Colors.teal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.gavel,
-                    size: 45,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 20),
-                  Flexible(
+          Spacer(),
+          Expanded(
+            flex: 2,
+            child: Container(
+                margin: EdgeInsets.only(right: 60),
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(70.0),
+                        bottomRight: Radius.circular(70.0))),
+                // height: 130,
+                // width: 300,
+                //color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.gavel,
+                      size: 45,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 20),
+                    Flexible(
+                        child: Padding(
+                      padding: const EdgeInsets.all(12.0),
                       child: Text(
-                    'Students may grow their awareness and knowledge regarding needs and justice issues in a variety of areas',
-                    style: TextStyle(fontFamily: 'KiteOne', fontSize: 14),
-                  ))
-                ],
-              )),
+                        'Students may grow their awareness and knowledge regarding needs and justice issues in a variety of areas',
+                        style: TextStyle(fontFamily: 'KiteOne', fontSize: 14),
+                      ),
+                    ))
+                  ],
+                )),
+          ),
+          Spacer(),
         ],
       ),
     );
