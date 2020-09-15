@@ -91,7 +91,7 @@ GestureDetector createEventCard(BuildContext ctxt, String eventName,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
-            Image.asset(imagePath),
+            // Image.asset(imagePath),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
