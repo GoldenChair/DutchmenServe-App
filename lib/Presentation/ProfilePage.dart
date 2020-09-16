@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:dutchmenserve/Constants.dart';
+import 'package:dutchmenserve/Presentation/setUpProfile.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -19,10 +21,17 @@ class ProfilePageState extends State<ProfilePage> {
           title: Text(
             'Profile',
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {},
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected: (choice) => choiceAction(choice, context),
+              itemBuilder: (BuildContext context) {
+                return Constants.choices.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
             )
           ],
         ),
@@ -119,5 +128,16 @@ class ProfilePageState extends State<ProfilePage> {
             )
           ],
         ));
+  }
+
+  void choiceAction(String choice, BuildContext context) {
+    setState(() {
+      if (choice == Constants.LogOut) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => InitialLoginHome()),
+        );
+      }
+    });
   }
 }
