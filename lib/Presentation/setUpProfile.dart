@@ -255,20 +255,18 @@ class SetUpPg2 extends State<_setUpPg2> {
                   isSelected: s2,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 30),
+                      margin: EdgeInsets.only(left: 30, top: 30),
                       // height: 175,
                       width: 150,
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Spacer(),
-                            Icon(Icons.color_lens,
-                                size: 100,
-                                color: s2[0] ? Colors.blue[800] : Colors.black),
-                            Text('Arts & Culture'),
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Spacer(),
+                          Icon(Icons.color_lens,
+                              size: 100,
+                              color: s2[0] ? Colors.blue[800] : Colors.black),
+                          Text('Arts & Culture'),
+                        ],
                       ),
                     ),
                     Container(
@@ -355,34 +353,42 @@ class SetUpPg2 extends State<_setUpPg2> {
               ToggleButtons(
                 isSelected: s4,
                 children: [
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(left: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Icon(Icons.school,
-                            size: 100,
-                            color: s4[0] ? Colors.blue[800] : Colors.black),
-                        Text('Education & Literacy'),
-                      ],
+                  Center(
+                    child: Container(
+                      // height: 175,
+                      width: 150,
+                      margin: EdgeInsets.only(left: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Spacer(),
+                          Icon(Icons.school,
+                              size: 100,
+                              color: s4[0] ? Colors.blue[800] : Colors.black),
+                          Text('Education & Literacy'),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(right: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Icon(Icons.face,
-                            size: 100,
-                            color: s4[1] ? Colors.blue[800] : Colors.black),
-                        Text('Seniors'),
-                      ],
+                  Center(
+                    child: Container(
+                      // height: 175,
+                      width: 150,
+                      margin: EdgeInsets.only(right: 30),
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Spacer(
+                              flex: 5,
+                            ),
+                            Icon(Icons.face,
+                                size: 100,
+                                color: s4[1] ? Colors.blue[800] : Colors.black),
+                            Text('Seniors'),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -445,6 +451,9 @@ class SetUpPg2 extends State<_setUpPg2> {
                 },
               ),
             ],
+          ),
+          SizedBox(
+            height: 20,
           ),
           RaisedButton(
             color: Colors.blue[800],
@@ -589,28 +598,55 @@ class InitialLoginHome extends StatelessWidget {
             70,
           ),
           Spacer(),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Container(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: RaisedButton(
-                    color: Colors.blue[800],
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => SetUpPg1()));
-                    },
-                    child: Text('Log In ',
-                        style: TextStyle(
-                          fontSize: 20,
-                        )),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: RaisedButton(
+                        color: Colors.blue[800],
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => SetUpPg1()));
+                        },
+                        child: Text('Register ',
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: RaisedButton(
+                        color: Colors.blue[800],
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => LoginIn()));
+                        },
+                        child: Text('Log In ',
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Spacer(flex: 2),
         ],
@@ -663,6 +699,75 @@ class InitialLoginHome extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class LoginIn extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Log Into Your Account'),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 70,
+                ),
+                Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 100,
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 120,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 70,
+                ),
+                TextField(
+                    //controller: myController1,
+                    decoration: new InputDecoration(
+                  border: new OutlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black)),
+                  hintText: 'U S E R N A M E',
+                )),
+                SizedBox(height: 30),
+                TextField(
+                    decoration: new InputDecoration(
+                  border: new OutlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black)),
+                  hintText: 'P A S S W O R D',
+                )),
+                SizedBox(height: 30),
+                Container(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RaisedButton(
+                      color: Colors.blue[800],
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => HomePage()));
+                      },
+                      child: Text('Next ',
+                          style: TextStyle(
+                            fontSize: 20,
+                          )),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 
