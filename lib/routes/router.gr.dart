@@ -21,7 +21,6 @@ import '../Presentation/ReportHoursPage.dart';
 import '../Presentation/ReportIndividual.dart';
 import '../Presentation/homePage.dart';
 import '../Presentation/organizationInfo.dart';
-import '../Presentation/setUpProfile.dart';
 
 class Routes {
   static const String homePage = '/';
@@ -70,7 +69,6 @@ class Router extends RouterBase {
     RouteDef(Routes.reportGroupAddStudents, page: ReportGroupAddStudents),
     RouteDef(Routes.reportHoursPage, page: ReportHoursPage),
     RouteDef(Routes.reportIndividual, page: ReportIndividual),
-    RouteDef(Routes.loginHome, page: LoginHome),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -147,12 +145,6 @@ class Router extends RouterBase {
     ReportIndividual: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ReportIndividual(),
-        settings: data,
-      );
-    },
-    LoginHome: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => LoginHome(),
         settings: data,
       );
     },

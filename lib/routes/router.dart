@@ -11,7 +11,6 @@ import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
 import 'package:dutchmenserve/Presentation/ReportIndividual.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/Presentation/organizationInfo.dart';
-import 'package:dutchmenserve/Presentation/setUpProfile.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
@@ -27,7 +26,6 @@ import 'package:dutchmenserve/Presentation/setUpProfile.dart';
     MaterialRoute(page: ReportGroupAddStudents),
     MaterialRoute(page: ReportHoursPage),
     MaterialRoute(page: ReportIndividual),
-    MaterialRoute(page: LoginHome),
   ],
 )
 class $Router {}

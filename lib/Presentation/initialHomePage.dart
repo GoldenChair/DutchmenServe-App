@@ -1,13 +1,10 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
-import 'homePage.dart';
-import 'profilePage.dart';
-import 'usernameRegistration.dart';
 import 'setUpProfile.dart';
+import 'usernameRegistration.dart';
 
 /*
 This class builds the initial page we launch that allows for users 
