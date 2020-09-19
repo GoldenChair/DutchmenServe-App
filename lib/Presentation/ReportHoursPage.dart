@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'ReportIndividual.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 // TO DO: Pages to implement
 class ReportHoursPage extends StatelessWidget {
@@ -22,6 +23,24 @@ class ReportHoursPage extends StatelessWidget {
               color: Colors.indigo,
               elevation: 5,
             ),
+            CircularPercentIndicator(
+              progressColor: Colors.blue[700],
+              percent: 0.72,
+              animation: true,
+              radius: 250.0,
+              lineWidth: 15.0,
+              circularStrokeCap: CircularStrokeCap.round,
+              center: Text('Next Goal'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            LinearPercentIndicator(
+              progressColor: Colors.red[800],
+              percent: 0.33,
+              lineHeight: 25.0,
+              center: Text('Next Goal'),
+            )
           ],
         ),
       ),

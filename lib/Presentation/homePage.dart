@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.create),
+              leading: Icon(Icons.access_time),
               title: Text(
                 'Report Hours',
                 style: TextStyle(fontSize: 20),
@@ -129,7 +129,7 @@ class HomePage extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.pan_tool),
               title: Text(
-                'Your Registered Events',
+                'Registered Events',
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
@@ -145,7 +145,7 @@ class HomePage extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.favorite),
               title: Text(
-                'Your Favorited Events',
+                'Favorited Events',
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
