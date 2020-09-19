@@ -1,8 +1,11 @@
+// Page for reporting new hours
+// TODO: Switch between reporting for individual or group
+
 import 'package:flutter/material.dart';
 import 'ReportGroupAddStudents.dart';
 import 'ReportHoursPage.dart';
 
-class ReportIndividual extends StatelessWidget {
+class ReportNewHours extends StatelessWidget {
   int _value = 1;
 
   @override
@@ -13,20 +16,20 @@ class ReportIndividual extends StatelessWidget {
         backgroundColor: Colors.indigo[800],
       ),
       body: Center(
-        child: NRIStateful(),
+        child: RNHStateful(),
       ),
     );
   }
 }
 
-class NRIStateful extends StatefulWidget {
-  NRIStateful({Key key}) : super(key: key);
+class RNHStateful extends StatefulWidget {
+  RNHStateful({Key key}) : super(key: key);
 
   @override
-  _NRIState createState() => _NRIState();
+  _RNHState createState() => _RNHState();
 }
 
-class _NRIState extends State<NRIStateful> {
+class _RNHState extends State<RNHStateful> {
   String _dropdownEvent;
   String _dropdownIG;
   DateTime _dateTime;

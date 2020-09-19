@@ -1,10 +1,16 @@
+// General page for reporting hours
+// shows user summary view of community service history
+// FAB brings user to report new hours, either for individual or group
+
+//TODO: fix FAB to show plus
+//TODO: implement summary view
+
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import 'ReportIndividual.dart';
+import 'ReportNewHours.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-// TO DO: Pages to implement
 class ReportHoursPage extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
@@ -65,7 +71,7 @@ class ReportHoursPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => ReportIndividual()),
+                MaterialPageRoute(builder: (context) => ReportNewHours()),
               );
             },
           ),
@@ -76,7 +82,7 @@ class ReportHoursPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => ReportIndividual()),
+                MaterialPageRoute(builder: (context) => ReportNewHours()),
               );
             },
           ),
