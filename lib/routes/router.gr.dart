@@ -18,7 +18,7 @@ import '../Presentation/ProfilePage.dart';
 import '../Presentation/RegisteredPage.dart';
 import '../Presentation/ReportGroupAddStudents.dart';
 import '../Presentation/ReportHoursPage.dart';
-import '../Presentation/ReportIndividual.dart';
+import '../Presentation/reportNewHours.dart';
 import '../Presentation/homePage.dart';
 import '../Presentation/organizationInfo.dart';
 import '../Presentation/setUpProfile.dart';
@@ -69,7 +69,7 @@ class Router extends RouterBase {
     RouteDef(Routes.registeredPage, page: RegisteredPage),
     RouteDef(Routes.reportGroupAddStudents, page: ReportGroupAddStudents),
     RouteDef(Routes.reportHoursPage, page: ReportHoursPage),
-    RouteDef(Routes.reportIndividual, page: ReportIndividual),
+    RouteDef(Routes.reportIndividual, page: ReportNewHours),
     RouteDef(Routes.loginHome, page: LoginHome),
   ];
   @override
@@ -144,9 +144,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    ReportIndividual: (data) {
+    ReportNewHours: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ReportIndividual(),
+        builder: (context) => ReportNewHours(),
         settings: data,
       );
     },
