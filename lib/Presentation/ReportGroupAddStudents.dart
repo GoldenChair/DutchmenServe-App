@@ -31,7 +31,7 @@ class AddStudentsStateful extends StatefulWidget {
 }
 
 class _AddStudentsState extends State<AddStudentsStateful> {
-  bool _checked = false;
+  bool checked = false;
 
   // data: list of student names
   List<NewGroup> items = <NewGroup>[
@@ -56,11 +56,11 @@ class _AddStudentsState extends State<AddStudentsStateful> {
           children: <Widget>[
             CheckboxListTile(
                 title: Text('Mackenzie Stewart'),
-                value: checkedValue,
+                value: false,
                 onChanged: (newValue) {
-                  setState(() {
-                    checkedValue = newValue;
-                  });
+                  // setState(() {
+                  //   val = newValue;
+                  // });
                 }),
             CheckboxListTile(
               title: Text('Allison Liu'),
