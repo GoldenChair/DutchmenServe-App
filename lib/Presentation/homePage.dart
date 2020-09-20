@@ -36,19 +36,12 @@ class HomePage extends StatelessWidget {
                       builder: (context) => NotificationsPage()),
                 );
               },
-              child: (Icon(
+              child: Icon(
                 Icons.notifications,
-                size: 40,
+                size: 30,
                 color: Colors.white,
-              )),
+              ),
             ),
-            // onPressed: () {
-            //   Navigator.push(
-            //     context,
-            //     new MaterialPageRoute(
-            //         builder: (context) => NotificationsPage()),
-            //   );
-            // },
           )
         ],
       ),
