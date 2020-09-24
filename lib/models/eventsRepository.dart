@@ -23,20 +23,39 @@ class EventsRepository {
       //   ),
       // );
 
-      final data = await client.get();
+      // final data = await client.get();
 
-      final events = List<Event>.of(
-        data.map<Event>(
-          (json) => Event(
-            eventName: json['eventName'],
-            date: json['date'],
-            location: json['location'],
-            description: json['description'],
-            interests: json['interests'],
-          ),
-        ),
-      );
-
+      // final events = List<Event>.of(
+      //   data.map<Event>(
+      //     (json) => Event(
+      //       eventName: json['eventName'],
+      //       date: json['date'],
+      //       location: json['location'],
+      //       description: json['description'],
+      //       interests: json['interests'],
+      //     ),
+      //   ),
+      // );
+      final events = [
+        Event(
+            eventName: 'AFCA',
+            date: DateTime.now(),
+            location: 'here',
+            interests: ['seniors'],
+            description: '..'),
+        Event(
+            eventName: 'AFCA',
+            date: DateTime.now(),
+            location: 'here',
+            interests: ['seniors'],
+            description: '..'),
+        Event(
+            eventName: 'AFCA',
+            date: DateTime.now(),
+            location: 'here',
+            interests: ['seniors'],
+            description: '..'),
+      ];
       return events;
     } catch (e) {
       throw e;

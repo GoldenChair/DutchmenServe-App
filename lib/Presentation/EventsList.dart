@@ -1,4 +1,7 @@
+import 'package:dutchmenserve/cubit/event_cubit.dart';
+import 'package:dutchmenserve/cubit/event_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'EventsCalendar.dart';
 import 'EventInfo.dart';
@@ -8,15 +11,17 @@ import 'homePage.dart';
 class EventsList extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Events- List View"),
-        backgroundColor: Colors.indigo[800],
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
+    return BlocProvider(
+      create: (context) => EventsCubit(),
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("Events- List View"),
+            backgroundColor: Colors.indigo[800],
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.push(
               ctxt,
               MaterialPageRoute(builder: (context) => HomePage()),
             );
@@ -35,30 +40,41 @@ class EventsList extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            createEventCard(
-              ctxt,
-              'AFCA Warehouse',
-              'Date, Location',
-              'images\afca.JPG',
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-            ),
-            createEventCard(
-              ctxt,
-              'MissingMaps Mapathon',
-              'Date, Location',
-              'images\mapathon.jpg',
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-            ),
-            createEventCard(
-              ctxt,
-              'Compeer Virtual Buddy',
-              'Date, Location',
-              'images\compeer.png',
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-            ),
-          ],
+        child: BlocBuilder<EventsCubit, EventsState>(
+          builder: (context, state) {
+            if (state is LoadedState) {
+              return Column(
+                  children: [
+                    
+                    createEventCard(
+                      ctxt,
+                      'AFCA Warehouse',
+                      'Date, Location',
+                      'images\afca.JPG',
+                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                    ),
+                    createEventCard(
+                      ctxt,
+                      'MissingMaps Mapathon',
+                      'Date, Location',
+                      'images\mapathon.jpg',
+                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                    ),
+                    createEventCard(
+                      ctxt,
+                      'Compeer Virtual Buddy',
+                      'Date, Location',
+                      'images\compeer.png',
+                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                    ),
+                  ],
+                );
+
+            }
+            else if (state is LoadingState) {
+
+            }
+          },
         ),
       ),
     );

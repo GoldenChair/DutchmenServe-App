@@ -5,12 +5,12 @@ import 'event_state.dart';
 
 class EventsCubit extends Cubit<EventsState> {
   EventsCubit({this.repository}) : super(InitialState()) {
-    _getNewEvents();
+    _getEvents();
   }
 
   final EventsRepository repository;
 
-  void _getNewEvents() async {
+  void _getEvents() async {
     try {
       emit(LoadingState());
       final events = await repository.getEvents();
