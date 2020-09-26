@@ -1,11 +1,15 @@
+// Additional page for when reporting new hours for a group
+// to allow user to check the students/organizations to include
+
+//TODO: clean up, fix checkboxes and list
+
 import 'package:flutter/material.dart';
 
-class NewItem {
+class NewGroup {
   bool isExpanded;
   final String header;
   final Widget body;
-  final Icon iconpic;
-  NewItem(this.isExpanded, this.header, this.body, this.iconpic);
+  NewGroup(this.isExpanded, this.header, this.body);
 }
 
 class ReportGroupAddStudents extends StatelessWidget {
@@ -27,45 +31,46 @@ class AddStudentsStateful extends StatefulWidget {
 }
 
 class _AddStudentsState extends State<AddStudentsStateful> {
-  bool _checked = false;
+  bool checked = false;
 
   // data: list of student names
-  List<NewItem> items = <NewItem>[
-    NewItem(
-        false, // isExpanded ?
-        'Alpha Phi Omega', // header
-        Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[
-              Text('Student'),
-            ],
-          ),
-        ), // body
-        Icon(Icons.check_box_outline_blank) // iconPic
+  List<NewGroup> items = <NewGroup>[
+    NewGroup(
+      false, // isExpanded ?
+      'Alpha Phi Omega', // header
+      Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            Text('Student'),
+          ],
         ),
-    NewItem(
-        false, // isExpanded ?
-        'Gamma Sigma Sigma', // header
-        Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[
-              CheckboxListTile(
+      ), // body
+    ),
+    NewGroup(
+      false, // isExpanded ?
+      'Gamma Sigma Sigma', // header
+      Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            CheckboxListTile(
                 title: Text('Mackenzie Stewart'),
                 value: false,
-                onChanged: (bool value) {},
-              ),
-              CheckboxListTile(
-                title: Text('Allison Liu'),
-                value: false,
-                onChanged: (bool value) {},
-              ),
-            ],
-          ),
-        ), // body
-        Icon(Icons.check_box_outline_blank) // iconPic
+                onChanged: (newValue) {
+                  // setState(() {
+                  //   val = newValue;
+                  // });
+                }),
+            CheckboxListTile(
+              title: Text('Allison Liu'),
+              value: false,
+              onChanged: (bool value) {},
+            ),
+          ],
         ),
+      ), // body
+    ),
   ];
   ListView List_Criteria;
 
@@ -81,11 +86,14 @@ class _AddStudentsState extends State<AddStudentsStateful> {
                 items[index].isExpanded = !items[index].isExpanded;
               });
             },
-            children: items.map((NewItem item) {
+            children: items.map((NewGroup item) {
               return ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                      leading: item.iconpic,
+                      leading: Checkbox(
+                        value: false,
+                        onChanged: (bool newValue) {},
+                      ),
                       title: Text(
                         item.header,
                         textAlign: TextAlign.left,

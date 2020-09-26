@@ -29,6 +29,8 @@ dependencies:
   auto_route: ^0.6.7
   auto_size_text: ^2.1.0
   percent_indicator: ^2.1.6
+  flutter_bloc: ^6.0.5 #import 'package:flutter_bloc/flutter_bloc.dart';
+  equatable: ^1.2.5   # import 'package:equatable/equatable.dart';
 
 dev_dependencies:
   flutter_test:

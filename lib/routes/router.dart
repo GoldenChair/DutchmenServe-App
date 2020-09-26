@@ -8,7 +8,7 @@ import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/RegisteredPage.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
-import 'package:dutchmenserve/Presentation/ReportIndividual.dart';
+import 'package:dutchmenserve/Presentation/reportNewHours.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/Presentation/organizationInfo.dart';
 
@@ -25,7 +25,7 @@ import 'package:dutchmenserve/Presentation/organizationInfo.dart';
     MaterialRoute(page: RegisteredPage),
     MaterialRoute(page: ReportGroupAddStudents),
     MaterialRoute(page: ReportHoursPage),
-    MaterialRoute(page: ReportIndividual),
+    MaterialRoute(page: ReportNewHours),
   ],
 )
 class $Router {}
