@@ -82,3 +82,33 @@ class OrganizationsPage extends StatelessWidget {
     );
   }
 }
+//List<Icon> icons in parameter?
+Expanded createCard(String orgName ) {
+  return Expanded(
+    child: Card(
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(orgName),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Container(
+              child: Row(
+                children: [Text("Icons for involvement")],
+              ),
+            ),
+          ),
+          ButtonBar(
+            children: [
+              FlatButton(
+                onPressed: () {},
+                child: Text("Learn More"),
+              )
+            ],
+          )
+        ],
+      ),
+    ),
+  );
+}
