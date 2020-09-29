@@ -10,7 +10,7 @@ confirmation for registrationpurposes
 */
 
 class userNameReg extends StatelessWidget {
-  final user profile = new user();
+ // final user profile = new user();
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
   final myController3 = TextEditingController();

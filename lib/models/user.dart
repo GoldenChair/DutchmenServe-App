@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'organizations.dart';
-
-class user {
+class User{
   String firstName;
   String lastName;
   String password;
@@ -13,7 +11,7 @@ class user {
   List org; //will be org ID num
   String imagePath;
 
-  user({
+  User({
     @required this.username,
     @required this.password,
     @required this.emailAddress,
