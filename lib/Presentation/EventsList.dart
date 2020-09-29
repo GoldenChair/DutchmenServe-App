@@ -1,5 +1,6 @@
-import 'package:dutchmenserve/cubit/event_cubit.dart';
-import 'package:dutchmenserve/cubit/event_state.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
+import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,71 +11,56 @@ import 'homePage.dart';
 // Opportunities Card with filter at top
 class EventsList extends StatelessWidget {
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EventsCubit(),
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Events- List View"),
-            backgroundColor: Colors.indigo[800],
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.push(
-              ctxt,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.date_range),
+        appBar: AppBar(
+          title: Text("Events- List View"),
+          backgroundColor: Colors.indigo[800],
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
-                ctxt,
-                MaterialPageRoute(builder: (context) => EventsCalendar()),
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
               );
             },
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: BlocBuilder<EventsCubit, EventsState>(
-          builder: (context, state) {
-            if (state is LoadedState) {
-              return Column(
-                  children: [
-                    
-                    createEventCard(
-                      ctxt,
-                      'AFCA Warehouse',
-                      'Date, Location',
-                      'images\afca.JPG',
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    ),
-                    createEventCard(
-                      ctxt,
-                      'MissingMaps Mapathon',
-                      'Date, Location',
-                      'images\mapathon.jpg',
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    ),
-                    createEventCard(
-                      ctxt,
-                      'Compeer Virtual Buddy',
-                      'Date, Location',
-                      'images\compeer.png',
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    ),
-                  ],
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.date_range),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventsCalendar()),
                 );
-
-            }
-            else if (state is LoadingState) {
-
-            }
-          },
+              },
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: BlocBuilder<EventsCubit, EventsState>(
+            builder: (context, state) {
+              if (state is LoadedState) {
+                return Column(
+                    children: state.events
+                        .map((e) => createEventCard(context, e))
+                        .toList());
+              } else {
+                return Dialog(
+                  child: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      new CircularProgressIndicator(),
+                      new Text("Loading"),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -82,12 +68,11 @@ class EventsList extends StatelessWidget {
 }
 
 // function to create card for each event
-GestureDetector createEventCard(BuildContext ctxt, String eventName,
-    String eventSubtitle, String eventDescription, String imagePath) {
+GestureDetector createEventCard(BuildContext context, Event e) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
-        ctxt,
+        context,
         MaterialPageRoute(builder: (context) => EventInfo()),
       );
     },
@@ -100,11 +85,13 @@ GestureDetector createEventCard(BuildContext ctxt, String eventName,
             ListTile(
               leading: IconButton(
                 icon: Icon(Icons.pan_tool),
-                onPressed: () {},
+                onPressed: () {
+                  //TODO: implement register for event
+                },
               ),
-              title: Text(eventName),
+              title: Text(e.eventName),
               subtitle: Text(
-                eventSubtitle,
+                e.date + ' | ' + e.location,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
@@ -112,37 +99,27 @@ GestureDetector createEventCard(BuildContext ctxt, String eventName,
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                eventDescription,
+                e.description,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                FlatButton(
-                  textColor: Colors.indigoAccent,
-                  onPressed: () {
-                    // Perform some action
-                  },
-                  child: Text('REGISTER'),
-                ),
-                FlatButton(
-                  textColor: Colors.indigoAccent,
-                  onPressed: () {
-                    // Perform some action
-                  },
-                  child: Text('FAVORITE'),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
                       icon: Icon(Icons.favorite_border),
-                      onPressed: () {},
+                      onPressed: () {
+                        //TODO: implement favoriting event
+                      },
                     ),
                     IconButton(
                       icon: Icon(Icons.share),
-                      onPressed: () {},
+                      onPressed: () {
+                        //TODO: implement sharing
+                      },
                     )
                   ],
                 ),

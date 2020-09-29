@@ -37,24 +37,12 @@ class EventsRepository {
       //   ),
       // );
       final events = [
-        Event(
-            eventName: 'AFCA',
-            date: DateTime.now(),
-            location: 'here',
-            interests: ['seniors'],
-            description: '..'),
-        Event(
-            eventName: 'AFCA',
-            date: DateTime.now(),
-            location: 'here',
-            interests: ['seniors'],
-            description: '..'),
-        Event(
-            eventName: 'AFCA',
-            date: DateTime.now(),
-            location: 'here',
-            interests: ['seniors'],
-            description: '..'),
+        Event('AFCA', '9/28/2020 5:50 PM', 'here', '..', ['seniors'],
+            imagePath: '/'),
+        Event('AFCA', '9/28/2020 5:50 PM', 'here', '..', ['seniors'],
+            imagePath: '/'),
+        Event('AFCA', '9/28/2020 5:50 PM', 'here', '..', ['seniors'],
+            imagePath: '/'),
       ];
       return events;
     } catch (e) {

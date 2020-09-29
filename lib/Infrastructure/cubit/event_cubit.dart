@@ -1,4 +1,4 @@
-import 'package:dutchmenserve/models/eventsRepository.dart';
+import 'package:dutchmenserve/Infrastructure/eventsRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'event_state.dart';

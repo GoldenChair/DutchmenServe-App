@@ -1,20 +1,40 @@
-import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Event {
   String eventName;
-  var date; // DateTime object
+  String date;
+  DateTime dt;
   String location;
   String description;
-  String imagePath;
   List<String> interests;
+  String imagePath;
+  bool imageboo;
 
   // constructor
-  Event({
-    @required this.eventName,
-    @required this.date,
-    @required this.location,
-    @required this.description,
-    @required this.interests,
-    this.imagePath,
-  });
+  Event(String eventName, String date, String location, String description,
+      List<String> interests,
+      {String imagePath}) {
+    this.eventName = eventName;
+    this.date = date;
+    this.dt = DateFormat('M/d/yy').add_jm().parse(date);
+    this.location = location;
+    this.description = description;
+    this.interests = interests;
+    if (imagePath != null) {
+      this.imagePath = imagePath;
+      this.imageboo = true;
+    } else
+      this.imageboo = false;
+  }
+
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is Event &&
+        o.eventName == eventName &&
+        o.date == date &&
+        o.location == location &&
+        o.description == description &&
+        o.interests == interests;
+  }
 }
