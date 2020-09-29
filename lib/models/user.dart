@@ -1,43 +1,57 @@
 import 'package:flutter/foundation.dart';
 
-import 'category.dart';
 import 'organizations.dart';
 
 class user {
-  String username;
+  String firstName;
+  String lastName;
   String password;
+  String username;
   String emailAddress;
-  List<Category> needs;
-  List<organization> org;
+  List interests;
+  //make into organiztiona ID
+  List org; //will be org ID num
+  String imagePath;
 
-  user() {}
-  void setUsername(String name) {
-    username = name;
-  }
-
-  void setEmail() {
-    emailAddress = username + "@lvc.edu";
-  }
-
-  void addInterests() {
-    // needs.add(value);
-  }
-  void addOrganizzation() {
-    //org.add(value);
-  }
-  String getUsername() {
-    return username;
-  }
-
-  String getEmail() {
-    return emailAddress;
-  }
-
-  List getNeeds() {
-    return needs;
-  }
-
-  List getOrg() {
-    return org;
-  }
+  user({
+    @required this.username,
+    @required this.password,
+    @required this.emailAddress,
+    @required this.interests,
+    @required this.org,
+    this.firstName,
+    this.lastName,
+    this.imagePath,
+  });
 }
+
+// user() {}
+// void setUsername(String name) {
+//   username = name;
+// }
+
+// void setEmail() {
+//   emailAddress = username + "@lvc.edu";
+// }
+
+// void addInterests() {
+//   // needs.add(value);
+// }
+// void addOrganizzation() {
+//   //org.add(value);
+// }
+// String getUsername() {
+//   return username;
+// }
+
+// String getEmail() {
+//   return emailAddress;
+// }
+
+// List getNeeds() {
+//   return needs;
+// }
+
+// List getOrg() {
+//   return org;
+// }

@@ -14,38 +14,37 @@ class EventsList extends StatelessWidget {
     return BlocProvider(
       create: (context) => EventsCubit(),
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Events- List View"),
-            backgroundColor: Colors.indigo[800],
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.push(
-              ctxt,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.date_range),
+        appBar: AppBar(
+          title: Text("Events- List View"),
+          backgroundColor: Colors.indigo[800],
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => EventsCalendar()),
+                MaterialPageRoute(builder: (context) => HomePage()),
               );
             },
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: BlocBuilder<EventsCubit, EventsState>(
-          builder: (context, state) {
-            if (state is LoadedState) {
-              return Column(
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.date_range),
+              onPressed: () {
+                Navigator.push(
+                  ctxt,
+                  MaterialPageRoute(builder: (context) => EventsCalendar()),
+                );
+              },
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: BlocBuilder<EventsCubit, EventsState>(
+            builder: (context, state) {
+              if (state is LoadedState) {
+                return Column(
                   children: [
-                    
                     createEventCard(
                       ctxt,
                       'AFCA Warehouse',
@@ -69,12 +68,9 @@ class EventsList extends StatelessWidget {
                     ),
                   ],
                 );
-
-            }
-            else if (state is LoadingState) {
-
-            }
-          },
+              } else if (state is LoadingState) {}
+            },
+          ),
         ),
       ),
     );

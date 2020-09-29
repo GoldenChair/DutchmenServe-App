@@ -43,72 +43,78 @@ class OrganizationsPage extends StatelessWidget {
         title: Text("LVC Service Organizations"),
         backgroundColor: Colors.indigo[800],
       ),
-      body: Column(
-        children: [
-          // Checkbox(
-          //   value: false,
-          //   onChanged: (bool newValue) {
-          //     Navigator.pop(ctxt); // Pop from stack
-          //   },
-          // ),
-          new Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(20.0),
-              itemCount: entries.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 50,
-                  color: Colors.indigo[colorCodes[index]],
-                  child: Center(
-                    child: RaisedButton(
-                      child: Text('Entry ${entries[index]}'),
-                      onPressed: () {
-                        Navigator.push(
-                          ctxt,
-                          MaterialPageRoute(
-                              builder: (context) => OrganizationInfo()),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-            ),
-          ),
-        ],
+      body: ListView.separated(
+        padding: const EdgeInsets.all(20.0),
+        itemCount: entries.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            child: createOrgCard(context, entries[index], "test"),
+          );
+          // return Container(
+          //   height: 50,
+          //   color: Colors.indigo[colorCodes[index]],
+          //   child: Center(
+          //     child: RaisedButton(
+          //       child: Text('Entry ${entries[index]}'),
+          //       onPressed: () {
+          //         Navigator.push(
+          //           ctxt,
+          //           MaterialPageRoute(
+          //               builder: (context) => OrganizationInfo()),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // );
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
     );
   }
 }
+
 //List<Icon> icons in parameter?
-Expanded createCard(String orgName ) {
-  return Expanded(
+Container createOrgCard(BuildContext ctxt, String orgName, String imagePath) {
+  return Container(
+    //padding: EdgeInsets.all(25),
     child: Card(
+      clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
           ListTile(
-            title: Text(orgName),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Container(
-              child: Row(
-                children: [Text("Icons for involvement")],
+            //this will be an imagepath some day
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                (Icons.group),
+                size: 40,
               ),
             ),
+            title: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(orgName),
+            ),
           ),
+          // Image.asset(imagePath),
           ButtonBar(
+            alignment: MainAxisAlignment.end,
             children: [
               FlatButton(
-                onPressed: () {},
-                child: Text("Learn More"),
-              )
+                textColor: Colors.indigoAccent,
+                onPressed: () {
+                  Navigator.push(
+                    ctxt,
+                    MaterialPageRoute(builder: (context) => OrganizationInfo()),
+                  );
+                  // Perform some action
+                },
+                child: Text('Learn More'),
+              ),
             ],
-          )
+          ),
         ],
       ),
     ),
   );
 }
+
