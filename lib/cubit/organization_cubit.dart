@@ -6,11 +6,11 @@ import 'package:equatable/equatable.dart';
 part 'organization_state.dart';
 
 class OrganizationCubit extends Cubit<OrganizationState> {
-  OrganizationCubit(this.orgRepo) : super(OrganizationInitial()) {
-    _getOrgs();
+  OrganizationCubit({this.orgRepo}) : super(OrganizationInitial()) {
+    getOrgs();
   }
   final OrganizationRepository orgRepo;
-  void _getOrgs() async {
+  void getOrgs() async {
     try {
       emit(LoadingState());
       final organizations = await orgRepo.getOrganization();

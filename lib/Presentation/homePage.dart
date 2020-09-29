@@ -125,7 +125,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => OrganizationsPage()));
+                        builder: (context) => OrganizationPage()));
               },
             ),
             SizedBox(

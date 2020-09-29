@@ -1,10 +1,21 @@
+import 'package:dutchmenserve/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/models/organizations.dart';
+import 'package:dutchmenserve/models/organizationsRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'organizationInfo.dart';
 
-class OrganizationsPage extends StatelessWidget {
-  void _incrementCounter() {}
+class OrganizationPage extends StatefulWidget {
+  OrganizationPage({Key key}) : super(key: key);
 
+  @override
+  _OrganizationsPage createState() {
+    return _OrganizationsPage();
+  }
+}
+
+class _OrganizationsPage extends State<OrganizationPage> {
   final List<String> entries = <String>[
     'Alpha Phi Omega',
     'B',
@@ -20,61 +31,63 @@ class OrganizationsPage extends StatelessWidget {
     'L',
     'M'
   ];
-  final List<int> colorCodes = <int>[
-    400,
-    400,
-    400,
-    400,
-    300,
-    300,
-    300,
-    200,
-    200,
-    100,
-    100,
-    100,
-    100,
-  ];
 
   @override
-  Widget build(BuildContext ctxt) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("LVC Service Organizations"),
-        backgroundColor: Colors.indigo[800],
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(20.0),
-        itemCount: entries.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: createOrgCard(context, entries[index], "test"),
-          );
-          // return Container(
-          //   height: 50,
-          //   color: Colors.indigo[colorCodes[index]],
-          //   child: Center(
-          //     child: RaisedButton(
-          //       child: Text('Entry ${entries[index]}'),
-          //       onPressed: () {
-          //         Navigator.push(
-          //           ctxt,
-          //           MaterialPageRoute(
-          //               builder: (context) => OrganizationInfo()),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OrganizationCubit(orgRepo: OrganizationRepository()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("LVC Service Organizations"),
+          backgroundColor: Colors.indigo[800],
+        ),
+        body: BlocBuilder<OrganizationCubit, OrganizationState>(
+          builder: (context, state) {
+            if (state is OrganizationInitial) {
+              return buildInitial();
+            } else if (state is LoadedState) {
+              return buildOrgList(context, state.orgs);
+            } else if (state is LoadingState) {
+              return buildLoading();
+            } else {
+              return buildInitial();
+            }
+          },
+        ),
       ),
     );
   }
 }
 
+Widget buildInitial() {
+  return Container(
+    child: Text('Organzations'),
+  );
+}
+
+Widget buildLoading() {
+  return Center(
+    child: CircularProgressIndicator(),
+  );
+}
+
+ListView buildOrgList(BuildContext context, List<Organization> o1) {
+  final orgCube = context.bloc<OrganizationCubit>();
+  orgCube.getOrgs();
+  return ListView.separated(
+    padding: const EdgeInsets.all(20.0),
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        child: createOrgCard(context, o1[index]),
+      );
+    },
+    separatorBuilder: (BuildContext context, int index) => const Divider(),
+    itemCount: o1.length,
+  );
+}
+
 //List<Icon> icons in parameter?
-Container createOrgCard(BuildContext ctxt, String orgName, String imagePath) {
+Container createOrgCard(BuildContext ctxt, Organization o1) {
   return Container(
     //padding: EdgeInsets.all(25),
     child: Card(
@@ -92,7 +105,7 @@ Container createOrgCard(BuildContext ctxt, String orgName, String imagePath) {
             ),
             title: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(orgName),
+              child: Text(o1.orgName),
             ),
           ),
           // Image.asset(imagePath),
@@ -117,4 +130,3 @@ Container createOrgCard(BuildContext ctxt, String orgName, String imagePath) {
     ),
   );
 }
-
