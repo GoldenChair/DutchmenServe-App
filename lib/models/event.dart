@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 class Event {
   String eventName;
   String date;
-  DateTime dt;
   String location;
   String description;
   List<String> interests;
+
+  DateTime dt;
   String imagePath;
-  bool imageboo;
 
   // constructor
   Event(String eventName, String date, String location, String description,
@@ -20,11 +20,7 @@ class Event {
     this.location = location;
     this.description = description;
     this.interests = interests;
-    if (imagePath != null) {
-      this.imagePath = imagePath;
-      this.imageboo = true;
-    } else
-      this.imageboo = false;
+    if (imagePath != null) this.imagePath = imagePath;
   }
 
   bool operator ==(Object o) {

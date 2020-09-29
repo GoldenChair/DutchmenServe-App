@@ -72,6 +72,7 @@ class _AddStudentsState extends State<AddStudentsStateful> {
       ), // body
     ),
   ];
+
   ListView List_Criteria;
 
   @override
@@ -111,13 +112,32 @@ class _AddStudentsState extends State<AddStudentsStateful> {
         ),
       ],
     );
+
     Scaffold scaffold = Scaffold(
       appBar: AppBar(
         title: Text('New Report- Add Students'),
         backgroundColor: Colors.indigo[800],
+        // automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // TODO: add students and return to new report
+            },
+          )
+        ],
+        // leading: BackButton(
+        //   onPressed: () {
+        //     //TODO: popup asking if you want to lose changes
+        //   },
+        // ),
       ),
       body: List_Criteria,
     );
+
     return scaffold;
   }
 }
