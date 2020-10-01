@@ -1,3 +1,4 @@
+import 'package:dutchmenserve/models/user.dart';
 import 'package:intl/intl.dart';
 
 class Event {
@@ -6,6 +7,8 @@ class Event {
   String location;
   String description;
   List<String> interests;
+
+  List<User> registered;
 
   DateTime dt;
   String imagePath;
@@ -20,6 +23,7 @@ class Event {
     this.location = location;
     this.description = description;
     this.interests = interests;
+    this.registered = new List<User>();
     if (imagePath != null) this.imagePath = imagePath;
   }
 
@@ -32,5 +36,9 @@ class Event {
         o.location == location &&
         o.description == description &&
         o.interests == interests;
+  }
+
+  void printEvent() {
+    print(eventName + ": " + date + " | " + location);
   }
 }

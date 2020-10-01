@@ -1,4 +1,4 @@
-import 'package:dutchmenserve/Infrastructure/eventsRepository.dart';
+import 'package:dutchmenserve/Infrastructure/eventRepository.dart';
 import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext ctxt) {
     return MaterialApp(
       home: BlocProvider(
-        create: (context) => EventsCubit(FakeEventsRepository()),
+        create: (context) => EventsCubit(FakeEventRepository()),
         child: InitialLoginHome(),
       ),
       routes: <String, WidgetBuilder>{

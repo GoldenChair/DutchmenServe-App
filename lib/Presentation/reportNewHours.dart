@@ -1,9 +1,13 @@
 // Page for reporting new hours
 // TODO: Switch between reporting for individual or group
 
+import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
+import 'package:dutchmenserve/Infrastructure/reportRepository.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'ReportGroupAddStudents.dart';
 import 'ReportHoursPage.dart';
@@ -18,7 +22,10 @@ class ReportNewHours extends StatelessWidget {
         title: Text('New Report'),
         backgroundColor: Colors.indigo[800],
       ),
-      body: RNHStateful(),
+      body: BlocProvider(
+        create: (context) => ReportCubit(FakeReportRepository()),
+        child: RNHStateful(),
+      ),
     );
   }
 }
@@ -31,39 +38,49 @@ class RNHStateful extends StatefulWidget {
 }
 
 class _RNHState extends State<RNHStateful> {
+  // data of report
+  DateTime _dateTime;
   double _partialHour = 0;
   Event _event;
-  String _dropdownEvent;
-  String _dropdownIG;
-  DateTime _dateTime;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          createLTDate(),
-          createLTEvent(),
-          createLTHours(),
-          createLTAddStudents(context),
-          createLTPhotos(),
-          Center(
-            child: RaisedButton(
-              child: Text('Submit'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ReportHoursPage()),
-                );
-              },
-            ),
-          ),
-        ],
+      child: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          // TODO: how to submit hours??
+          if (state is LoadedState) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                createLTDate(),
+                createLTEvent(),
+                createLTHours(),
+                createLTAddStudents(context),
+                createLTPhotos(),
+                Center(
+                  child: RaisedButton(
+                    child: Text('Submit'),
+                    onPressed: () {
+                      // TODO: send report to repo
+                      // Navigate back to report hours page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReportHoursPage()),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
 
+  // below are methods for creating the List Tile widgets making up the report form
   ListTile createLTDate() {
     return ListTile(
       leading: Icon(Icons.insert_invitation),

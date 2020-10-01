@@ -1,6 +1,6 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
-import 'package:dutchmenserve/Infrastructure/eventsRepository.dart';
+import 'package:dutchmenserve/Infrastructure/eventRepository.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +14,7 @@ class EventsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EventsCubit(FakeEventsRepository()),
+      create: (context) => EventsCubit(FakeEventRepository()),
       child: Scaffold(
         appBar: AppBar(
           title: Text("Events- List View"),
@@ -42,7 +42,7 @@ class EventsList extends StatelessWidget {
           ],
         ),
         body: SingleChildScrollView(
-          child: BlocBuilder<EventsCubit, EventsState>(
+          child: BlocBuilder<EventsCubit, EventState>(
             builder: (context, state) {
               if (state is LoadedState) {
                 return Column(
