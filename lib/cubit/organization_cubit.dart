@@ -19,4 +19,5 @@ class OrganizationCubit extends Cubit<OrganizationState> {
       emit(ErrorState());
     }
   }
+ 
 }
