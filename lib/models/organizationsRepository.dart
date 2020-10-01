@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dutchmenserve/models/organizations.dart';
 
 class OrganizationRepository {
@@ -27,7 +29,12 @@ class OrganizationRepository {
 
   Future<List<Organization>> getOrganization() async {
     try {
-      return org;
+      return Future.delayed(
+        Duration(seconds: 1),
+        () {
+          return org;
+        },
+      );
     } catch (e) {
       throw e;
     }

@@ -46,7 +46,8 @@ class _OrganizationsPage extends State<OrganizationPage> {
             if (state is OrganizationInitial) {
               return buildInitial();
             } else if (state is LoadedState) {
-              return buildOrgList(context, state.orgs);
+              final orgs = state.orgs;
+              return buildOrgList(context, orgs);
             } else if (state is LoadingState) {
               return buildLoading();
             } else {
@@ -72,8 +73,6 @@ Widget buildLoading() {
 }
 
 ListView buildOrgList(BuildContext context, List<Organization> o1) {
-  final orgCube = context.bloc<OrganizationCubit>();
-  orgCube.getOrgs();
   return ListView.separated(
     padding: const EdgeInsets.all(20.0),
     itemBuilder: (BuildContext context, int index) {
@@ -87,7 +86,9 @@ ListView buildOrgList(BuildContext context, List<Organization> o1) {
 }
 
 //List<Icon> icons in parameter?
-Container createOrgCard(BuildContext ctxt, Organization o1) {
+Container createOrgCard(BuildContext context, Organization o1) {
+  //final orgCube = context.bloc<OrganizationCubit>();
+  //orgCube.getOrgs();
   return Container(
     //padding: EdgeInsets.all(25),
     child: Card(
@@ -116,7 +117,7 @@ Container createOrgCard(BuildContext ctxt, Organization o1) {
                 textColor: Colors.indigoAccent,
                 onPressed: () {
                   Navigator.push(
-                    ctxt,
+                    context,
                     MaterialPageRoute(builder: (context) => OrganizationInfo()),
                   );
                   // Perform some action
