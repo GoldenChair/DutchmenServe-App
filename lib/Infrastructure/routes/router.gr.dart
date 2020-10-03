@@ -62,7 +62,7 @@ class Router extends RouterBase {
     RouteDef(Routes.favoritedPage, page: FavoritedPage),
     RouteDef(Routes.notificationsPage, page: NotificationsPage),
     RouteDef(Routes.organizationInfo, page: OrganizationInfo),
-    RouteDef(Routes.organizationsPage, page: OrganizationsPage),
+    RouteDef(Routes.organizationsPage, page: OrganizationPage),
     RouteDef(Routes.profilePage, page: ProfilePage),
     RouteDef(Routes.registeredPage, page: RegisteredPage),
     RouteDef(Routes.reportGroupAddStudents, page: ReportGroupAddStudents),
@@ -108,9 +108,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    OrganizationsPage: (data) {
+    OrganizationPage: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OrganizationsPage(),
+        builder: (context) => OrganizationPage(),
         settings: data,
       );
     },

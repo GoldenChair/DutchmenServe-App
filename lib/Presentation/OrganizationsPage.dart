@@ -1,10 +1,22 @@
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Presentation/addOrganization.dart';
+import 'package:dutchmenserve/models/organizations.dart';
+import 'package:dutchmenserve/models/organizationsRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'organizationInfo.dart';
 
-class OrganizationsPage extends StatelessWidget {
-  void _incrementCounter() {}
+class OrganizationPage extends StatefulWidget {
+  OrganizationPage({Key key}) : super(key: key);
 
+  @override
+  _OrganizationsPage createState() {
+    return _OrganizationsPage();
+  }
+}
+
+class _OrganizationsPage extends State<OrganizationPage> {
   final List<String> entries = <String>[
     'Alpha Phi Omega',
     'B',
@@ -20,65 +32,110 @@ class OrganizationsPage extends StatelessWidget {
     'L',
     'M'
   ];
-  final List<int> colorCodes = <int>[
-    400,
-    400,
-    400,
-    400,
-    300,
-    300,
-    300,
-    200,
-    200,
-    100,
-    100,
-    100,
-    100,
-  ];
 
   @override
-  Widget build(BuildContext ctxt) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("LVC Service Organizations"),
-        backgroundColor: Colors.indigo[800],
-      ),
-      body: Column(
-        children: [
-          // Checkbox(
-          //   value: false,
-          //   onChanged: (bool newValue) {
-          //     Navigator.pop(ctxt); // Pop from stack
-          //   },
-          // ),
-          new Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(20.0),
-              itemCount: entries.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 50,
-                  color: Colors.indigo[colorCodes[index]],
-                  child: Center(
-                    child: RaisedButton(
-                      child: Text('Entry ${entries[index]}'),
-                      onPressed: () {
-                        Navigator.push(
-                          ctxt,
-                          MaterialPageRoute(
-                              builder: (context) => OrganizationInfo()),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-            ),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OrganizationCubit(orgRepo: OrganizationRepository()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("LVC Service Organizations"),
+          backgroundColor: Colors.indigo[800],
+        ),
+        body: BlocBuilder<OrganizationCubit, OrganizationState>(
+          builder: (context, state) {
+            if (state is OrganizationInitial) {
+              return buildInitial();
+            } else if (state is LoadedState) {
+              final orgs = state.orgs;
+              return buildOrgList(context, orgs);
+            } else if (state is LoadingState) {
+              return buildLoading();
+            } else {
+              return buildInitial();
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => addOrganization()));
+          },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
+}
+
+Widget buildInitial() {
+  return Container(
+    child: Text('Organzations'),
+  );
+}
+
+Widget buildLoading() {
+  return Center(
+    child: CircularProgressIndicator(),
+  );
+}
+
+ListView buildOrgList(BuildContext context, List<Organization> o1) {
+  return ListView.separated(
+    padding: const EdgeInsets.all(20.0),
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        child: createOrgCard(context, o1[index]),
+      );
+    },
+    separatorBuilder: (BuildContext context, int index) => const Divider(),
+    itemCount: o1.length,
+  );
+}
+
+//List<Icon> icons in parameter?
+Container createOrgCard(BuildContext context, Organization o1) {
+  //final orgCube = context.bloc<OrganizationCubit>();
+  //orgCube.getOrgs();
+  return Container(
+    //padding: EdgeInsets.all(25),
+    child: Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          ListTile(
+            //this will be an imagepath some day
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                (Icons.group),
+                size: 40,
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(o1.orgName),
+            ),
+          ),
+          // Image.asset(imagePath),
+          ButtonBar(
+            alignment: MainAxisAlignment.end,
+            children: [
+              FlatButton(
+                textColor: Colors.indigoAccent,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OrganizationInfo()),
+                  );
+                  // Perform some action
+                },
+                child: Text('Learn More'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
 }

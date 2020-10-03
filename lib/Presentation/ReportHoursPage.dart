@@ -30,7 +30,7 @@ class ReportHoursPage extends StatelessWidget {
             },
           )),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Center(
                 child: Text(
@@ -68,15 +68,150 @@ class ReportHoursPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 20,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.gavel,
+                    size: 40,
+                  ),
+                  progressColor: Colors.black,
+                  percent: 0.07,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
             ),
-            LinearPercentIndicator(
-              progressColor: Colors.red[800],
-              percent: 0.33,
-              lineHeight: 25.0,
-              center: Text('Next Goal'),
-            )
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.pets,
+                    size: 40,
+                  ),
+                  progressColor: Colors.yellow[700],
+                  percent: 0.05,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.color_lens,
+                    size: 40,
+                  ),
+                  progressColor: Colors.blue[700],
+                  percent: 0.02,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.child_care,
+                    size: 40,
+                  ),
+                  progressColor: Colors.green,
+                  percent: 0.07,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.group,
+                    size: 40,
+                  ),
+                  progressColor: Colors.pink,
+                  percent: 0.28,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.computer,
+                    size: 40,
+                  ),
+                  progressColor: Colors.grey,
+                  percent: 0.15,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.school,
+                    size: 40,
+                  ),
+                  progressColor: Colors.blue[700],
+                  percent: 0.12,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.face,
+                    size: 40,
+                  ),
+                  progressColor: Colors.blue[700],
+                  percent: 0.02,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: LinearPercentIndicator(
+                  leading: Icon(
+                    Icons.more_horiz,
+                    size: 40,
+                  ),
+                  progressColor: Colors.blue[700],
+                  percent: 0.22,
+                  animation: true,
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  lineHeight: 25.0,
+                ),
+              ),
+            ),
           ],
         ),
       ),

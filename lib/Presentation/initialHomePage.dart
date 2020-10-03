@@ -19,6 +19,7 @@ class InitialLoginHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.blue[900],
         title: Center(
             child: Text(

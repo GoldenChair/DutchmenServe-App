@@ -71,9 +71,10 @@ class FakeEventRepository implements EventRepository {
     return Future.delayed(
       Duration(seconds: 1),
       () {
-        User u = new User();
-        u.setUsername("ajl008");
-        u.setEmail();
+        User u = new User(emailAddress: null, events: [], interests: [], org: [], password: null, username: "ajl008");
+
+        // u.setUsername("ajl008");
+        // u.setEmail();
         return [u, u, u];
       },
     );

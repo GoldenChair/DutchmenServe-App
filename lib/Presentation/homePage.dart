@@ -1,14 +1,15 @@
 import 'dart:ui';
 
+import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import 'EventsList.dart';
-import 'FavoritedPage.dart';
 import 'OrganizationsPage.dart';
 import 'RegisteredPage.dart';
 import 'ReportHoursPage.dart';
 import 'connectWUsPage.dart';
+import 'NotificationsPage.dart';
 
 //Add to drawer "Your registed events" and your favorite events or add a bottom bar
 
@@ -23,6 +24,26 @@ class HomePage extends StatelessWidget {
           'Dutchmen Serve',
           style: TextStyle(fontFamily: 'BebasNeue', fontSize: 40),
         )),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => NotificationsPage()),
+                );
+              },
+              child: Icon(
+                Icons.notifications,
+                size: 30,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
       // /* bottomNavigationBar: BottomNavigationBar(items: [
       //   BottomNavigationBarItem(
@@ -104,7 +125,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => OrganizationsPage()));
+                        builder: (context) => OrganizationPage()));
               },
             ),
             SizedBox(
@@ -142,19 +163,6 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text(
-                'Favorited Events',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => FavoritedPage()));
-              },
-            )
           ],
         ),
       ),

@@ -104,7 +104,7 @@ class userNameReg extends StatelessWidget {
     username = myController1.text;
     password = myController2.text;
     confirm = myController3.text;
-    profile.setUsername(username);
+    //profile.setUsername(username);
     print(username);
   }
 }
