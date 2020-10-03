@@ -18,7 +18,7 @@ class User {
     @required this.emailAddress,
     @required this.interests,
     @required this.org,
-    @required this.events;
+    @required this.events,
     this.firstName,
     this.lastName,
     this.imagePath,

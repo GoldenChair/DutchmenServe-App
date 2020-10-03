@@ -1,5 +1,6 @@
-import 'package:dutchmenserve/cubit/event_cubit.dart';
-import 'package:dutchmenserve/cubit/event_state.dart';
+
+import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

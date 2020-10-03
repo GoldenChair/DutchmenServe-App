@@ -27,17 +27,6 @@ class _addOrg extends State<addOrganization> {
               SizedBox(
                 height: 70,
               ),
-              Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 100,
-                  width: 100,
-                  child: Icon(
-                    Icons.account_circle,
-                    size: 120,
-                  ),
-                ),
-              ),
               SizedBox(
                 height: 70,
               ),

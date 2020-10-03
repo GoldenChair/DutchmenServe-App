@@ -1,4 +1,5 @@
-import 'package:dutchmenserve/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Presentation/addOrganization.dart';
 import 'package:dutchmenserve/models/organizations.dart';
 import 'package:dutchmenserve/models/organizationsRepository.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,13 @@ class _OrganizationsPage extends State<OrganizationPage> {
               return buildInitial();
             }
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => addOrganization()));
+          },
+          child: Icon(Icons.add),
         ),
       ),
     );
