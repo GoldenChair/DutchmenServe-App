@@ -1,9 +1,10 @@
-import 'package:dutchmenserve/models/eventsRepository.dart';
+import 'package:dutchmenserve/models/organizationsRepository.dart';
+import 'package:dutchmenserve/models/organizationsRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'event_state.dart';
 
-class EventsCubit extends Cubit<EventsState> {
+class EventsCubit extends Cubit<EventState> {
   EventsCubit({this.repository}) : super(InitialState()) {
     _getEvents();
   }

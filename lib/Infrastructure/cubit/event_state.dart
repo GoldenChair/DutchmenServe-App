@@ -1,20 +1,20 @@
 import 'package:dutchmenserve/models/event.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class EventsState extends Equatable {}
+abstract class EventState extends Equatable {}
 
-class InitialState extends EventsState {
+class InitialState extends EventState {
   @override
   List<Object> get props => [];
 }
 
-class LoadingState extends EventsState {
+class LoadingState extends EventState {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class LoadedState extends EventsState {
+class LoadedState extends EventState {
   LoadedState(this.events);
 
   final List<Event> events;
@@ -23,7 +23,7 @@ class LoadedState extends EventsState {
   List<Object> get props => [events];
 }
 
-class ErrorState extends EventsState {
+class ErrorState extends EventState {
   @override
   List<Object> get props => [];
 }
