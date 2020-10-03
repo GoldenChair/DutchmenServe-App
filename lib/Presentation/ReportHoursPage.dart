@@ -5,18 +5,30 @@
 //TODO: fix FAB to show plus
 //TODO: implement summary view
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'ReportNewHours.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'homePage.dart';
+
 class ReportHoursPage extends StatelessWidget {
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.indigo[800],
-      appBar: AppBar(title: Text('Service Hours')),
+      appBar: AppBar(
+          title: Text('Service Hours'),
+          leading: BackButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+          )),
       body: SafeArea(
         child: ListView(
           children: [
@@ -29,17 +41,31 @@ class ReportHoursPage extends StatelessWidget {
               color: Colors.indigo,
               elevation: 5,
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: CircularPercentIndicator(
-                  radius: 120.0,
-                  lineWidth: 15.0,
-                  animation: true,
-                  percent: 0.70,
-                  circularStrokeCap: CircularStrokeCap.round,
-                  footer: Text('Progress to next goal'),
-                ),
+            CircularPercentIndicator(
+              progressColor: Colors.blue[700],
+              percent: 0.72,
+              animation: true,
+              radius: 250.0,
+              lineWidth: 15.0,
+              circularStrokeCap: CircularStrokeCap.round,
+              center: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AutoSizeText(
+                    'Semester To Date:',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                    maxLines: 1,
+                  ),
+                  AutoSizeText(
+                    '30',
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                    maxLines: 1,
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -193,8 +219,8 @@ class ReportHoursPage extends StatelessWidget {
       //   backgroundColor: Colors.indigo[800],
       //   onPressed: () {
       //     Navigator.push(
-      //       ctxt,
-      //       MaterialPageRoute(builder: (context) => NewReport()),
+      //       context,
+      //       MaterialPageRoute(builder: (context) => ReportNewReport()),
       //     );
       //   },
       //   tooltip: 'Report Hours',
@@ -209,7 +235,7 @@ class ReportHoursPage extends StatelessWidget {
             label: 'Individual',
             onTap: () {
               Navigator.push(
-                ctxt,
+                context,
                 MaterialPageRoute(builder: (context) => ReportNewHours()),
               );
             },
@@ -220,7 +246,7 @@ class ReportHoursPage extends StatelessWidget {
             label: 'Group',
             onTap: () {
               Navigator.push(
-                ctxt,
+                context,
                 MaterialPageRoute(builder: (context) => ReportNewHours()),
               );
             },
