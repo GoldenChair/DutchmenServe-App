@@ -1,10 +1,13 @@
 // Page for reporting new hours
 // TODO: Switch between reporting for individual or group
 
+import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
-import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Infrastructure/reportRepository.dart';
 import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/report.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,15 +43,17 @@ class RNHStateful extends StatefulWidget {
 class _RNHState extends State<RNHStateful> {
   // data of report
   DateTime _dateTime;
+  TextEditingController _hrsController = new TextEditingController();
+  double _hrs = 0;
   double _partialHour = 0;
   Event _event;
+  User _self;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: BlocBuilder<ReportCubit, ReportState>(
+      child: BlocBuilder<EventCubit, EventState>(
         builder: (context, state) {
-          // TODO: how to submit hours??
           if (state is LoadedState) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -63,6 +68,10 @@ class _RNHState extends State<RNHStateful> {
                     child: Text('Submit'),
                     onPressed: () {
                       // TODO: send report to repo
+                      _hrs = ((_hrsController.text) as double) + _partialHour;
+                      var b = context.bloc<ReportCubit>();
+                      b.submitReport(new Report(_event, _hrs, _self));
+                      // TODO: alert to confirm submitting report
                       // Navigate back to report hours page
                       Navigator.push(
                         context,

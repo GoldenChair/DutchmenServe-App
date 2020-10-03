@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'event_state.dart';
 
-class EventsCubit extends Cubit<EventState> {
+class EventCubit extends Cubit<EventState> {
   final EventRepository _repository;
 
-  EventsCubit(this._repository) : super(InitialState()) {
+  EventCubit(this._repository) : super(InitialState()) {
     getEvents();
   }
 
@@ -25,7 +25,8 @@ class EventsCubit extends Cubit<EventState> {
   // Jen wants to see which students are registered for an event
   Future<void> getRegistered(Event event) async {
     try {
-      emit(LoadingState()); final users = await _repository.getRegistered(event);
+      emit(LoadingState());
+      final users = await _repository.getRegistered(event);
       emit(LoadedRegisteredState(users));
     } catch (e) {
       emit(ErrorState());

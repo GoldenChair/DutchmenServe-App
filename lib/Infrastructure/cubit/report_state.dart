@@ -3,27 +3,27 @@ import 'package:equatable/equatable.dart';
 
 abstract class ReportState extends Equatable {}
 
-class InitialState extends ReportState {
+class ReportInitialState extends ReportState {
   @override
   List<Object> get props => [];
 }
 
-class LoadingState extends ReportState {
+class ReportLoadingState extends ReportState {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class LoadedState extends ReportState {
+class ReportLoadedState extends ReportState {
   final List<Report> reports;
 
-  LoadedState(this.reports);
+  ReportLoadedState(this.reports);
 
   @override
   List<Object> get props => [reports];
 }
 
-class ErrorState extends ReportState {
+class ReportErrorState extends ReportState {
   @override
   List<Object> get props => [];
 }

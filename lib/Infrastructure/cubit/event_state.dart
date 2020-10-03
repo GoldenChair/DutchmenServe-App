@@ -33,7 +33,6 @@ class LoadedRegisteredState extends EventState {
   List<Object> get props => [users];
 }
 
-
 class ErrorState extends EventState {
   @override
   List<Object> get props => [];

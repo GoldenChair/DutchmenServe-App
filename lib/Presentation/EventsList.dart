@@ -14,7 +14,7 @@ class EventsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EventsCubit(FakeEventRepository()),
+      create: (context) => EventCubit(FakeEventRepository()),
       child: Scaffold(
         appBar: AppBar(
           title: Text("Events- List View"),
@@ -42,7 +42,7 @@ class EventsList extends StatelessWidget {
           ],
         ),
         body: SingleChildScrollView(
-          child: BlocBuilder<EventsCubit, EventState>(
+          child: BlocBuilder<EventCubit, EventState>(
             builder: (context, state) {
               if (state is LoadedState) {
                 return Column(

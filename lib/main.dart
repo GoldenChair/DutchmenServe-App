@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext ctxt) {
     return MaterialApp(
       home: BlocProvider(
-        create: (context) => EventsCubit(),
+        create: (context) => EventCubit(FakeEventRepository()),
         child: InitialLoginHome(),
       ),
       routes: <String, WidgetBuilder>{
