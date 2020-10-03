@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'category.dart';
 import 'organizations.dart';
 
-class user {
+class User {
   String username;
   String password;
   String emailAddress;
   List<Category> needs;
   List<organization> org;
 
-  user() {}
+  User() {}
   void setUsername(String name) {
     username = name;
   }

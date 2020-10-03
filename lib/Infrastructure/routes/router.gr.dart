@@ -7,20 +7,19 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dutchmenserve/Presentation/EventsList.dart';
+import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
+import 'package:dutchmenserve/Presentation/FavoritedPage.dart';
+import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
+import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
+import 'package:dutchmenserve/Presentation/ProfilePage.dart';
+import 'package:dutchmenserve/Presentation/RegisteredPage.dart';
+import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
+import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
+import 'package:dutchmenserve/Presentation/homePage.dart';
+import 'package:dutchmenserve/Presentation/organizationInfo.dart';
+import 'package:dutchmenserve/Presentation/reportNewHours.dart';
 import 'package:flutter/material.dart';
-
-import '../Presentation/EventsList.dart';
-import '../Presentation/EventsOngoing.dart';
-import '../Presentation/FavoritedPage.dart';
-import '../Presentation/NotificationsPage.dart';
-import '../Presentation/OrganizationsPage.dart';
-import '../Presentation/ProfilePage.dart';
-import '../Presentation/RegisteredPage.dart';
-import '../Presentation/ReportGroupAddStudents.dart';
-import '../Presentation/ReportHoursPage.dart';
-import '../Presentation/reportNewHours.dart';
-import '../Presentation/homePage.dart';
-import '../Presentation/organizationInfo.dart';
 
 class Routes {
   static const String homePage = '/';

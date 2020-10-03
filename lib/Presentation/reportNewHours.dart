@@ -1,7 +1,14 @@
 // Page for reporting new hours
 // TODO: Switch between reporting for individual or group
 
+import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
+import 'package:dutchmenserve/Infrastructure/reportRepository.dart';
+import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'ReportGroupAddStudents.dart';
 import 'ReportHoursPage.dart';
 
@@ -15,7 +22,8 @@ class ReportNewHours extends StatelessWidget {
         title: Text('New Report'),
         backgroundColor: Colors.indigo[800],
       ),
-      body: Center(
+      body: BlocProvider(
+        create: (context) => ReportCubit(FakeReportRepository()),
         child: RNHStateful(),
       ),
     );
@@ -30,143 +38,170 @@ class RNHStateful extends StatefulWidget {
 }
 
 class _RNHState extends State<RNHStateful> {
-  String _dropdownEvent;
-  String _dropdownIG;
+  // data of report
   DateTime _dateTime;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _dropdownEvent = 'Event Name';
-  //   _dropdownIG = 'Individual/Group Name';
-  //   _dateTime = DateTime.now();
-  // }
+  double _partialHour = 0;
+  Event _event;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              RaisedButton(
-                child: Text('Pick a Date'),
-                onPressed: () {
-                  showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2020),
-                          lastDate: DateTime(2022))
-                      .then((date) {
-                    setState(() {
-                      _dateTime = date;
-                    });
-                  });
-                },
-              ),
-              Text(_dateTime == null ? '' : _dateTime.toString())
-            ],
+      child: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          // TODO: how to submit hours??
+          if (state is LoadedState) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                createLTDate(),
+                createLTEvent(),
+                createLTHours(),
+                createLTAddStudents(context),
+                createLTPhotos(),
+                Center(
+                  child: RaisedButton(
+                    child: Text('Submit'),
+                    onPressed: () {
+                      // TODO: send report to repo
+                      // Navigate back to report hours page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReportHoursPage()),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  // below are methods for creating the List Tile widgets making up the report form
+  ListTile createLTDate() {
+    return ListTile(
+      leading: Icon(Icons.insert_invitation),
+      title: Container(
+        margin: EdgeInsets.symmetric(vertical: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          _dateTime == null ? 'Date' : DateFormat.yMd().format(_dateTime),
+          style: TextStyle(
+            color: _dateTime == null ? Colors.grey[600] : Colors.black,
           ),
-          // TextField(
-          //   decoration: InputDecoration(labelText: "Number of Hours"),
-          //   keyboardType: TextInputType.number,
-          //   inputFormatters: <TextInputFormatter>[
-          //     FilteringTextInputFormatter.digitsOnly
-          //   ],
-          // ),
-          ListTile(
-            leading: Icon(Icons.timelapse),
-            title: TextField(
-              decoration: InputDecoration(
-                hintText: "Number of Hours",
-              ),
+        ),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey[500],
+              width: 1.0,
             ),
           ),
-          DropdownButton<String>(
-            value: _dropdownEvent,
-            icon: Icon(Icons.arrow_downward),
-            iconSize: 24,
-            elevation: 16,
-            style: TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
-            ),
-            onChanged: (String newValue) {
-              setState(() {
-                _dropdownEvent = newValue;
-              });
-            },
-            items: <String>['One', 'Two', 'Free', 'Four']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+        ),
+      ),
+      onTap: () {
+        showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2020),
+                lastDate: DateTime(2022))
+            .then((date) {
+          setState(() {
+            _dateTime = date;
+          });
+        });
+      },
+    );
+  }
+
+  ListTile createLTEvent() {
+    return ListTile(
+      title: Container(
+        margin: EdgeInsets.symmetric(vertical: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          _event == null ? 'Event' : _event.eventName,
+          style: TextStyle(
+            color: _event == null ? Colors.grey[600] : Colors.black,
           ),
-          DropdownButton<String>(
-            value: _dropdownIG,
-            icon: Icon(Icons.arrow_downward),
-            iconSize: 24,
-            elevation: 16,
-            style: TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
-            ),
-            onChanged: (String newValue) {
-              setState(() {
-                _dropdownIG = newValue;
-              });
-            },
-            items: <String>['Individual', 'Womens Tennis', 'CAC', 'APO', 'AST']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-          FlatButton(
-            child: Text('Add students in group'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReportGroupAddStudents()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.add_a_photo),
-            title: Text('Event Photo(s)'),
-            subtitle: Text('None'), // temporary
-            trailing: FlatButton(
-              child: Text('Upload'),
-              onPressed: () {},
+        ),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey[500],
+              width: 1.0,
             ),
           ),
-          // ListTile(
-          //   leading: Icon(Icons.add_a_photo),
-          //   title: TextField(
-          //     decoration: InputDecoration(
-          //       hintText: "Add photo(s)",
-          //     ),
-          //   ),
-          // ),
-          Center(
-            child: RaisedButton(
-              child: Text('Submit'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ReportHoursPage()),
-                );
-              },
-            ),
-          )
+        ),
+      ),
+      onTap: () {
+        //TODO: show event options based on date
+      },
+    );
+  }
+
+  ListTile createLTHours() {
+    return ListTile(
+      leading: Icon(Icons.timelapse),
+      title: TextField(
+        decoration: InputDecoration(
+          hintText: "Hours",
+        ),
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
         ],
+      ),
+      trailing: DropdownButton<double>(
+        value: _partialHour,
+        onChanged: (double newValue) {
+          setState(() {
+            _partialHour = newValue;
+          });
+        },
+        items: <double>[0, .25, .5, .75]
+            .map<DropdownMenuItem<double>>((double value) {
+          return DropdownMenuItem<double>(
+            value: value,
+            child: Text(value.toString()),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  ListTile createLTAddStudents(BuildContext context) {
+    return ListTile(
+      leading: Icon(Icons.group_add),
+      title: Text('Additional Students'),
+      trailing: FlatButton(
+        child: Text('Add'),
+        color: Colors.grey[200],
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ReportGroupAddStudents()),
+          );
+        },
+      ),
+      subtitle: Text('None'), // TODO: update students added
+    );
+  }
+
+  ListTile createLTPhotos() {
+    return ListTile(
+      leading: Icon(Icons.add_a_photo),
+      title: Text('Event Photo(s)'),
+      subtitle: Text('None'), // TODO: update photos added
+      trailing: FlatButton(
+        color: Colors.grey[200],
+        child: Text('Upload'),
+        onPressed: () {
+          //TODO: implement adding photos
+        },
       ),
     );
   }
