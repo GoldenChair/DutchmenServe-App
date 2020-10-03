@@ -32,40 +32,4 @@ class EventCubit extends Cubit<EventState> {
       emit(ErrorState());
     }
   }
-
-  // someone wants to remove event(s)
-  Future<void> removeEvents(List<Event> le) async {
-    try {
-      emit(LoadingState());
-      await _repository.removeEvents(le);
-      final events = await _repository.getEvents();
-      emit(LoadedState(events));
-    } catch (e) {
-      emit(ErrorState());
-    }
-  }
-
-  // someone wants to add event(s)
-  Future<void> addEvents(List<Event> ae) async {
-    try {
-      emit(LoadingState());
-      await _repository.addEvents(ae);
-      final events = await _repository.getEvents();
-      emit(LoadedState(events));
-    } catch (e) {
-      emit(ErrorState());
-    }
-  }
-
-  // someone wants to edit an event's info
-  Future<void> replaceEvent(Event olde, Event newe) async {
-    try {
-      emit(LoadingState());
-      await _repository.replaceEvent(olde, newe);
-      final events = await _repository.getEvents();
-      emit(LoadedState(events));
-    } catch (e) {
-      emit(ErrorState());
-    }
-  }
 }

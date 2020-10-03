@@ -20,7 +20,7 @@ import 'package:dutchmenserve/Presentation/organizationInfo.dart';
     MaterialRoute(page: FavoritedPage),
     MaterialRoute(page: NotificationsPage),
     MaterialRoute(page: OrganizationInfo),
-    MaterialRoute(page: OrganizationsPage),
+    MaterialRoute(page: OrganizationPage),
     MaterialRoute(page: ProfilePage),
     MaterialRoute(page: RegisteredPage),
     MaterialRoute(page: ReportGroupAddStudents),

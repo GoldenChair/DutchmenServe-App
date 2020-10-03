@@ -5,8 +5,8 @@ import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'EventsCalendar.dart';
 import 'EventInfo.dart';
+import 'EventsCalendar.dart';
 import 'homePage.dart';
 
 // Opportunities Card with filter at top
