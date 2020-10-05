@@ -6,11 +6,17 @@ class Organization {
   int orgID;
   List<int> officers;
 
-
   Organization({
     @required this.orgName,
-    @required this.orgID,
-    @required this.usersIDs,
-    @required this.officers,
+    this.orgID,
+    this.usersIDs,
+    this.officers,
+    //     @required this.orgName,
+    // @required this.orgID,
+    // @required this.usersIDs,
+    // @required this.officers,
   });
+  void setOrgName(String s) {
+    this.orgName = s;
+  }
 }

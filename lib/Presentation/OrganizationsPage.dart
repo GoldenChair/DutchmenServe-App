@@ -1,4 +1,5 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/Presentation/addOrganization.dart';
 import 'package:dutchmenserve/models/organizations.dart';
 import 'package:dutchmenserve/models/organizationsRepository.dart';
@@ -36,7 +37,7 @@ class _OrganizationsPage extends State<OrganizationPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrganizationCubit(orgRepo: OrganizationRepository()),
+      create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
       child: Scaffold(
         appBar: AppBar(
           title: Text("LVC Service Organizations"),

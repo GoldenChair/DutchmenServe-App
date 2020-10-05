@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/models/organizations.dart';
-import 'package:dutchmenserve/models/organizationsRepository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'organization_state.dart';
@@ -9,7 +9,7 @@ class OrganizationCubit extends Cubit<OrganizationState> {
   OrganizationCubit({this.orgRepo}) : super(OrganizationInitial()) {
     getOrgs();
   }
-  final OrganizationRepository orgRepo;
+  final FakeRepository orgRepo;
   void getOrgs() async {
     try {
       emit(LoadingState());
@@ -19,5 +19,24 @@ class OrganizationCubit extends Cubit<OrganizationState> {
       emit(ErrorState());
     }
   }
- 
+
+  void addOrg(Organization o1) async {
+    try {
+      emit(LoadingState());
+      final organizations = await orgRepo.addOrganization(o1);
+      emit(LoadedState(organizations));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
+
+  void removeOrg(Organization o1) async {
+    try {
+      emit(LoadingState());
+      final organizations = await orgRepo.removeOrganization(o1);
+      emit(LoadedState(organizations));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
 }

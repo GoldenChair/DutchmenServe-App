@@ -23,35 +23,35 @@ class User {
     this.lastName,
     this.imagePath,
   });
-}
 
 // user() {}
-// void setUsername(String name) {
-//   username = name;
-// }
+  void setUsername(String name) {
+    this.username = name;
+  }
 
-// void setEmail() {
-//   emailAddress = username + "@lvc.edu";
-// }
+  void setEmail() {
+    emailAddress = username + "@lvc.edu";
+  }
 
-// void addInterests() {
-//   // needs.add(value);
-// }
-// void addOrganizzation() {
-//   //org.add(value);
-// }
-// String getUsername() {
-//   return username;
-// }
+  void addInterests() {
+    // needs.add(value);
+  }
+  void addOrganizzation() {
+    //org.add(value);
+  }
+  String getUsername() {
+    return username;
+  }
 
-// String getEmail() {
-//   return emailAddress;
-// }
+  String getEmail() {
+    return emailAddress;
+  }
 
-// List getNeeds() {
-//   return needs;
-// }
+  List getNeeds() {
+    return interests;
+  }
 
-// List getOrg() {
-//   return org;
-// }
+  List getOrg() {
+    return org;
+  }
+}

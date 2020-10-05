@@ -1,3 +1,4 @@
+import 'package:dutchmenserve/models/organizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,17 @@ class addOrganization extends StatefulWidget {
 class _addOrg extends State<addOrganization> {
   @override
   Widget build(BuildContext context) {
+    Organization newOrg = new Organization(orgName: null);
+    final orgName = TextEditingController();
+
+    @override
+    void dispose() {
+      orgName.dispose();
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Organization'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -25,55 +34,29 @@ class _addOrg extends State<addOrganization> {
           child: Column(
             children: [
               SizedBox(
-                height: 70,
+                height: 50,
               ),
-              SizedBox(
-                height: 70,
-              ),
-              TextField(
-                  decoration: new InputDecoration(
-                border: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black)),
-                hintText: 'U S E R N A M E',
-              )),
-              SizedBox(height: 30),
-              TextField(
-                  decoration: new InputDecoration(
-                border: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black)),
-                hintText: 'P A S S W O R D',
-              )),
-              SizedBox(height: 30),
-              TextField(
-                  decoration: new InputDecoration(
-                border: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black)),
-                hintText: 'C O N F I R M   P A S S W O R D',
-              )),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: RaisedButton(
-                    color: Colors.blue[800],
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => SelectInterests()));
-                    },
-                    child: Text('Next ',
-                        style: TextStyle(
-                          fontSize: 20,
-                        )),
-                  ),
-                ),
-              ),
+              TextFormField(
+                controller: orgName,
+                decoration: InputDecoration(
+                    icon: Icon(Icons.group), labelText: 'Name *'),
+              )
             ],
           ),
         ),
+      ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(orgName.text),
+              );
+            },
+          );
+        },
+        child: Text("Submit"),
       ),
     );
   }
