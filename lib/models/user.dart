@@ -11,6 +11,7 @@ class User {
   List org; //will be org ID num
   String imagePath;
   List events;
+  int id;
 
   User({
     @required this.username,
@@ -21,6 +22,7 @@ class User {
     @required this.events,
     this.firstName,
     this.lastName,
+    this.id,
     this.imagePath,
   });
 

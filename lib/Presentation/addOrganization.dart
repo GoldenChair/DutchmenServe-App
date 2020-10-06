@@ -18,7 +18,8 @@ class _addOrg extends State<addOrganization> {
   Widget build(BuildContext context) {
     Organization newOrg = new Organization(orgName: null);
     final orgName = TextEditingController();
-
+    //newOrg.orgName(orgName.text);
+    // newOrg.setOrgName(orgName.text);
     @override
     void dispose() {
       orgName.dispose();
@@ -47,6 +48,8 @@ class _addOrg extends State<addOrganization> {
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
+          newOrg.setOrgName(orgName.text);
+          newOrg.printOrgName();
           return showDialog(
             context: context,
             builder: (context) {

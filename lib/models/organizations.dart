@@ -1,3 +1,4 @@
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class Organization {
@@ -18,5 +19,13 @@ class Organization {
   });
   void setOrgName(String s) {
     this.orgName = s;
+  }
+
+  void printOrgName() {
+    print(this.orgName);
+  }
+
+  void addMembers(User u) {
+    usersIDs.add(u.id);
   }
 }

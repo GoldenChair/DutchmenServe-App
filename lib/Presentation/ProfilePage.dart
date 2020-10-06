@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dutchmenserve/Presentation/Constants.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
 import 'initialHomePage.dart';
@@ -14,6 +15,50 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  User me = new User(
+    emailAddress: "mjs016@lvc.edu",
+    events: [],
+    interests: [],
+    org: [],
+    password: null,
+    username: "mjs016",
+    firstName: "Mackenzie ",
+    lastName: "Stewart",
+  );
+  List<Icon> iconList = [
+    Icon(Icons.gavel),
+    Icon(Icons.pets),
+    Icon(Icons.color_lens),
+    Icon(Icons.child_care),
+    Icon(Icons.group),
+    Icon(Icons.group),
+    Icon(Icons.school),
+    Icon(Icons.face),
+    Icon(Icons.more_horiz)
+  ];
+  List<bool> interests = [
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+  ];
+  List<String> interestsTitles = [
+    "Advocacy & Human Rights",
+    "Animals",
+    "Arts & Culture",
+    "Children & Youth",
+    "Community",
+    "Technology",
+    "Education & Literacy",
+    "Seniors",
+    "Other"
+  ];
+
   //final ScrollController scrollie = ScrollController;
   @override
   Widget build(BuildContext context) {
@@ -55,15 +100,23 @@ class ProfilePageState extends State<ProfilePage> {
           ),
           //put listview here
           //collapsible
-          
+
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 10),
               child: ListTile(
                 leading: Icon(Icons.person),
-                title: Text(
-                  'Jen Liedtka',
-                  style: TextStyle(fontSize: 20),
+                title: Row(
+                  children: [
+                    Text(
+                      me.firstName,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      me.lastName,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -77,7 +130,7 @@ class ProfilePageState extends State<ProfilePage> {
                   Icons.email,
                 ),
                 title: Text(
-                  'liedtka@lvc.edu',
+                  me.emailAddress,
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -159,4 +212,29 @@ class ProfilePageState extends State<ProfilePage> {
       }
     });
   }
+}
+
+ListView buildInterestList(BuildContext context, List<bool> interests,
+    List<String> interestsNames, List<Icon> icons) {
+  return ListView.separated(
+    padding: const EdgeInsets.all(20.0),
+    itemBuilder: (BuildContext context, int index) {
+      if (interests[index]) {
+        return createLists(context, interestsNames[index], icons[index]);
+      }
+    },
+    separatorBuilder: (BuildContext context, int index) => const Divider(),
+    itemCount: interests.length,
+  );
+}
+
+//List<Icon> icons in parameter?
+ListTile createLists(BuildContext context, String interestsOrNo, Icon img) {
+  //final orgCube = context.bloc<OrganizationCubit>();
+  //orgCube.getOrgs();
+  return ListTile(
+    //padding: EdgeInsets.all(25),
+    leading: img,
+    title: Text(interestsOrNo),
+  );
 }
