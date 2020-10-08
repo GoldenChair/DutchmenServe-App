@@ -4,7 +4,6 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
-import 'package:dutchmenserve/Infrastructure/reportRepository.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
@@ -26,7 +25,7 @@ class ReportNewHours extends StatelessWidget {
         backgroundColor: Colors.indigo[800],
       ),
       body: BlocProvider(
-        create: (context) => ReportCubit(FakeReportRepository()),
+        create: (context) => ReportCubit(),
         child: RNHStateful(),
       ),
     );

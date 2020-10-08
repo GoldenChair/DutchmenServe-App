@@ -1,20 +1,18 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
-import 'package:dutchmenserve/Infrastructure/eventRepository.dart';
+import 'package:dutchmenserve/Presentation/EventInfo.dart';
+import 'package:dutchmenserve/Presentation/EventsCalendar.dart';
+import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'EventInfo.dart';
-import 'EventsCalendar.dart';
-import 'homePage.dart';
 
 // Opportunities Card with filter at top
 class EventsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EventCubit(FakeEventRepository()),
+      create: (context) => EventCubit(),
       child: Scaffold(
         appBar: AppBar(
           title: Text("Events- List View"),

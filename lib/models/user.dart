@@ -23,7 +23,6 @@ class User {
     this.lastName,
     this.imagePath,
   });
-}
 
 // user() {}
 // void setUsername(String name) {
@@ -40,9 +39,9 @@ class User {
 // void addOrganizzation() {
 //   //org.add(value);
 // }
-// String getUsername() {
-//   return username;
-// }
+  String getUsername() {
+    return username;
+  }
 
 // String getEmail() {
 //   return emailAddress;
@@ -55,3 +54,4 @@ class User {
 // List getOrg() {
 //   return org;
 // }
+}
