@@ -60,7 +60,7 @@ class _OrganizationsPage extends State<OrganizationPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => addOrganization()));
+                new MaterialPageRoute(builder: (context) => OrgPage()));
           },
           child: Icon(Icons.add),
         ),

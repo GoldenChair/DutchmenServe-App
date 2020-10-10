@@ -23,7 +23,8 @@ class OrganizationCubit extends Cubit<OrganizationState> {
   void addOrg(Organization o1) async {
     try {
       emit(LoadingState());
-      final organizations = await orgRepo.addOrganization(o1);
+      await orgRepo.addOrganization(o1);
+      final organizations = await orgRepo.getOrganization();
       emit(LoadedState(organizations));
     } catch (e) {
       emit(ErrorState());
