@@ -112,7 +112,7 @@ Container createOrgCard(BuildContext context, Organization o1) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OrganizationInfo(
+                      builder: (context) => OrgInfo(
                         orgToDisplay: o1,
                       ),
                     ),

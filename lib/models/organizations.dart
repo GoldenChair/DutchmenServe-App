@@ -6,12 +6,17 @@ class Organization {
   List usersIDs;
   int orgID;
   List<int> officers;
+  String description;
+  String email;
 
   Organization({
     @required this.orgName,
+    @required this.description,
+    @required this.email,
     this.orgID,
     this.usersIDs,
     this.officers,
+
     //     @required this.orgName,
     // @required this.orgID,
     // @required this.usersIDs,

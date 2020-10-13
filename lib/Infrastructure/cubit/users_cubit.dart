@@ -7,7 +7,7 @@ part 'users_state.dart';
 
 class UsersCubit extends Cubit<UsersState> {
   UsersCubit({this.userRepo}) : super(UsersInitial()) {
-    getUsers();
+    //getUsers();
   }
   final userRepository userRepo;
   void getUsers() async {
