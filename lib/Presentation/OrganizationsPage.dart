@@ -18,22 +18,6 @@ class OrganizationPage extends StatefulWidget {
 }
 
 class _OrganizationsPage extends State<OrganizationPage> {
-  final List<String> entries = <String>[
-    'Alpha Phi Omega',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M'
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -127,7 +111,11 @@ Container createOrgCard(BuildContext context, Organization o1) {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OrganizationInfo()),
+                    MaterialPageRoute(
+                      builder: (context) => OrganizationInfo(
+                        orgToDisplay: o1,
+                      ),
+                    ),
                   );
                   // Perform some action
                 },

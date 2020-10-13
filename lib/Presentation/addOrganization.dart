@@ -1,5 +1,6 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
+import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/models/organizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,8 @@ class _addOrg extends State<addOrganization> {
           //   },
           // );
           submitOrganization(context, newOrg);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => OrganizationPage()));
         },
         child: Text("Submit"),
       ),

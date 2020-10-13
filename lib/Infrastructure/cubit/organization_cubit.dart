@@ -13,7 +13,7 @@ class OrganizationCubit extends Cubit<OrganizationState> {
   void getOrgs() async {
     try {
       emit(LoadingState());
-      final organizations = await orgRepo.getOrganization();
+      final organizations = await orgRepo.getOrganizations();
       emit(LoadedState(organizations));
     } catch (e) {
       emit(ErrorState());
@@ -22,22 +22,23 @@ class OrganizationCubit extends Cubit<OrganizationState> {
 
   void addOrg(Organization o1) async {
     try {
-      emit(LoadingState());
+      //emit(LoadingState());
       await orgRepo.addOrganization(o1);
-      final organizations = await orgRepo.getOrganization();
-      emit(LoadedState(organizations));
+      //final organizations = await orgRepo.getOrganization();
+      //emit(LoadedState(organizations));
     } catch (e) {
-      emit(ErrorState());
+      // emit(ErrorState());
     }
   }
 
   void removeOrg(Organization o1) async {
     try {
-      emit(LoadingState());
-      final organizations = await orgRepo.removeOrganization(o1);
-      emit(LoadedState(organizations));
+      //emit(LoadingState());
+      await orgRepo.removeOrganization(o1);
+      //final organizations = await orgRepo.getOrganization();
+      //emit(LoadedState(organizations));
     } catch (e) {
-      emit(ErrorState());
+      // emit(ErrorState());
     }
   }
 }

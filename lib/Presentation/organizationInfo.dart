@@ -1,6 +1,11 @@
+import 'package:dutchmenserve/models/organizations.dart';
 import 'package:flutter/material.dart';
 
 class OrganizationInfo extends StatelessWidget {
+  final Organization orgToDisplay;
+
+  OrganizationInfo({Key key, @required this.orgToDisplay}) : super(key: key);
+
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -19,7 +24,7 @@ class OrganizationInfo extends StatelessWidget {
                 radius: 65.0,
                 backgroundImage: AssetImage('images/apo.jpeg'),
               ),
-              Text('Alpha Phi Omega',
+              Text(orgToDisplay.orgName,
                   style: TextStyle(
                     fontFamily: 'Pacifico',
                     color: Colors.black,
