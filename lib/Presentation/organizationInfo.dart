@@ -155,7 +155,7 @@ class OrganizationInfo extends StatelessWidget {
           ),
         ),
         floatingActionButton: Align(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.bottomRight,
           child: Column(
             children: <Widget>[
               Padding(
