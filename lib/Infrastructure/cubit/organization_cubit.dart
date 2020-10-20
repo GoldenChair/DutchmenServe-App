@@ -41,4 +41,15 @@ class OrganizationCubit extends Cubit<OrganizationState> {
       // emit(ErrorState());
     }
   }
+
+  void editOrg(Organization o1, Organization o2) async {
+    try {
+      //emit(LoadingState());
+      await orgRepo.editOrganization(o1, o2);
+      //final organizations = await orgRepo.getOrganization();
+      //emit(LoadedState(organizations));
+    } catch (e) {
+      // emit(ErrorState());
+    }
+  }
 }

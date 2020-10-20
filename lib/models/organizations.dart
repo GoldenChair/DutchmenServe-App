@@ -5,7 +5,7 @@ class Organization {
   String orgName;
   List usersIDs;
   int orgID;
-  List<int> officers;
+  List officers;
   String description;
   String email;
 
@@ -15,7 +15,7 @@ class Organization {
     @required this.email,
     this.orgID,
     this.usersIDs,
-    this.officers,
+    @required this.officers,
 
     //     @required this.orgName,
     // @required this.orgID,
