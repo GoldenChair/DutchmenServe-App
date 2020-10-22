@@ -14,7 +14,6 @@ class UsersInitial extends UsersState {
 
 class LoadingState extends UsersState {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 

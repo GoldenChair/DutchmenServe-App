@@ -4,7 +4,7 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
-import 'package:dutchmenserve/Infrastructure/reportRepository.dart';
+import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
@@ -12,12 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'ReportGroupAddStudents.dart';
-import 'ReportHoursPage.dart';
+
 
 class ReportNewHours extends StatelessWidget {
-  int _value = 1;
-
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -25,8 +22,15 @@ class ReportNewHours extends StatelessWidget {
         title: Text('New Report'),
         backgroundColor: Colors.indigo[800],
       ),
-      body: BlocProvider(
-        create: (context) => ReportCubit(FakeReportRepository()),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<EventCubit>(
+            create: (BuildContext context) => EventCubit(),
+          ),
+          BlocProvider<ReportCubit>(
+            create: (BuildContext context) => ReportCubit(),
+          ),
+        ],
         child: RNHStateful(),
       ),
     );
@@ -47,6 +51,7 @@ class _RNHState extends State<RNHStateful> {
   double _hrs = 0;
   double _partialHour = 0;
   Event _event;
+  List<DropdownMenuItem<Event>> _dropdownMenuItems;
   User _self;
 
   @override
@@ -54,36 +59,30 @@ class _RNHState extends State<RNHStateful> {
     return SingleChildScrollView(
       child: BlocBuilder<EventCubit, EventState>(
         builder: (context, state) {
-          if (state is LoadedState) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                createLTDate(),
-                createLTEvent(),
-                createLTHours(),
-                createLTAddStudents(context),
-                createLTPhotos(),
-                Center(
-                  child: RaisedButton(
-                    child: Text('Submit'),
-                    onPressed: () {
-                      // TODO: send report to repo
-                      _hrs = ((_hrsController.text) as double) + _partialHour;
-                      var b = context.bloc<ReportCubit>();
-                      b.submitReport(new Report(_event, _hrs, _self));
-                      // TODO: alert to confirm submitting report
-                      // Navigate back to report hours page
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ReportHoursPage()),
-                      );
-                    },
-                  ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              createLTDate(),
+              createLTEvent(state),
+              createLTHours(),
+              createLTAddStudents(context),
+              createLTPhotos(),
+              Center(
+                child: RaisedButton(
+                  child: Text('Submit'),
+                  onPressed: () {
+                    // TODO: send report to repo
+                    _hrs = (double.parse(_hrsController.text)) + _partialHour;
+                    var b = context.bloc<ReportCubit>();
+                    b.submitReport(new Report(_event, _hrs, _self));
+                    // TODO: alert to confirm submitting report
+                    // Navigate back to report hours page
+                    Navigator.pop(context);
+                  },
                 ),
-              ],
-            );
-          }
+              ),
+            ],
+          );
         },
       ),
     );
@@ -120,21 +119,67 @@ class _RNHState extends State<RNHStateful> {
             .then((date) {
           setState(() {
             _dateTime = date;
+            _event = null;
           });
         });
       },
     );
   }
 
-  ListTile createLTEvent() {
+  List<DropdownMenuItem<Event>> buildDropDownMenuItems(
+      List events, DateTime dt) {
+    List<DropdownMenuItem<Event>> items = List();
+    for (Event e in events) {
+      if (e.dt.isSameDate(dt)) {
+        items.add(
+          DropdownMenuItem(
+            child: Text(e.eventName),
+            value: e,
+          ),
+        );
+      }
+    }
+    return items;
+  }
+
+  ListTile createLTEvent(EventState state) {
+    if (state is LoadedState && _dateTime != null) {
+      if (state.events.isEmpty) return blank('No events on this date');
+
+      _dropdownMenuItems = buildDropDownMenuItems(state.events, _dateTime);
+      // _event = null;
+      if (_dropdownMenuItems.isEmpty) {
+        return blank('No events on this date');
+      } else {
+        return ListTile(
+          title: DropdownButton<Event>(
+            isExpanded: true,
+            value: _event,
+            onChanged: (Event newValue) {
+              setState(() {
+                _event = newValue;
+              });
+            },
+            items: _dropdownMenuItems,
+          ),
+        );
+      }
+    }
+    // else loading state or error state
+    else {
+      return blank('Select date first');
+    }
+  }
+
+  ListTile blank(String text) {
     return ListTile(
       title: Container(
         margin: EdgeInsets.symmetric(vertical: 8.0),
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
-          _event == null ? 'Event' : _event.eventName,
+          text,
           style: TextStyle(
-            color: _event == null ? Colors.grey[600] : Colors.black,
+            color: Colors.grey[600],
           ),
         ),
         decoration: BoxDecoration(
@@ -146,9 +191,6 @@ class _RNHState extends State<RNHStateful> {
           ),
         ),
       ),
-      onTap: () {
-        //TODO: show event options based on date
-      },
     );
   }
 
@@ -156,6 +198,7 @@ class _RNHState extends State<RNHStateful> {
     return ListTile(
       leading: Icon(Icons.timelapse),
       title: TextField(
+        controller: _hrsController,
         decoration: InputDecoration(
           hintText: "Hours",
         ),
@@ -213,5 +256,13 @@ class _RNHState extends State<RNHStateful> {
         },
       ),
     );
+  }
+}
+
+extension DateOnlyCompare on DateTime {
+  bool isSameDate(DateTime other) {
+    return this.year == other.year &&
+        this.month == other.month &&
+        this.day == other.day;
   }
 }

@@ -1,12 +1,13 @@
-import 'package:dutchmenserve/Infrastructure/eventRepository.dart';
+import 'package:dutchmenserve/Infrastructure/repository.dart';
+import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
-import 'Infrastructure/cubit/event_cubit.dart';
-import 'Presentation/ProfilePage.dart';
+final GetIt getIt = GetIt.instance;
 
 void main() {
+  GetIt.I.registerSingleton<Repository>(FakeRepository());
   runApp(MyApp());
 }
 
@@ -14,10 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return MaterialApp(
-      home: BlocProvider(
-        create: (context) => EventCubit(FakeEventRepository()),
-        child: InitialLoginHome(),
-      ),
+      home: InitialLoginHome(),
       routes: <String, WidgetBuilder>{
         '/profile': (BuildContext context) => new ProfilePage(),
       },
