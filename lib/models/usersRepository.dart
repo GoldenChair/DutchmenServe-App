@@ -1,7 +1,7 @@
 import 'package:dutchmenserve/models/user.dart';
 
 class userRepository {
-  Future<List<User>> getUsers() async {
+  List<User> getUsers() {
     try {
       final users = [
         User(

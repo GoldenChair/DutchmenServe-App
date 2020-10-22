@@ -33,6 +33,7 @@ dependencies:
   equatable: ^1.2.5   # import 'package:equatable/equatable.dart';
   intl: ^0.16.1
   get_it: ^5.0.1
+  flappy_search_bar: ^1.7.2
 
 dev_dependencies:
   flutter_test:

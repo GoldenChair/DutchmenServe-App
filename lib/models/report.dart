@@ -26,6 +26,8 @@ class Report {
                 username: 'ajl008')
             .getUsername() +
         ": " +
+        event.date +
+        ", " +
         event.eventName +
         ", " +
         hours.toString());

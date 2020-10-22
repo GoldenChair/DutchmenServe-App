@@ -27,6 +27,11 @@ class Event {
     if (imagePath != null) this.imagePath = imagePath;
   }
 
+  void printEvent() {
+    print(eventName + ": " + date + " | " + location);
+  }
+
+  @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
@@ -38,7 +43,5 @@ class Event {
         o.interests == interests;
   }
 
-  void printEvent() {
-    print(eventName + ": " + date + " | " + location);
-  }
+  int get hashCode => super.hashCode;
 }

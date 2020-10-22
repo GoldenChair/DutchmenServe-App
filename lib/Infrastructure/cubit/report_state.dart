@@ -10,7 +10,6 @@ class ReportInitialState extends ReportState {
 
 class ReportLoadingState extends ReportState {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 

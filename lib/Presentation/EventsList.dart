@@ -47,16 +47,6 @@ class EventsList extends StatelessWidget {
                     children: state.events
                         .map((e) => createEventCard(context, e))
                         .toList());
-              } else if (state is LoadingState) {
-                return Dialog(
-                  child: new Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      new CircularProgressIndicator(),
-                      new Text("Loading"),
-                    ],
-                  ),
-                );
               } else {
                 return Dialog(
                   child: new Row(
