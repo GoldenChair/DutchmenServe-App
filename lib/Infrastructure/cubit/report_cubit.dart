@@ -1,14 +1,14 @@
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
-import 'package:dutchmenserve/Infrastructure/reportRepository.dart';
+import 'package:dutchmenserve/Infrastructure/repository.dart';
+import 'package:dutchmenserve/main.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'event_state.dart';
-
 class ReportCubit extends Cubit<ReportState> {
-  final ReportRepository _repository;
+  Repository _repository;
 
-  ReportCubit(this._repository) : super(ReportInitialState()) {
+  ReportCubit() : super(ReportInitialState()) {
+    _repository = getIt<Repository>();
     getReports();
   }
 

@@ -1,9 +1,11 @@
+import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
+import 'package:dutchmenserve/Presentation/EventsList.dart';
+import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
+import 'package:dutchmenserve/Presentation/homePage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
-
-import 'EventsList.dart';
-import 'EventsOngoing.dart';
-import 'homePage.dart';
 
 class EventsCalendar extends StatelessWidget {
   @override
@@ -34,18 +36,23 @@ class EventsCalendar extends StatelessWidget {
           )
         ],
       ),
-      body: Column(children: [
-        OppsCalendarStateful(),
-        RaisedButton(
-          child: Text('See Ongoing Events'),
-          onPressed: () {
-            Navigator.push(
-              ctxt,
-              MaterialPageRoute(builder: (context) => EventsOngoing()),
-            );
-          },
+      body: BlocProvider<EventCubit>(
+        create: (context) => EventCubit(),
+        child: Column(
+          children: [
+            OppsCalendarStateful(),
+            RaisedButton(
+              child: Text('See Ongoing Events'),
+              onPressed: () {
+                Navigator.push(
+                  ctxt,
+                  MaterialPageRoute(builder: (context) => EventsOngoing()),
+                );
+              },
+            ),
+          ],
         ),
-      ]),
+      ),
     );
   }
 }
@@ -74,8 +81,12 @@ class _OCalState extends State<OppsCalendarStateful> {
 
   @override
   Widget build(BuildContext context) {
-    return TableCalendar(
-      calendarController: _calendarController,
+    return BlocBuilder<EventCubit, EventState>(
+      builder: (context, state) {
+        return TableCalendar(
+          calendarController: _calendarController,
+        );
+      },
     );
   }
 }

@@ -11,7 +11,6 @@ class InitialState extends EventState {
 
 class LoadingState extends EventState {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 

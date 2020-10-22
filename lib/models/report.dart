@@ -1,6 +1,5 @@
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';
-import 'package:flutter/material.dart';
 
 class Report {
   Event event;
@@ -18,7 +17,19 @@ class Report {
   }
 
   void printReport() {
-    print(
-        user.getUsername() + ": " + event.eventName + ", " + hours.toString());
+    print(User(
+                emailAddress: 'ajl008@lvc.edu',
+                events: [],
+                interests: [],
+                org: [],
+                password: null,
+                username: 'ajl008')
+            .getUsername() +
+        ": " +
+        event.date +
+        ", " +
+        event.eventName +
+        ", " +
+        hours.toString());
   }
 }
