@@ -1,7 +1,21 @@
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/repository.dart';
+import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
+import 'package:dutchmenserve/models/organizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'interestSelection.dart';
+
+class OrgPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<OrganizationCubit>(
+        create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
+        child: addOrganization());
+  }
+}
 
 class addOrganization extends StatefulWidget {
   addOrganization({Key key}) : super(key: key);
@@ -13,11 +27,21 @@ class addOrganization extends StatefulWidget {
 }
 
 class _addOrg extends State<addOrganization> {
+  Organization newOrg = new Organization(orgName: null);
+  final orgName = TextEditingController();
+  //newOrg.orgName(orgName.text);
+  // newOrg.setOrgName(orgName.text);
+  @override
+  void dispose() {
+    super.dispose();
+    orgName.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Organization'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -25,56 +49,41 @@ class _addOrg extends State<addOrganization> {
           child: Column(
             children: [
               SizedBox(
-                height: 70,
+                height: 50,
               ),
-              SizedBox(
-                height: 70,
-              ),
-              TextField(
-                  decoration: new InputDecoration(
-                border: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black)),
-                hintText: 'U S E R N A M E',
-              )),
-              SizedBox(height: 30),
-              TextField(
-                  decoration: new InputDecoration(
-                border: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black)),
-                hintText: 'P A S S W O R D',
-              )),
-              SizedBox(height: 30),
-              TextField(
-                  decoration: new InputDecoration(
-                border: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black)),
-                hintText: 'C O N F I R M   P A S S W O R D',
-              )),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: RaisedButton(
-                    color: Colors.blue[800],
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => SelectInterests()));
-                    },
-                    child: Text('Next ',
-                        style: TextStyle(
-                          fontSize: 20,
-                        )),
-                  ),
-                ),
-              ),
+              TextFormField(
+                controller: orgName,
+                decoration: InputDecoration(
+                    icon: Icon(Icons.group), labelText: 'Name *'),
+              )
             ],
           ),
         ),
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          newOrg.setOrgName(orgName.text);
+          newOrg.printOrgName();
+          // return showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return AlertDialog(
+          //       content: Text(orgName.text),
+          //     );
+          //   },
+          // );
+          submitOrganization(context, newOrg);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => OrganizationPage()));
+        },
+        child: Text("Submit"),
+      ),
     );
+  }
+
+  void submitOrganization(BuildContext context, Organization org) {
+    //final orgCubit;
+    final orgCubit = context.bloc<OrganizationCubit>();
+    orgCubit.addOrg(org);
   }
 }

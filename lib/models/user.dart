@@ -11,6 +11,7 @@ class User {
   List org; //will be org ID num
   String imagePath;
   List events;
+  int id;
 
   User({
     @required this.username,
@@ -21,37 +22,38 @@ class User {
     @required this.events,
     this.firstName,
     this.lastName,
+    this.id,
     this.imagePath,
   });
 
 // user() {}
-// void setUsername(String name) {
-//   username = name;
-// }
+  void setUsername(String name) {
+    this.username = name;
+  }
 
-// void setEmail() {
-//   emailAddress = username + "@lvc.edu";
-// }
+  void setEmail() {
+    emailAddress = username + "@lvc.edu";
+  }
 
-// void addInterests() {
-//   // needs.add(value);
-// }
-// void addOrganizzation() {
-//   //org.add(value);
-// }
+  void addInterests() {
+    // needs.add(value);
+  }
+  void addOrganizzation() {
+    //org.add(value);
+  }
   String getUsername() {
     return username;
   }
 
-// String getEmail() {
-//   return emailAddress;
-// }
+  String getEmail() {
+    return emailAddress;
+  }
 
-// List getNeeds() {
-//   return needs;
-// }
+  List getNeeds() {
+    return interests;
+  }
 
-// List getOrg() {
-//   return org;
-// }
+  List getOrg() {
+    return org;
+  }
 }
