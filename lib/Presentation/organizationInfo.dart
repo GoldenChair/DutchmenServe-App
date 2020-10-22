@@ -14,6 +14,7 @@ class OrgInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<OrganizationCubit>(
         create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
+        //put bloc builder
         child: OrganizationInfo(
           orgToDisplay: orgToDisplay,
         ));
@@ -93,22 +94,19 @@ class OrganizationInfo extends StatelessWidget {
                 //   ),
                 // ),
 
-                Container(
-                  //height: 200,
-                  child: ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(20.0),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: createOfficers(
-                            context, orgToDisplay.officers[index]),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                    itemCount: orgToDisplay.officers.length,
-                  ),
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(20.0),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child:
+                          createOfficers(context, orgToDisplay.officers[index]),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                  itemCount: orgToDisplay.officers.length,
                 ),
                 SizedBox(
                     height: 20.0,
