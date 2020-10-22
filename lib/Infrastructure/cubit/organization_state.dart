@@ -7,13 +7,13 @@ abstract class OrganizationState extends Equatable {
   // List<Object> get props => [];
 }
 
-class OrganizationInitial extends OrganizationState { @override
+class OrganizationInitial extends OrganizationState {
+  @override
   List<Object> get props => [];
 }
 
 class LoadingState extends OrganizationState {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -30,4 +30,5 @@ class ErrorState extends OrganizationState {
   @override
   List<Object> get props => [];
 }
+
 

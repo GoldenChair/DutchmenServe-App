@@ -1,11 +1,7 @@
 import 'dart:ui';
 
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-
 import 'homePage.dart';
-import 'profilePage.dart';
 
 // class LoginHome extends StatelessWidget {
 //   @override

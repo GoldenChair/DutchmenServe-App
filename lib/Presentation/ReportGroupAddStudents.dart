@@ -1,22 +1,20 @@
 // Additional page for when reporting new hours for a group
 // to allow user to check the students/organizations to include
 
-//TODO: clean up, fix checkboxes and list
+import 'dart:convert';
 
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-
-class NewGroup {
-  bool isExpanded;
-  final String header;
-  final Widget body;
-  NewGroup(this.isExpanded, this.header, this.body);
-}
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 class ReportGroupAddStudents extends StatelessWidget {
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: BlocProvider<UsersCubit>(
+        create: (BuildContext context) => UsersCubit()..getUsers(),
         child: AddStudentsStateful(),
       ),
     );
@@ -31,89 +29,13 @@ class AddStudentsStateful extends StatefulWidget {
 }
 
 class _AddStudentsState extends State<AddStudentsStateful> {
-  bool checked = false;
+  List<User> users = [];
 
-  // data: list of student names
-  List<NewGroup> items = <NewGroup>[
-    NewGroup(
-      false, // isExpanded ?
-      'Alpha Phi Omega', // header
-      Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            Text('Student'),
-          ],
-        ),
-      ), // body
-    ),
-    NewGroup(
-      false, // isExpanded ?
-      'Gamma Sigma Sigma', // header
-      Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            CheckboxListTile(
-                title: Text('Mackenzie Stewart'),
-                value: false,
-                onChanged: (newValue) {
-                  // setState(() {
-                  //   val = newValue;
-                  // });
-                }),
-            CheckboxListTile(
-              title: Text('Allison Liu'),
-              value: false,
-              onChanged: (bool value) {},
-            ),
-          ],
-        ),
-      ), // body
-    ),
-  ];
-
-  ListView List_Criteria;
+  _AddStudentsState({Key key});
 
   @override
   Widget build(BuildContext context) {
-    List_Criteria = ListView(
-      children: [
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: ExpansionPanelList(
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                items[index].isExpanded = !items[index].isExpanded;
-              });
-            },
-            children: items.map((NewGroup item) {
-              return ExpansionPanel(
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                      leading: Checkbox(
-                        value: false,
-                        onChanged: (bool newValue) {},
-                      ),
-                      title: Text(
-                        item.header,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ));
-                },
-                isExpanded: item.isExpanded,
-                body: item.body,
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-
-    Scaffold scaffold = Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('New Report- Add Students'),
         backgroundColor: Colors.indigo[800],
@@ -125,7 +47,8 @@ class _AddStudentsState extends State<AddStudentsStateful> {
               color: Colors.white,
             ),
             onPressed: () {
-              // TODO: add students and return to new report
+              // TODO: pass list of students to previous page, return to new report
+              Navigator.pop(context, users);
             },
           )
         ],
@@ -135,9 +58,127 @@ class _AddStudentsState extends State<AddStudentsStateful> {
         //   },
         // ),
       ),
-      body: List_Criteria,
+      body: BlocBuilder<UsersCubit, UsersState>(
+        builder: (context, state) {
+          if (state is LoadedState) {
+            List<Entry> data = generateData(state.users);
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) => EntryItemWidget(
+                data[index],
+                users,
+              ),
+            );
+          } else {
+            //TODO: make this look nicer
+            return Text('Loading...');
+          }
+        },
+      ),
     );
+  }
+}
 
-    return scaffold;
+class Entry {
+  final String name;
+  final List<Entry> members;
+  User user;
+
+  Entry(this.name, {this.members = const <Entry>[], this.user});
+}
+
+List<Entry> generateData(List<User> users) {
+  List<Entry> data;
+  // for (User u in users) {
+  //   data.add(Entry(u.getUsername(), user: u));
+  // }
+  data = <Entry>[
+    Entry(users[1].username, user: users[1]),
+    Entry(users[1].username, user: users[1]),
+    // Entry('Alpha Phi Omega', members: <Entry>[
+    //   Entry(users[1].getUsername(), user: users[1]),
+    //   Entry('Person 2',
+    //       user: User(
+    //           username: 'Person2',
+    //           password: null,
+    //           emailAddress: null,
+    //           interests: null,
+    //           org: null,
+    //           events: null)),
+    // ]),
+    // Entry('Colleges Against Cancer', members: <Entry>[
+    //   Entry('Allison Liu',
+    //       user: User(
+    //           username: 'ajl008',
+    //           password: null,
+    //           emailAddress: null,
+    //           interests: null,
+    //           org: null,
+    //           events: null)),
+    //   Entry('Mackenzie Stewart',
+    //       user: User(
+    //           username: 'mjs016',
+    //           password: null,
+    //           emailAddress: null,
+    //           interests: null,
+    //           org: null,
+    //           events: null)),
+    // ]),
+  ];
+  return data;
+}
+
+class EntryItemWidget extends StatefulWidget {
+  EntryItemWidget(this.entry, this.users);
+  final Entry entry;
+  List<User> users;
+
+  @override
+  EntryItemWidgetState createState() => EntryItemWidgetState(entry, users);
+}
+
+class EntryItemWidgetState extends State<EntryItemWidget> {
+  EntryItemWidgetState(this.entry, this.users);
+  final Entry entry;
+  List<User> users;
+
+  Widget _buildTiles(Entry root) {
+    if (root.members.isEmpty) {
+      return CheckboxListTile(
+        title: Text(root.name),
+        onChanged: (bool newValue) {
+          onUserSelected(newValue, root.user);
+        },
+        value: users == null ? false : users.contains(root.user),
+      );
+    }
+    return ExpansionTile(
+      key: PageStorageKey<Entry>(root),
+      title: Text(root.name),
+      leading: Checkbox(
+        value: false,
+        onChanged: (bool newValue) {
+          //TODO: make all member checkboxes true, and add all users to users list
+        },
+      ),
+      children: root.members.map<Widget>(_buildTiles).toList(),
+    );
+  }
+
+  void onUserSelected(bool selected, User u) {
+    if (selected) {
+      setState(() {
+        users.add(u);
+      });
+    } else {
+      setState(() {
+        users.remove(u);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildTiles(entry);
   }
 }

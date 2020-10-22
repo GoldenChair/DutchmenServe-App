@@ -1,4 +1,5 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/Presentation/addOrganization.dart';
 import 'package:dutchmenserve/models/organizations.dart';
 import 'package:dutchmenserve/models/organizationsRepository.dart';
@@ -17,26 +18,10 @@ class OrganizationPage extends StatefulWidget {
 }
 
 class _OrganizationsPage extends State<OrganizationPage> {
-  final List<String> entries = <String>[
-    'Alpha Phi Omega',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M'
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrganizationCubit(orgRepo: OrganizationRepository()),
+      create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
       child: Scaffold(
         appBar: AppBar(
           title: Text("LVC Service Organizations"),
@@ -59,7 +44,7 @@ class _OrganizationsPage extends State<OrganizationPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => addOrganization()));
+                new MaterialPageRoute(builder: (context) => OrgPage()));
           },
           child: Icon(Icons.add),
         ),
@@ -126,7 +111,11 @@ Container createOrgCard(BuildContext context, Organization o1) {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OrganizationInfo()),
+                    MaterialPageRoute(
+                      builder: (context) => OrgInfo(
+                        orgToDisplay: o1,
+                      ),
+                    ),
                   );
                   // Perform some action
                 },
