@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
-import 'package:dutchmenserve/models/organizations.dart';
+import 'package:dutchmenserve/models/organization.dart';
 import 'package:equatable/equatable.dart';
 
 part 'organization_state.dart';
