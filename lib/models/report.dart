@@ -54,6 +54,10 @@ class Report {
     this.id = id;
   }
 
+  void delete() {
+    deleted = true;
+  }
+
   void printReport() {
     print(User(
                 emailAddress: 'ajl008@lvc.edu',
