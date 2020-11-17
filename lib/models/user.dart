@@ -11,7 +11,7 @@ class User {
   String username;
   String emailAddress;
   List<String> interests;
-  List<Organization> organizations; 
+  List<Organization> organizations;
   String imagePath;
   List<Event> events;
   int id;
@@ -35,7 +35,8 @@ class User {
     this.password = json['password'];
     this.emailAddress = json['emailAddress'];
     this.interests = List<String>.from(json['interests']);
-    this.organizations = parseListO(List<Map<String, dynamic>>.from(json['org']));
+    this.organizations =
+        parseListO(List<Map<String, dynamic>>.from(json['org']));
     this.events = parseList(List<Map<String, dynamic>>.from(json['events']));
     this.id = int.parse(json['id']);
   }
@@ -47,6 +48,7 @@ class User {
     }
     return res;
   }
+
   List<Organization> parseListO(List<Map<String, dynamic>> json) {
     List<Organization> res = [];
     for (int i = 0; i < json.length; i++) {
@@ -69,6 +71,10 @@ class User {
 // user() {}
   void setUsername(String name) {
     this.username = name;
+  }
+
+  void setID(int id) {
+    this.id = id;
   }
 
   void setEmail() {

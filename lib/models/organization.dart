@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 class Organization {
   String orgName;
   List users;
-  int orgID;
+  int id;
   List officers;
   String description;
   String email;
@@ -19,12 +19,9 @@ class Organization {
     @required this.email,
     @required this.officers,
     this.users,
-    this.orgID,
+    this.id,
+    this.imagepath,
     this.deleted = false,
-    //     @required this.orgName,
-    // @required this.orgID,
-    // @required this.usersIDs,
-    // @required this.officers,
   });
 
   // another constructor given a json Map
@@ -32,7 +29,7 @@ class Organization {
     this.orgName = json['orgName'];
     this.description = json['description'];
     this.email = json['email'];
-    this.orgID = int.parse(json['orgID']);
+    this.id = int.parse(json['id']);
     this.users = parseList(List<Map<String, dynamic>>.from(json['users']));
     this.officers =
         parseList(List<Map<String, dynamic>>.from(json['officers']));
@@ -66,6 +63,14 @@ class Organization {
         'imagePath': imagepath,
         'deleted': deleted,
       };
+
+  void setID(int id) {
+    this.id = id;
+  }
+
+  void delete() {
+    this.deleted = true;
+  }
 
   void setOrgName(String s) {
     this.orgName = s;
