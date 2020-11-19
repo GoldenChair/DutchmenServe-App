@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from dutchserve.models import Event
+from .models import Event
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['eventName']
+        field = ('event_name', 'pub_date')
