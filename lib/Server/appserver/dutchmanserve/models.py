@@ -26,22 +26,23 @@ class Event(models.Model):
     ]
 
     event_name = models.CharField(max_length=45)
-    event_id = models.IntegerField()
+    #event_id = models.AutoField(primary_key =True)
     pub_date = models.DateTimeField('Date')
-    location = models.CharField(max_length = 50)
-    event_description = models.TextField(max_length=500)
-    interests = models.CharField(max_length = 5, choices = interest_choices)
+    location = models.CharField(max_length = 50, default = 'Lebanon Valley College')
+    event_description = models.TextField(max_length=500, blank=True)
+    interests = models.CharField(max_length = 5, choices = interest_choices, default = interest1)
     #need to add users
       
 
 class Organization(models.Model):
     org_name = models.CharField(max_length = 30)
-    org_id = models.IntegerField()
+    ##org_id = models.AutoField
     description = models.TextField(max_length=400)
     email = models.EmailField(max_length = 254)
     ##Need officers and users
 
 class User(models.Model):
+    ##user_id = models.AutoField()
     first_name = models.CharField(max_length = 12)
     last_name = models.CharField(max_length = 20)
     username = models.CharField(max_length = 10)
