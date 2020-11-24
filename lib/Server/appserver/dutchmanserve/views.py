@@ -25,27 +25,26 @@ def event_view(request):
         event_post = Event.objects.all()
     except Event.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
     if request.method == 'GET':
         serializer = EventSerializer(event_post, many = True)
-        return Response(serializer.data)
+        t = {'id':'test'}
+        return Response(t)
 #Get specific event
 @api_view(['GET'])
-def specific_event_view(request, ev, format = None):
+def specific_event_view(request, pk, format = None):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        event_post = Event.objects.get(ev = ev)
+        event_post = Event.objects.get(event_name = pk)
     except Event.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer = EventSerializer(event_post, many = True)
+        serializer = EventSerializer(event_post, many = False)
         return Response(serializer.data)
 #add an event
 @api_view(['POST',])
 def create_event_view(request):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
-
     if request.method == 'POST':
         serializer = EventSerializer(data=request.data)
         if serializer.is_valid():
@@ -54,10 +53,10 @@ def create_event_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #update event
 @api_view(['PUT',])
-def update_event_view(request, ev):
+def update_event_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        event_post = Event.objects.get(ev = ev)
+        event_post = Event.objects.get(id = pk)
     except Event.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'PUT':
@@ -68,10 +67,10 @@ def update_event_view(request, ev):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #delete event
 @api_view(['DELETE',])
-def delete_event_view(request, ev):
+def delete_event_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        event_post = Event.objects.get(ev = ev)
+        event_post = Event.objects.get(id = pk)
     except Event.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -94,15 +93,15 @@ def org_view(request):
         return Response(serializer.data)
 #Get specific org
 @api_view(['GET'])
-def specific_org_view(request, org, format = None):
+def specific_org_view(request, pk, format = None):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        org_post = Event.objects.get(org = org)
+        org_post = Event.objects.get(id = pk)
     except Organization.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer = OrganizationSerializer(org_post, many = True)
+        serializer = OrganizationSerializer(org_post, many = False)
         return Response(serializer.data)
 #add an org
 @api_view(['POST',])
@@ -117,10 +116,10 @@ def create_org_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #update org
 @api_view(['PUT',])
-def update_org_view(request, org):
+def update_org_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        org_post = Organization.objects.get(org = org)
+        org_post = Organization.objects.get(id = pk)
     except Organization.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'PUT':
@@ -131,10 +130,10 @@ def update_org_view(request, org):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #delete organization
 @api_view(['DELETE',])
-def delete_org_view(request, org):
+def delete_org_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        org_post = Organization.objects.get(org = prg)
+        org_post = Organization.objects.get(id = pk)
     except Event.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -167,10 +166,10 @@ def create_user_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #update user
 @api_view(['PUT',])
-def update_user_view(request, org):
+def update_user_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        user_post = User.objects.get(org = org)
+        user_post = User.objects.get(id = pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'PUT':
@@ -179,9 +178,9 @@ def update_user_view(request, org):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+#portal.lvc.edu
 ## Report
-##GET all events
+##GET all reports
 @api_view(['GET'])
 def reports_view(request):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
@@ -195,15 +194,15 @@ def reports_view(request):
         return Response(serializer.data)
 #Get specific report
 @api_view(['GET'])
-def specific_report_view(request, ev, format = None):
+def specific_report_view(request, pk, format = None):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        report_post = Report.objects.get(ev = ev)
+        report_post = Report.objects.get(id = pk)
     except Report.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer = ReportSerializer(report_post, many = True)
+        serializer = ReportSerializer(report_post, many = False)
         return Response(serializer.data)
 #add a report
 @api_view(['POST',])
@@ -217,10 +216,10 @@ def create_report_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #update report
 @api_view(['PUT',])
-def update_report_view(request, re):
+def update_report_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        report_post = Report.objects.get(re =re)
+        report_post = Report.objects.get(id =pk)
     except Report.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'PUT':
@@ -231,10 +230,10 @@ def update_report_view(request, re):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #delete report
 @api_view(['DELETE',])
-def delete_report_view(request, re):
+def delete_report_view(request, pk):
     #return HttpResponse("Hello, world. You're at the dutchmanserve index.")
     try:
-        report_post = Report.objects.get(re =re)
+        report_post = Report.objects.get(id =pk)
     except Report.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     

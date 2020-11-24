@@ -7,19 +7,19 @@ from .models import Report
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['eventName','pub_date','location','event_description','interests']
+        fields = '__all__'
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ['org_name','description','email']
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name','last_name','username','password','email']
+        fields = '__all__'
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
-        fields = ['hpurs']
+        fields = '__all__'
