@@ -19,7 +19,7 @@ class ProfilePageState extends State<ProfilePage> {
     emailAddress: "mjs016@lvc.edu",
     events: [],
     interests: [],
-    org: [],
+    organizations: [],
     password: null,
     username: "mjs016",
     firstName: "Mackenzie ",

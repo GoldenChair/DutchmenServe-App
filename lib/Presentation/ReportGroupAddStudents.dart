@@ -1,8 +1,6 @@
 // Additional page for when reporting new hours for a group
 // to allow user to check the students/organizations to include
 
-import 'dart:convert';
-
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +26,31 @@ class AddStudentsStateful extends StatefulWidget {
   _AddStudentsState createState() => _AddStudentsState();
 }
 
-class _AddStudentsState extends State<AddStudentsStateful> {
+class _AddStudentsState extends State<AddStudentsStateful>
+    with SingleTickerProviderStateMixin {
   List<User> users = [];
 
   _AddStudentsState({Key key});
+
+  AnimationController _animationController;
+  Animation<Color> _colorTween;
+
+  void initState() {
+    _animationController = AnimationController(
+      duration: Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _colorTween = _animationController
+        .drive(ColorTween(begin: Colors.yellow, end: Colors.blue));
+    _animationController.repeat();
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    _animationController.dispose(); // you need this
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +89,9 @@ class _AddStudentsState extends State<AddStudentsStateful> {
               ),
             );
           } else {
-            //TODO: make this look nicer
-            return Text('Loading...');
+            return CircularProgressIndicator(
+              valueColor: _colorTween,
+            );
           }
         },
       ),

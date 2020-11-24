@@ -1,7 +1,9 @@
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
+import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReportCubit extends Cubit<ReportState> {
@@ -27,7 +29,8 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> submitReport(Report r) async {
     try {
       emit(ReportLoadingState());
-      await _repository.submitReport(r);
+      int id = await _repository.addReport(r);
+      r.setID(id);
       final reports = await _repository.getReports();
       emit(ReportLoadedState(reports));
     } catch (e) {
@@ -48,10 +51,20 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   // jen wants to edit report
-  Future<void> editReport(Report oldr, Report newr) async {
+  Future<void> editReport(Report oldr,
+      {Event event,
+      double hours,
+      User user,
+      List<User> additional,
+      List<String> imagepaths}) async {
     try {
       emit(ReportLoadingState());
-      await _repository.editReport(oldr, newr);
+      await _repository.updateReport(oldr,
+          event: event,
+          hours: hours,
+          user: user,
+          additional: additional,
+          imagepaths: imagepaths);
       final reports = await _repository.getReports();
       emit(ReportLoadedState(reports));
     } catch (e) {
