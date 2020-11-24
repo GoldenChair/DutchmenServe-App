@@ -30,6 +30,7 @@ class Report {
         parseList(List<Map<String, dynamic>>.from(json['additional']));
     this.imagepaths = List.from(json['imagepaths']);
     this.deleted = json['deleted'];
+    this.id = json['id']; 
   }
 
   List<User> parseList(List<Map<String, dynamic>> json) {
@@ -48,6 +49,7 @@ class Report {
         'additional': jsonEncode(additional),
         'imagePath': jsonEncode(imagepaths),
         'deleted': deleted,
+        'id': id,
       };
 
   void setID(int id) {

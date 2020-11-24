@@ -7,8 +7,11 @@ import 'package:get_it/get_it.dart';
 final GetIt getIt = GetIt.instance;
 
 void main() {
-  GetIt.I.registerSingleton<Repository>(FakeRepository());
-  runApp(MyApp());
+  // GetIt.I.registerSingleton<Repository>(FakeRepository());
+  // runApp(MyApp());
+
+  Repository repo = new FakeRepository();
+  repo.
 }
 
 class MyApp extends StatelessWidget {

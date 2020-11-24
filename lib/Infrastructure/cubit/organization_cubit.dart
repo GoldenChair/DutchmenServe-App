@@ -31,10 +31,10 @@ class OrganizationCubit extends Cubit<OrganizationState> {
     }
   }
 
-  void removeOrg(Organization o1) async {
+  void removeOrg(Organization o) async {
     try {
       //emit(LoadingState());
-      await orgRepo.removeOrganization(o1);
+      await orgRepo.deleteOrganization(o);
       //final organizations = await orgRepo.getOrganization();
       //emit(LoadedState(organizations));
     } catch (e) {
@@ -42,10 +42,22 @@ class OrganizationCubit extends Cubit<OrganizationState> {
     }
   }
 
-  void editOrg(Organization o1, Organization o2) async {
+  void editOrg(Organization o1,
+      {String orgName,
+      List users,
+      List officers,
+      String description,
+      String email,
+      String imagepath}) async {
     try {
       //emit(LoadingState());
-      await orgRepo.editOrganization(o1, o2);
+      await orgRepo.updateOrganization(o1,
+          orgName: orgName,
+          users: users,
+          officers: officers,
+          description: description,
+          email: email,
+          imagepath: imagepath);
       //final organizations = await orgRepo.getOrganization();
       //emit(LoadedState(organizations));
     } catch (e) {

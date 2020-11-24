@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
+import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:equatable/equatable.dart';
 
@@ -15,7 +16,13 @@ class UsersCubit extends Cubit<UsersState> {
         User(
           emailAddress: "mjs016@lvc.edu",
           interests: ['animals'],
-          org: [1],
+          organizations: [
+            Organization(
+                description: 'hi',
+                email: 'ajl008',
+                officers: [],
+                orgName: 'Name')
+          ],
           password: "password",
           username: "mjs016",
           events: [],
@@ -23,7 +30,13 @@ class UsersCubit extends Cubit<UsersState> {
         User(
           emailAddress: "ajl008@lvc.edu",
           interests: ['community'],
-          org: [1, 2, 3],
+          organizations: [
+            Organization(
+                description: 'hi',
+                email: 'ajl008',
+                officers: [],
+                orgName: 'Name')
+          ],
           password: "password",
           username: "ajl008",
           events: [],
@@ -31,7 +44,13 @@ class UsersCubit extends Cubit<UsersState> {
         User(
           emailAddress: "yarnall@lvc.edu",
           interests: ['computers'],
-          org: [3],
+          organizations: [
+            Organization(
+                description: 'hi',
+                email: 'ajl008',
+                officers: [],
+                orgName: 'Name')
+          ],
           password: "password",
           username: "yarnall",
           events: [],

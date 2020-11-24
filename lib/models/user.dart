@@ -23,8 +23,8 @@ class User {
     @required this.interests,
     @required this.organizations,
     @required this.events,
-    this.firstName,
-    this.lastName,
+    @required this.firstName,
+    @required this.lastName,
     this.id,
     this.imagePath,
   });
@@ -39,6 +39,8 @@ class User {
         parseListO(List<Map<String, dynamic>>.from(json['org']));
     this.events = parseList(List<Map<String, dynamic>>.from(json['events']));
     this.id = int.parse(json['id']);
+    this.firstName = json['firstName'];
+    this.lastName = json['lastName'];
   }
 
   List<Event> parseList(List<Map<String, dynamic>> json) {
@@ -66,6 +68,9 @@ class User {
         'organizations': jsonEncode(organizations),
         'imagePath': imagePath,
         'events': jsonEncode(events),
+        'firstName': jsonEncode(firstName),
+        'lastName': jsonEncode(lastName),
+        'id': jsonEncode(id),
       };
 
 // user() {}
