@@ -27,8 +27,8 @@ def event_view(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = EventSerializer(event_post, many = True)
-        t = {'id':'test'}
-        return Response(t)
+        t = {'id':'1'}
+        return Response(serializer.data)
 #Get specific event
 @api_view(['GET'])
 def specific_event_view(request, pk, format = None):
