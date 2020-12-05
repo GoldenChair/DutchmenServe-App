@@ -9,49 +9,52 @@ class Event {
   String date;
   String location;
   String description;
-  List<String> interests;
+  String imagePath;
   bool deleted;
-
   List<User> registered;
+  List<String> interests;
 
   DateTime dt;
-  String imagePath;
 
   // constructor
   Event(String eventName, String date, String location, String description,
       List<String> interests,
-      {String imagePath}) {
+      {int id, String imagePath}) {
     this.eventName = eventName;
     this.date = date;
-    this.dt = DateFormat('M/d/yy').add_jm().parse(date);
     this.location = location;
     this.description = description;
-    this.interests = interests;
-    this.registered = [];
     this.deleted = false;
-    if (imagePath != null) this.imagePath = imagePath;
+    this.interests = interests;
+    this.imagePath = imagePath;
+    this.id = id;
+    this.registered = [];
+    this.dt = DateFormat('M/d/yy').add_jm().parse(date);
   }
 
   // another constructor given a json Map
   Event.fromJSON(Map<String, dynamic> json)
-      : eventName = json['eventName'],
+      : id = int.parse(json['id']),
+        eventName = json['eventName'],
         date = json['date'],
         location = json['location'],
         description = json['description'],
-        interests = List.from(json['interests']),
         imagePath = json['imagePath'],
-        id = int.parse(json['id']),
-        deleted = json['deleted'];
+        deleted = json['deleted'],
+        interests = json['interests'],
+        registered = json['registered'];
 
   // convert Event to a json Map
   Map<String, dynamic> toJSON() => {
+        'id': id,
         'eventName': eventName,
         'date': date,
         'location': location,
         'description': description,
-        'interests': jsonEncode(interests),
         'imagePath': imagePath,
         'deleted': deleted,
+        'interests': jsonEncode(interests),
+        'registered': jsonEncode(registered),
       };
 
   void printEvent() {
@@ -62,12 +65,17 @@ class Event {
     this.id = id;
   }
 
+  void changeDate(String newdate) {
+    date = newdate;
+    dt = DateFormat('M/d/yy').add_jm().parse(newdate);
+  }
+
   void delete() {
     this.deleted = true;
   }
 
   @override
-  bool operator ==(Object o) {
+  bool operator == (Object o) {
     if (identical(this, o)) return true;
 
     return o is Event &&
@@ -78,5 +86,4 @@ class Event {
         o.interests == interests;
   }
 
-  int get hashCode => super.hashCode;
 }
