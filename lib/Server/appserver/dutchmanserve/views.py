@@ -11,6 +11,8 @@ from .models import User
 from .serializers import UserSerializer
 from .models import Report
 from .serializers import ReportSerializer
+from .models import Interests
+from .serializers import InterestSerializer
 
 # Create your views here.
 def index(request):
@@ -179,3 +181,43 @@ def specific_report_view(request, pk, format = None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+##Interests
+@api_view(['GET','POST'])##Get all the interests or create a new one
+def interest_view(request, format = None):
+    try:
+        interest_item = Interests.objects.all()
+    except Interests.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = InterestSerializer(interest_item, many = True)
+        return Response(serializer.data)
+    #Create a new report
+    if request.method == 'POST':
+        serializer = InterestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def specific_interest(request, pk, format = None):
+    try:
+        int_item = Interests.objects.get(id = pk)
+    except Interests.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    #Get a specific report
+    if request.method == 'GET':
+        serializer = InterestSerializer(int_item, many = False)
+        return Response(serializer.data)
+    #edit a specific report or delete
+    if request.method == 'PUT':
+        serializer = InterestSerializer(int_item,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #delete an interest
+    if request.method == 'DELETE':
+        int_item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -11,6 +11,8 @@ from .views import specific_users_view
 from .views import specific_report_view
 from .views import org_view
 from .views import reports_view
+from .views import interest_view
+from .views import specific_interest
 
 
 app_name = 'dutchmanserve'
@@ -27,6 +29,11 @@ urlpatterns = [
     #report
     path('report/<int:pk>/', views.specific_report_view,name='specific report'),
     path('report', views.reports_view,name='reports'),
+    #interests
+    path('interests', views.interest_view,name='get all or create a new interest'),
+    path('interests/<int:pk>', views.specific_interest,name='get, edit, or delete a specific interest'),
+
+
 
     ##path('', views.index, name='index'),
 ]
