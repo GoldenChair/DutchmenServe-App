@@ -13,12 +13,9 @@ final GetIt getIt = GetIt.instance;
 void main() async {
   // GetIt.I.registerSingleton<Repository>(FakeRepository());
   // runApp(MyApp());
-
-  FakeRepository fr = new FakeRepository();
-  List<Event> test = await fr.getEvents();
-  for (Event e in test) {
-    e.printEvent();
-  }
+  
+  // cd lib\Server\appserver 
+  // python manage.py runserver 5455
 }
 
 class MyApp extends StatelessWidget {

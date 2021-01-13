@@ -4,83 +4,109 @@ import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class Organization {
-  String orgName;
-  List users;
   int id;
-  List officers;
+  String orgName;
   String description;
   String email;
   String imagepath;
+  List members;
+  List officers;
   bool deleted;
 
-  Organization({
-    @required this.orgName,
-    @required this.description,
-    @required this.email,
-    @required this.officers,
-    this.users,
-    this.id,
-    this.imagepath,
-    this.deleted = false,
-  });
-
-  // another constructor given a json Map
-  Organization.fromJSON(Map<String, dynamic> json) {
-    this.orgName = json['orgName'];
-    this.description = json['description'];
-    this.email = json['email'];
-    this.id = int.parse(json['id']);
-    this.users = parseList(List<Map<String, dynamic>>.from(json['users']));
-    this.officers =
-        parseList(List<Map<String, dynamic>>.from(json['officers']));
-    this.imagepath = json['imagepath'];
-    this.deleted = deleted;
-  }
-
-  List<User> parseList(List<Map<String, dynamic>> json) {
-    List<User> res = [];
-    for (int i = 0; i < json.length; i++) {
-      res.add(User.fromJSON(json[i]));
-    }
-    return res;
-  }
-
-  List<Organization> parseListO(List<Map<String, dynamic>> json) {
-    List<Organization> res = [];
-    for (int i = 0; i < json.length; i++) {
-      res.add(Organization.fromJSON(json[i]));
-    }
-    return res;
+  Organization(String orgName, String description,
+      {int id,
+      String email,
+      String imagepath,
+      List<int> members,
+      List<int> officers}) {
+    this.orgName = orgName;
+    this.description = description;
+    this.id = id;
+    this.email = email;
+    this.imagepath = imagepath;
+    this.members = members ?? <int>[];
+    this.officers = officers ?? <int>[];
+    deleted = false;
   }
 
   // convert Organization to a json Map
-  Map<String, dynamic> toJSON() => {
+  Map<String, dynamic> toJson() => {
         'orgName': orgName,
         'description': description,
-        'email': email,
-        'users': jsonEncode(users),
-        'officers': jsonEncode(officers),
-        'imagePath': imagepath,
+        'id': id, // may be null
+        'email': email, // may be null
+        'imagePath': imagepath, // may be null
+        'users': members,
+        'officers': officers,
         'deleted': deleted,
       };
 
-  void setID(int id) {
-    this.id = id;
+  // another constructor given a json Map
+  Organization.fromJson(Map<String, dynamic> json) {
+    orgName = json['orgName'];
+    description = json['description'];
+    id = json['id'];
+    email = json['email'];
+    imagepath = json['imagepath'];
+    members = parseList(json['users']);
+    officers = parseList(json['officers']);
+    deleted = json['deleted'];
   }
+
+  List<int> parseList(List<dynamic> json) {
+    return json != null ? List<int>.from(json) : null;
+  }
+
+  // List<User> parseList(List<Map<String, dynamic>> json) {
+  //   var res = <User>[];
+  //   for (var i = 0; i < json.length; i++) {
+  //     res.add(User.fromJSON(json[i]));
+  //   }
+  //   return res;
+  // }
+
+  // List<Organization> parseListO(List<Map<String, dynamic>> json) {
+  //   var res = <Organization>[];
+  //   for (var i = 0; i < json.length; i++) {
+  //     res.add(Organization.fromJSON(json[i]));
+  //   }
+  //   return res;
+  // }
+
+  // would it be better to add ids or User objects?
 
   void delete() {
     this.deleted = true;
   }
 
-  void setOrgName(String s) {
-    this.orgName = s;
+  void addMember(int i) {
+    members.add(i);
   }
 
-  void printOrgName() {
-    print(this.orgName);
+  void addMembers(List<int> ints) {
+    members.addAll(ints);
   }
 
-  void addMembers(User u) {
-    users.add(u);
+  void addOfficer(int i) {
+    officers.add(i);
+  }
+
+  void addOfficers(List<int> ints) {
+    officers.addAll(ints);
+  }
+
+  void printOrganization() {
+    print(orgName + ', ' + description);
+    print('id: ' + id.toString());
+    print(members.toString());
+  }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is Organization &&
+        o.orgName == orgName &&
+        o.description == description;
   }
 }

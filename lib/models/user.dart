@@ -7,104 +7,98 @@ import 'package:flutter/foundation.dart';
 class User {
   String firstName;
   String lastName;
-  String password;
   String username;
+  String password;
   String emailAddress;
-  List<String> interests;
-  List<Organization> organizations;
-  String imagePath;
-  List<Event> events;
   int id;
+  List<int> interests;
+  List<int> organizations;
+  String imagepath;
+  List<int> events;
+  // no deleted
 
-  User({
-    @required this.username,
-    @required this.password,
-    @required this.emailAddress,
-    @required this.interests,
-    @required this.organizations,
-    @required this.events,
-    @required this.firstName,
-    @required this.lastName,
-    this.id,
-    this.imagePath,
-  });
-
-  // another constructor given a json Map
-  User.fromJSON(Map<String, dynamic> json) {
-    this.username = json['username'];
-    this.password = json['password'];
-    this.emailAddress = json['emailAddress'];
-    this.interests = List<String>.from(json['interests']);
-    this.organizations =
-        parseListO(List<Map<String, dynamic>>.from(json['org']));
-    this.events = parseList(List<Map<String, dynamic>>.from(json['events']));
-    this.id = int.parse(json['id']);
-    this.firstName = json['firstName'];
-    this.lastName = json['lastName'];
-  }
-
-  List<Event> parseList(List<Map<String, dynamic>> json) {
-    List<Event> res = [];
-    for (int i = 0; i < json.length; i++) {
-      res.add(Event.fromJSON(json[i]));
-    }
-    return res;
-  }
-
-  List<Organization> parseListO(List<Map<String, dynamic>> json) {
-    List<Organization> res = [];
-    for (int i = 0; i < json.length; i++) {
-      res.add(Organization.fromJSON(json[i]));
-    }
-    return res;
+  User(String firstName, String lastName, String username, String password,
+      String emailAddress,
+      {int id,
+      List<int> interests,
+      List<int> organizations,
+      String imagepath,
+      List<int> events}) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.username = username;
+    this.password = password;
+    this.emailAddress = emailAddress;
+    this.id = id;
+    this.interests = interests;
+    this.organizations = organizations;
+    this.imagepath = imagepath;
+    this.events = events;
   }
 
   // convert User to a json Map
-  Map<String, dynamic> toJSON() => {
+  Map<String, dynamic> toJson() => {
+        'firstName': firstName,
+        'lastName': lastName,
         'username': username,
         'password': password,
         'emailAddress': emailAddress,
-        'interests': jsonEncode(interests),
-        'organizations': jsonEncode(organizations),
-        'imagePath': imagePath,
-        'events': jsonEncode(events),
-        'firstName': jsonEncode(firstName),
-        'lastName': jsonEncode(lastName),
-        'id': jsonEncode(id),
+        'id': id, // may be null
+        'interests': interests ?? [],
+        'organizations': organizations,
+        'imagepath': imagepath,
+        'events': events ?? [],
       };
 
-// user() {}
-  void setUsername(String name) {
-    this.username = name;
+  // another constructor given a json Map
+  User.fromJson(Map<String, dynamic> json) {
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    username = json['username'];
+    password = json['password'];
+    emailAddress = json['emailAddress'];
+    id = json['id'];
+    interests = parseList(json['interests']);
+    organizations = parseList(json['org']);
+    imagepath = json['imagepath'];
+    events = parseList(json['events']);
   }
 
-  void setID(int id) {
-    this.id = id;
+  List<int> parseList(List<dynamic> json) {
+    return json != null ? List<int>.from(json) : null;
   }
 
-  void setEmail() {
-    emailAddress = username + "@lvc.edu";
+  // List<Event> parseList(List<Map<String, dynamic>> json) {
+  //   List<Event> res = [];
+  //   for (int i = 0; i < json.length; i++) {
+  //     res.add(Event.fromJSON(json[i]));
+  //   }
+  //   return res;
+  // }
+
+  // List<Organization> parseListO(List<Map<String, dynamic>> json) {
+  //   List<Organization> res = [];
+  //   for (int i = 0; i < json.length; i++) {
+  //     res.add(Organization.fromJSON(json[i]));
+  //   }
+  //   return res;
+  // }
+
+  void printUser() {
+    print(lastName + ', ' + firstName);
+    print(username + ' | ' + password);
+    print('id: ' + id.toString());
+    print(interests.toString());
+    print(events.toString());
   }
 
-  void addInterests() {
-    // needs.add(value);
-  }
-  void addOrganization() {
-    //org.add(value);
-  }
-  String getUsername() {
-    return username;
-  }
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
 
-  String getEmail() {
-    return emailAddress;
-  }
-
-  List getInterests() {
-    return interests;
-  }
-
-  List getOrganizations() {
-    return organizations;
+    return o is User &&
+        o.firstName == firstName &&
+        o.lastName == lastName &&
+        o.username == username;
   }
 }
