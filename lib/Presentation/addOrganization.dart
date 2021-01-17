@@ -12,22 +12,23 @@ class OrgPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrganizationCubit>(
-        create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
-        child: addOrganization());
+      create: (context) => OrganizationCubit(),
+      child: AddOrganization(),
+    );
   }
 }
 
-class addOrganization extends StatefulWidget {
-  addOrganization({Key key}) : super(key: key);
+class AddOrganization extends StatefulWidget {
+  AddOrganization({Key key}) : super(key: key);
 
   @override
-  _addOrg createState() {
-    return _addOrg();
+  _AddOrg createState() {
+    return _AddOrg();
   }
 }
 
-class _addOrg extends State<addOrganization> {
-  Organization newOrg = new Organization(orgName: null);
+class _AddOrg extends State<AddOrganization> {
+  Organization newOrg = new Organization('OrgName', 'd');
   final orgName = TextEditingController();
   //newOrg.orgName(orgName.text);
   // newOrg.setOrgName(orgName.text);
@@ -62,8 +63,8 @@ class _addOrg extends State<addOrganization> {
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
-          newOrg.setOrgName(orgName.text);
-          newOrg.printOrgName();
+          newOrg.orgName = orgName.text;
+          print(newOrg.orgName);
           // return showDialog(
           //   context: context,
           //   builder: (context) {
@@ -83,7 +84,7 @@ class _addOrg extends State<addOrganization> {
 
   void submitOrganization(BuildContext context, Organization org) {
     //final orgCubit;
-    final orgCubit = context.bloc<OrganizationCubit>();
+    final orgCubit = context.watch<OrganizationCubit>();
     orgCubit.addOrg(org);
   }
 }

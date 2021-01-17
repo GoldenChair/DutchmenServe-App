@@ -28,11 +28,11 @@ class ReportCubit extends Cubit<ReportState> {
   // someone wants to submit report
   Future<void> submitReport(Report r) async {
     try {
-      emit(ReportLoadingState());
-      int id = await _repository.addReport(r);
-      r.setID(id);
-      final reports = await _repository.getReports();
-      emit(ReportLoadedState(reports));
+      // emit(ReportLoadingState());
+      await _repository.addReport(r);
+
+      // final reports = await _repository.getReports();
+      // emit(ReportLoadedState(reports));
     } catch (e) {
       emit(ReportErrorState());
     }
@@ -41,34 +41,34 @@ class ReportCubit extends Cubit<ReportState> {
   // jen wants to delete report
   Future<void> deleteReport(Report r) async {
     try {
-      emit(ReportLoadingState());
-      await _repository.deleteReport(r);
-      final reports = await _repository.getReports();
-      emit(ReportLoadedState(reports));
+      // emit(ReportLoadingState());
+      r.deleted = true;
+      // final reports = await _repository.getReports();
+      // emit(ReportLoadedState(reports));
     } catch (e) {
       emit(ReportErrorState());
     }
   }
 
-  // jen wants to edit report
-  Future<void> editReport(Report oldr,
-      {Event event,
-      double hours,
-      User user,
-      List<User> additional,
-      List<String> imagepaths}) async {
-    try {
-      emit(ReportLoadingState());
-      await _repository.updateReport(oldr,
-          event: event,
-          hours: hours,
-          user: user,
-          additional: additional,
-          imagepaths: imagepaths);
-      final reports = await _repository.getReports();
-      emit(ReportLoadedState(reports));
-    } catch (e) {
-      emit(ReportErrorState());
-    }
-  }
+  // // jen wants to edit report
+  // Future<void> editReport(Report oldr,
+  //     {Event event,
+  //     double hours,
+  //     User user,
+  //     List<User> additional,
+  //     List<String> imagepaths}) async {
+  //   try {
+  //     emit(ReportLoadingState());
+  //     await _repository.updateReport(oldr,
+  //         event: event,
+  //         hours: hours,
+  //         user: user,
+  //         additional: additional,
+  //         imagepaths: imagepaths);
+  //     final reports = await _repository.getReports();
+  //     emit(ReportLoadedState(reports));
+  //   } catch (e) {
+  //     emit(ReportErrorState());
+  //   }
+  // }
 }

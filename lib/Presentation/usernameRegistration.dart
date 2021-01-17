@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 
 /*
 This class will prompt for a username and password and for password 
-confirmation for registrationpurposes
+confirmation for registration purposes
 */
 
-class userNameReg extends StatelessWidget {
-  final User profile = new User();
+class UserNameReg extends StatelessWidget {
+  final User profile = new User('Fname', 'Lname', 'uname', 'pw', 'email');
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
   final myController3 = TextEditingController();

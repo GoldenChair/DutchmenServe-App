@@ -4,76 +4,95 @@ import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';
 
 class Report {
-  Event event;
+  // Event event;
+  int eid;
   double hours;
-  User user;
-  List<User> additional;
-  List<String> imagepaths;
+  // User user;
+  int uid;
   int id;
+  List<String> imagepaths;
+  List<int> additional;
   bool deleted;
 
-  Report(Event e, double hrs, User u, [List<User> add, List<String> ips]) {
-    this.event = e;
-    this.hours = hrs;
-    this.user = u;
-    this.additional = add;
-    this.imagepaths = ips;
-    this.deleted = false;
+  // additional cannot be null
+  Report(Event e, double hrs, User u,
+      {int id, List<int> add, List<String> ips}) {
+    eid = e.id;
+    hours = hrs;
+    uid = u.id;
+    this.id = id;
+    additional = add ?? <int>[];
+    imagepaths = ips;
+    deleted = false;
   }
-
-  // another constructor given a json Map
-  Report.fromJSON(Map<String, dynamic> json) {
-    this.event = Event.fromJSON(json['event']);
-    this.hours = double.parse(json['hours']);
-    this.user = User.fromJSON(json['user']);
-    this.additional =
-        parseList(List<Map<String, dynamic>>.from(json['additional']));
-    this.imagepaths = List.from(json['imagepaths']);
-    this.deleted = json['deleted'];
-    this.id = json['id']; 
-  }
-
-  List<User> parseList(List<Map<String, dynamic>> json) {
-    List<User> res = [];
-    for (int i = 0; i < json.length; i++) {
-      res.add(User.fromJSON(json[i]));
-    }
-    return res;
+  Report.fromID(int eid, double hrs, int uid,
+      {int id, List<int> add, List<String> ips}) {
+    this.eid = eid;
+    hours = hrs;
+    this.uid = uid;
+    this.id = id;
+    additional = add ?? <int>[];
+    imagepaths = ips;
+    deleted = false;
   }
 
   // convert Report to a json Map
-  Map<String, dynamic> toJSON() => {
-        'event': event.toJSON(),
+  Map<String, dynamic> toJson() => {
+        'event': eid,
         'hours': hours,
-        'user': user.toJSON(),
-        'additional': jsonEncode(additional),
-        'imagePath': jsonEncode(imagepaths),
+        'user': uid,
+        'id': id, // may be null
+        'imagepath': imagepaths,
+        'additional': additional,
         'deleted': deleted,
-        'id': id,
       };
 
-  void setID(int id) {
-    this.id = id;
+  // another constructor given a json Map
+  Report.fromJson(Map<String, dynamic> json) {
+    var eid = json['event'];
+    // event = Event.lookup(eid);
+    this.eid = eid;
+    hours = double.parse(json['hours']);
+    var uid = json['user'];
+    // user = User.lookup(uid);
+    this.uid = uid;
+    id = json['id'];
+    additional = List<int>.from(json['additional']);
+    imagepaths = parseList(json['imagepaths']);
+    deleted = json['deleted'];
   }
 
-  void delete() {
-    deleted = true;
+  List<String> parseList(List<dynamic> json) {
+    return json != null ? List<String>.from(json) : null;
   }
+
+  // List<User> parseList(List<Map<String, dynamic>> json) {
+  //   List<User> res = [];
+  //   for (int i = 0; i < json.length; i++) {
+  //     res.add(User.fromJSON(json[i]));
+  //   }
+  //   return res;
+  // }
 
   void printReport() {
-    print(User(
-                emailAddress: 'ajl008@lvc.edu',
-                events: [],
-                interests: [],
-                organizations: [],
-                password: null,
-                username: 'ajl008')
-            .getUsername() +
-        ": " +
-        event.date +
-        ", " +
-        event.eventName +
-        ", " +
-        hours.toString());
+    // event.printEvent();
+    print('Event: ' + eid.toString());
+    print('id: ' + id.toString());
+    // user.printUser();
+    print('User: ' + uid.toString());
+    print(hours.toString());
+    print(additional.toString());
+  }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is Report &&
+        // o.event == event &&
+        o.eid == eid &&
+        // o.user == user &&
+        o.uid == uid &&
+        o.hours == hours;
   }
 }

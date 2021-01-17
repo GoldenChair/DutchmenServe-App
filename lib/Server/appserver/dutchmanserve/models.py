@@ -70,7 +70,7 @@ class Organization(models.Model):
     ##org_id = models.AutoField
     description = models.TextField(max_length=400, null= True, blank = True)
     email = models.EmailField(max_length = 254, null = True, blank = True)
-    officers = models.ManyToManyField(User, related_name='Officers', null = True, blank = True)
+    officers = models.ManyToManyField(User, related_name='officers', null = True, blank = True)
     users = models.ManyToManyField(User, related_name='members', null = True, blank = True)
     deleted = models.BooleanField(default=False, null=True)
     imagepath = models.FileField(null = True, blank= True)
@@ -82,7 +82,7 @@ class Report(models.Model):
     event = models.ForeignKey(Event,null =True, on_delete= models.SET_NULL)
     
     ##Event event
-    hours = models.IntegerField(null = True, blank = True)
+    hours = models.DecimalField(null = True, blank = True, decimal_places=2, max_digits=5)
     user = models.ForeignKey(User, null = True, on_delete=models.SET_NULL)
     additional = models.ManyToManyField(User, related_name='People', blank = True)
     deleted = models.BooleanField(default=False, blank=True)
