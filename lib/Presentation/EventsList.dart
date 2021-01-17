@@ -91,7 +91,7 @@ class EventsList extends StatelessWidget {
                 ),
                 title: Text(e.eventName),
                 subtitle: Text(
-                  e.date + ' | ' + e.location,
+                  e.dateString() + ' | ' + e.location,
                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
                 ),
               ),

@@ -13,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-
 class ReportNewHours extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
@@ -73,7 +72,7 @@ class _RNHState extends State<RNHStateful> {
                   onPressed: () {
                     // TODO: send report to repo
                     _hrs = (double.parse(_hrsController.text)) + _partialHour;
-                    var b = context.bloc<ReportCubit>();
+                    var b = context.watch<ReportCubit>();
                     b.submitReport(new Report(_event, _hrs, _self));
                     // TODO: alert to confirm submitting report
                     // Navigate back to report hours page
@@ -130,7 +129,7 @@ class _RNHState extends State<RNHStateful> {
       List events, DateTime dt) {
     List<DropdownMenuItem<Event>> items = List();
     for (Event e in events) {
-      if (e.dt.isSameDate(dt)) {
+      if (e.dateCompare(dt)) {
         items.add(
           DropdownMenuItem(
             child: Text(e.eventName),

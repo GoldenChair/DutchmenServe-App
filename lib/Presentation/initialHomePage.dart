@@ -66,7 +66,7 @@ class InitialLoginHome extends StatelessWidget {
                           Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => userNameReg()));
+                                  builder: (context) => UserNameReg()));
                         },
                         child: Text('Register ',
                             style: TextStyle(

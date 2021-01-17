@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:dutchmenserve/models/user.dart';
 import 'package:intl/intl.dart';
 
 class Event {
@@ -68,6 +66,15 @@ class Event {
 
   void register(List<int> users) {
     registered.addAll(users);
+  }
+
+  String dateString() {
+    final DateFormat formatter = DateFormat('MM/dd/yyyy H:mm');
+    return formatter.format(date);
+  }
+
+  bool dateCompare(DateTime dt) {
+    return date.year == dt.year && date.month == dt.month && date.day == dt.day;
   }
 
   void printEvent() {

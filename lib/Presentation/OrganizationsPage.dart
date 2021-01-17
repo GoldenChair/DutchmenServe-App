@@ -20,7 +20,7 @@ class _OrganizationsPage extends State<OrganizationPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
+      create: (context) => OrganizationCubit(),
       child: Scaffold(
         appBar: AppBar(
           title: Text("LVC Service Organizations"),

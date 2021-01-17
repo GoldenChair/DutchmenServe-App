@@ -13,7 +13,7 @@ class OrgInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrganizationCubit>(
-        create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
+        create: (context) => OrganizationCubit(),
         //put bloc builder
         child: OrganizationInfo(
           orgToDisplay: orgToDisplay,
@@ -29,7 +29,7 @@ class OrganizationInfo extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return BlocProvider<OrganizationCubit>(
-      create: (context) => OrganizationCubit(orgRepo: FakeRepository()),
+      create: (context) => OrganizationCubit(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.indigo[800],

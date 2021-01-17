@@ -16,14 +16,11 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageState extends State<ProfilePage> {
   User me = new User(
-    emailAddress: "mjs016@lvc.edu",
-    events: [],
-    interests: [],
-    organizations: [],
-    password: null,
-    username: "mjs016",
-    firstName: "Mackenzie ",
-    lastName: "Stewart",
+    'Mackenzie',
+    'Stewart',
+    'mjs016',
+    'pw',
+    'mjs016@lvc.edu',
   );
   List<Icon> iconList = [
     Icon(Icons.gavel),

@@ -1,20 +1,25 @@
 import 'package:bloc/bloc.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
+import 'package:dutchmenserve/main.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:equatable/equatable.dart';
 
 part 'organization_state.dart';
 
 class OrganizationCubit extends Cubit<OrganizationState> {
-  OrganizationCubit({this.orgRepo}) : super(OrganizationInitial()) {
+  Repository _repository;
+
+  OrganizationCubit() : super(OrganizationInitial()) {
+    _repository = getIt<Repository>();
     getOrgs();
   }
-  final FakeRepository orgRepo;
+
   void getOrgs() async {
     try {
       emit(LoadingState());
-      final organizations = await orgRepo.getOrganizations();
-      emit(LoadedState(organizations));
+      final organizations = await _repository.getOrganizations();
+      final activeOrgs = organizations.where((f) => f.deleted).toList();
+      emit(LoadedState(activeOrgs));
     } catch (e) {
       emit(ErrorState());
     }
@@ -23,7 +28,7 @@ class OrganizationCubit extends Cubit<OrganizationState> {
   void addOrg(Organization o1) async {
     try {
       //emit(LoadingState());
-      await orgRepo.addOrganization(o1);
+      await _repository.addOrganization(o1);
       //final organizations = await orgRepo.getOrganization();
       //emit(LoadedState(organizations));
     } catch (e) {
@@ -34,7 +39,8 @@ class OrganizationCubit extends Cubit<OrganizationState> {
   void removeOrg(Organization o) async {
     try {
       //emit(LoadingState());
-      await orgRepo.deleteOrganization(o);
+      o.deleted = true;
+      // await _repository.deleteOrganization(o);
       //final organizations = await orgRepo.getOrganization();
       //emit(LoadedState(organizations));
     } catch (e) {
@@ -42,26 +48,20 @@ class OrganizationCubit extends Cubit<OrganizationState> {
     }
   }
 
-  void editOrg(Organization o1,
-      {String orgName,
-      List users,
-      List officers,
-      String description,
-      String email,
-      String imagepath}) async {
-    try {
-      //emit(LoadingState());
-      await orgRepo.updateOrganization(o1,
-          orgName: orgName,
-          users: users,
-          officers: officers,
-          description: description,
-          email: email,
-          imagepath: imagepath);
-      //final organizations = await orgRepo.getOrganization();
-      //emit(LoadedState(organizations));
-    } catch (e) {
-      // emit(ErrorState());
-    }
-  }
+  // void editOrg(Organization o1,
+  //     {String orgName,
+  //     List users,
+  //     List officers,
+  //     String description,
+  //     String email,
+  //     String imagepath}) async {
+  //   try {
+  //     //emit(LoadingState());
+  //     await _repository.updateOrganization(o1);
+  //     //final organizations = await orgRepo.getOrganization();
+  //     //emit(LoadedState(organizations));
+  //   } catch (e) {
+  //     // emit(ErrorState());
+  //   }
+  // }
 }
