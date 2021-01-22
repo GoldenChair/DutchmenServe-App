@@ -258,6 +258,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2"
+  flutter_statusbarcolor:
+    dependency: "direct main"
+    description:
+      name: flutter_statusbarcolor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -396,6 +403,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.3"
+  passwordfield:
+    dependency: "direct main"
+    description:
+      name: passwordfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.82"
   path:
     dependency: transitive
     description:

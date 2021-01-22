@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 
 class Event {
   String eventName;
-  // String date;
   DateTime date;
   String location;
   String description;
@@ -18,7 +17,6 @@ class Event {
       List<int> interests,
       {int id, String imagepath}) {
     this.eventName = eventName;
-    // this.date = date;
     this.date = date;
     this.location = location;
     this.description = description;
@@ -27,7 +25,6 @@ class Event {
     this.imagepath = imagepath;
     registered = [];
     deleted = false;
-    // dt = DateFormat('M/d/yy').add_jm().parse(date);
   }
 
   // convert Event to a json Map
@@ -62,10 +59,6 @@ class Event {
 
   void delete() {
     this.deleted = true;
-  }
-
-  void register(List<int> users) {
-    registered.addAll(users);
   }
 
   String dateString() {

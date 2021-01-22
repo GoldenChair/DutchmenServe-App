@@ -34,7 +34,9 @@ dependencies:
   intl: ^0.16.1
   get_it: ^5.0.1
   flappy_search_bar: ^1.7.2
+  passwordfield: ^0.0.82
   http: ^0.12.2
+  flutter_statusbarcolor: ^0.2.3
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +66,6 @@ flutter:
   - family: Pacifico
     fonts:
       - asset: fonts/6_Pacifico-Regular.ttf
-
   - family: SourceSansPro
     fonts:
       - asset: fonts/SourceSansPro-Regular.ttf
@@ -75,6 +76,23 @@ flutter:
   - family: BebasNeue
     fonts:
       - asset: fonts/BebasNeue-Regular.ttf 
+  - family: Raleway
+    fonts:
+      - asset: fonts/Raleway-VariableFont_wght.ttf 
+  - family: SourceSerifPro
+    fonts:
+      - asset: fonts/SourceSerifPro-Regular.ttf 
+  - family: Teko
+    fonts:
+      - asset: fonts/Teko-Regular.ttf 
+
+  - family: ExtraIcons
+    fonts:
+      - asset: fonts/ExtraIcons.ttf
+  - family: AppIcons
+    fonts:
+      - asset: fonts/AppIcons.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

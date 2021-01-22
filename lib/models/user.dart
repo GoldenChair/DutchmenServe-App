@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:dutchmenserve/models/event.dart';
-import 'package:dutchmenserve/models/organization.dart';
-import 'package:flutter/foundation.dart';
 
 class User {
   String firstName;
@@ -15,7 +11,7 @@ class User {
   List<int> organizations;
   String imagepath;
   List<int> events;
-  // no deleted
+  List<int> favorites;
 
   User(String firstName, String lastName, String username, String password,
       String emailAddress,
@@ -23,7 +19,8 @@ class User {
       List<int> interests,
       List<int> organizations,
       String imagepath,
-      List<int> events}) {
+      List<int> events,
+      List<int> favorites}) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
@@ -34,6 +31,7 @@ class User {
     this.organizations = organizations;
     this.imagepath = imagepath;
     this.events = events;
+    this.favorites = favorites;
   }
 
   // convert User to a json Map
@@ -48,6 +46,7 @@ class User {
         'organizations': organizations,
         'imagepath': imagepath,
         'events': events ?? [],
+        'favorites': favorites ?? [],
       };
 
   // another constructor given a json Map
@@ -62,6 +61,7 @@ class User {
     organizations = parseList(json['org']);
     imagepath = json['imagepath'];
     events = parseList(json['events']);
+    favorites = parseList(json['favorites']);
   }
 
   List<int> parseList(List<dynamic> json) {
@@ -83,6 +83,17 @@ class User {
   //   }
   //   return res;
   // }
+
+  void register(Event e) {
+    events.add(e.id);
+    e.registered.add(id);
+  }
+
+  void registerAll(List<Event> ev) {
+    for (var e in ev) {
+      register(e);
+    }
+  }
 
   void printUser() {
     print(lastName + ', ' + firstName);
