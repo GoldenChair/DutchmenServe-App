@@ -24,4 +24,16 @@ class UsersCubit extends Cubit<UsersState> {
       emit(ErrorState());
     }
   }
+
+
+  void addUser(User u) async {
+    try{
+      emit(LoadingState());
+      await _repository.addUser(u);
+      // emit()
+    }
+    catch(e){
+      emit(ErrorState());
+    }
+  }
 }

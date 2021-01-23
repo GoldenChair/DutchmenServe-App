@@ -46,7 +46,7 @@ class RNHStateful extends StatefulWidget {
 class _RNHState extends State<RNHStateful> {
   // data of report
   DateTime _dateTime;
-  TextEditingController _hrsController = new TextEditingController();
+  TextEditingController _hrsController = TextEditingController();
   double _hrs = 0;
   double _partialHour = 0;
   Event _event;

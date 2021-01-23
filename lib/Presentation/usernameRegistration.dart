@@ -1,6 +1,9 @@
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
+import 'package:dutchmenserve/Presentation/buttons.dart';
 import 'package:dutchmenserve/Presentation/interestSelection.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:passwordfield/passwordfield.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /*
 This class will prompt for a username and password and for password 
@@ -13,29 +16,15 @@ class UserNameReg extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Register New Account',
-          style: TextStyle(color: Colors.white),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.indigo[900],
-                Colors.deepPurple[800],
-                Colors.indigo[400],
-              ],
-            ),
-          ),
+          'Register an Account',
+          // style: TextStyle(color: Colors.white),
         ),
       ),
-      body: RegisterForm(),
+      body: BlocProvider(
+        create: (context) => UsersCubit(),
+        child: RegisterForm(),
+      ),
     );
-
-    // username = myController1.text;
-    // password = myController2.text;
-    // confirm = myController3.text;
-    // //profile.setUsername(username);
-    // print(username);
   }
 }
 
@@ -46,75 +35,157 @@ class RegisterForm extends StatefulWidget {
   }
 }
 
-// This class holds data related to the form.
 class RegisterFormState extends State<RegisterForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
+
+  // Note: This is a `GlobalKey<FormState>`, not a GlobalKey<MyCustomFormState>.
   final _registerFormKey = GlobalKey<FormState>();
+
+  // text controller to retrieve textfield value
+  final unController = TextEditingController();
+  final pwController = TextEditingController();
+  // final fnController = TextEditingController();
+  // final lnController = TextEditingController();
+
+  @override
+  void dispose() {
+    unController.dispose();
+    pwController.dispose();
+    // fnController.dispose();
+    // lnController.dispose();
+    super.dispose();
+  }
+
+  bool _obscurePW = true;
+
+  // Textfield decoration
+  InputDecoration decor(String labelText, FocusScopeNode focusNode, bool pw) {
+    return InputDecoration(
+      isDense: true,
+      filled: true,
+      fillColor: Color(0xfff9f9f9),
+      labelText: labelText,
+      labelStyle: TextStyle(fontSize: 16, color: Colors.grey[700]),
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      errorStyle:
+          focusNode.hasFocus ? TextStyle(fontSize: 0, height: 0) : TextStyle(),
+      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      suffixIcon: pw
+          ? IconButton(
+              onPressed: () {
+                setState(() {
+                  _obscurePW = !_obscurePW;
+                });
+              },
+              icon: Icon(Icons.remove_red_eye),
+              color: _obscurePW ? Color(0xff95C1DC) : Colors.grey,
+              splashRadius: .01,
+            )
+          : null,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return SingleChildScrollView(
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
       child: Form(
         key: _registerFormKey,
-        child: Column(
-          children: <Widget>[
-            // Add TextFormFields and ElevatedButton here.
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  // hintText: 'LVC Username',
-                  labelText: 'LVC Username',
-                  labelStyle: TextStyle(fontSize: 16),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  children: <Widget>[
+                    Spacer(flex: 3),
+                    TextFormField(
+                      controller: unController,
+                      decoration:
+                          decor('LVC Username', FocusScope.of(context), false),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return '*required';
+                        }
+                        return value.contains('@')
+                            ? 'Do not use the @ char.'
+                            : null;
+                      },
+                    ),
+                    Spacer(),
+                    TextFormField(
+                      controller: pwController,
+                      obscureText: _obscurePW,
+                      decoration:
+                          decor('LVC Password', FocusScope.of(context), true),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return '*required';
+                        }
+                        return null;
+                      },
+                    ),
+                    Spacer(flex: 4),
+                    NormalButton(
+                      'Next',
+                      () {
+                        if (_registerFormKey.currentState.validate()) {
+                          // and database verifies LVC user login
+                          // get user info (first name, last name)
+                          String fn = 'First';
+                          String ln = 'Last';
+
+                          // save new User in DB
+                          User u = User(
+                              fn, ln, unController.text, pwController.text);
+
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                          // Scaffold.of(context).showSnackBar(
+                          //     SnackBar(content: Text('Account verified')));
+
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      SelectInterests(user: u)));
+                        }
+                      },
+                    ),
+                    Spacer(flex: 9),
+                  ],
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return value.contains('@') ? 'Do not use the @ char.' : null;
-                },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: PasswordField(
-                hasFloatingPlaceholder: true,
-                floatingText: 'LVC Password',
-                // pattern: r'.*[@$#.*].*',
-                // errorMessage:
-                //     'must contain special character either . * @ # \$',
-              ),
-            ),
-            ElevatedButton(
-              child: Text('Next '),
-              onPressed: () {
-                if (_registerFormKey.currentState.validate()) {
-                  // and database verifies LVC user login
-
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  // Scaffold.of(context).showSnackBar(
-                  //     SnackBar(content: Text('Account verified')));
-
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => SelectInterests()));
-                }
-              },
-              // style: ElevatedButton.styleFrom(
-              //   primary: Colors.indigo[900],
-              //   onPrimary: Colors.white,
-              //   onSurface: Colors.grey,
-              //   shadowColor: Colors.grey[900],
-              //   elevation: 5,
-              // ),
             ),
           ],
         ),
@@ -135,72 +206,3 @@ class RegisterFormState extends State<RegisterForm> {
 //                 },
 //               ),
 //             ),
-
-// final User profile = new User('Fname', 'Lname', 'uname', 'pw', 'email');
-// final myController1 = TextEditingController();
-// final myController2 = TextEditingController();
-// final myController3 = TextEditingController();
-
-// var username;
-// var password;
-// var confirm;
-
-// @override
-// void dispose() {
-//   myController1.dispose();
-//   myController2.dispose();
-//   myController3.dispose();
-// }
-
-// SingleChildScrollView(
-//           child: Container(
-//             color: Colors.white,
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 TextField(
-//                     controller: myController1,
-//                     decoration: new InputDecoration(
-//                       border: new OutlineInputBorder(
-//                           borderSide: new BorderSide(color: Colors.black)),
-//                       hintText: 'U S E R N A M E',
-//                     )),
-//                 SizedBox(height: 30),
-//                 TextField(
-//                     decoration: new InputDecoration(
-//                   border: new OutlineInputBorder(
-//                       borderSide: new BorderSide(color: Colors.black)),
-//                   hintText: 'P A S S W O R D',
-//                 )),
-//                 SizedBox(height: 30),
-//                 TextField(
-//                     decoration: new InputDecoration(
-//                   border: new OutlineInputBorder(
-//                       borderSide: new BorderSide(color: Colors.black)),
-//                   hintText: 'C O N F I R M   P A S S W O R D',
-//                 )),
-//                 SizedBox(
-//                   height: 25,
-//                 ),
-//                 Container(
-//                   child: Align(
-//                     alignment: Alignment.bottomCenter,
-//                     child: RaisedButton(
-//                       color: Colors.blue[800],
-//                       onPressed: () {
-//                         Navigator.push(
-//                             context,
-//                             new MaterialPageRoute(
-//                                 builder: (context) => SelectInterests()));
-//                       },
-//                       child: Text('Next ',
-//                           style: TextStyle(
-//                             fontSize: 20,
-//                           )),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         )

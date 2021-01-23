@@ -20,7 +20,6 @@ class ProfilePageState extends State<ProfilePage> {
     'Stewart',
     'mjs016',
     'pw',
-    'mjs016@lvc.edu',
   );
   List<Icon> iconList = [
     Icon(Icons.gavel),
@@ -202,9 +201,10 @@ class ProfilePageState extends State<ProfilePage> {
   void choiceAction(String choice, BuildContext context) {
     setState(() {
       if (choice == Constants.LogOut) {
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => InitialLoginHome()),
+          (Route<dynamic> route) => false,
         );
       }
     });

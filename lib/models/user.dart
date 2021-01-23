@@ -14,8 +14,8 @@ class User {
   List<int> favorites;
 
   User(String firstName, String lastName, String username, String password,
-      String emailAddress,
-      {int id,
+      {String emailAddress,
+      int id,
       List<int> interests,
       List<int> organizations,
       String imagepath,
@@ -25,7 +25,7 @@ class User {
     this.lastName = lastName;
     this.username = username;
     this.password = password;
-    this.emailAddress = emailAddress;
+    this.emailAddress = emailAddress ?? (username + '@lvc.edu');
     this.id = id;
     this.interests = interests;
     this.organizations = organizations;

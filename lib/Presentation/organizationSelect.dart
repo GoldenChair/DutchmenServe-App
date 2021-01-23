@@ -9,7 +9,8 @@ Scrollable checklist to select the orgnizations a user is a part of
 */
 
 class setUpOrgPage extends StatefulWidget {
-  setUpOrgPage({Key key}) : super(key: key);
+  final User user;
+  setUpOrgPage({Key key, @required this.user}) : super(key: key);
 
   @override
   SetUpOrgState createState() {
@@ -67,8 +68,10 @@ class SetUpOrgState extends State<setUpOrgPage> {
             RaisedButton(
               color: Colors.blue[800],
               onPressed: () {
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => registrationConfirm()));
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => registrationConfirm()));
               },
               child: Text('Next ',
                   style: TextStyle(
