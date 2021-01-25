@@ -21,12 +21,9 @@ class InitialLoginHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Color(0xff002B4E),
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Color(0xffFFE400),
-      systemNavigationBarIconBrightness: Brightness.light,
-      systemNavigationBarDividerColor: Colors.grey[50],
+      statusBarColor: Color(0xff001d35),
+      systemNavigationBarColor: Color(0xff002A4E),
+      systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
     List<String> statement = [
@@ -56,11 +53,12 @@ class InitialLoginHome extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Color(0xffFFE400),
+      backgroundColor: Color(0xff002B4E),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 70,
-        backgroundColor: Color(0xff002A4E),
+        brightness: Brightness.dark,
+        toolbarHeight: 90,
+        backgroundColor: Color(0xff001d35),
         centerTitle: true,
         title: Text(
           'Dutchmen Serve',
@@ -79,8 +77,8 @@ class InitialLoginHome extends StatelessWidget {
             children: [
               Spacer(),
               Container(
-                child: Image(image: AssetImage('images/lvc_blue.png')),
-                padding: EdgeInsets.symmetric(horizontal: 70),
+                child: Image(image: AssetImage('images/lvc_white.png')),
+                padding: EdgeInsets.symmetric(horizontal: 80),
               ),
               Container(
                 alignment: Alignment.center,
@@ -91,7 +89,7 @@ class InitialLoginHome extends StatelessWidget {
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w900,
                     fontSize: 15,
-                    color: Color(0xff002A4E),
+                    color: Color(0xffDDDDDE),
                   ),
                   maxLines: 2,
                 ),
@@ -104,7 +102,6 @@ class InitialLoginHome extends StatelessWidget {
               createTextContainer(statement[2], icons[2], 70, 3),
               Spacer(),
               Center(child: createButtons(context)),
-              // Spacer()
             ],
           ),
         ],
@@ -121,17 +118,24 @@ class InitialLoginHome extends StatelessWidget {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => LoginIn()));
           },
+          color: Color(0xffFFE400),
+          textColor: Colors.black,
         ),
         TextButton(
           child: Text(
             'Create account',
             style: TextStyle(
-              color: Color(0xff002A4E),
+              color: Color(0xffFFE400),
               decoration: TextDecoration.underline,
               fontSize: 16,
             ),
           ),
           onPressed: () {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              statusBarColor: Color(0xff002A4E),
+              systemNavigationBarColor: Color(0xfff9f9f9),
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ));
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => UserNameReg()));
           },
@@ -149,7 +153,7 @@ class InitialLoginHome extends StatelessWidget {
         decoration: BoxDecoration(
           // color: Color(0xfff9f9f9),
           color: Colors.white,
-          border: Border.all(color: Color(0xffFFE400)),
+          border: Border.all(color: Color(0xff95C1DC)),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(70.0),
             bottomRight: Radius.circular(70.0),

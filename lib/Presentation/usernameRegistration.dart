@@ -1,8 +1,10 @@
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/buttons.dart';
+import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:dutchmenserve/Presentation/interestSelection.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /*
@@ -15,9 +17,21 @@ class UserNameReg extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Register an Account',
-          // style: TextStyle(color: Colors.white),
+        title: Text('Register an account'),
+        brightness: Brightness.dark,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              statusBarColor: Color(0xff001d35),
+              systemNavigationBarColor: Color(0xff002A4E),
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => InitialLoginHome()),
+            );
+          },
         ),
       ),
       body: BlocProvider(
@@ -67,30 +81,9 @@ class RegisterFormState extends State<RegisterForm> {
       fillColor: Color(0xfff9f9f9),
       labelText: labelText,
       labelStyle: TextStyle(fontSize: 16, color: Colors.grey[700]),
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(5),
-      ),
       errorStyle:
           focusNode.hasFocus ? TextStyle(fontSize: 0, height: 0) : TextStyle(),
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      floatingLabelBehavior: FloatingLabelBehavior.never,
+      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       suffixIcon: pw
           ? IconButton(
               onPressed: () {
@@ -99,7 +92,7 @@ class RegisterFormState extends State<RegisterForm> {
                 });
               },
               icon: Icon(Icons.remove_red_eye),
-              color: _obscurePW ? Color(0xff95C1DC) : Colors.grey,
+              color: _obscurePW ? Colors.blueGrey : Colors.grey[300],
               splashRadius: .01,
             )
           : null,
@@ -174,9 +167,15 @@ class RegisterFormState extends State<RegisterForm> {
                           // Scaffold.of(context).showSnackBar(
                           //     SnackBar(content: Text('Account verified')));
 
+                          SystemChrome.setSystemUIOverlayStyle(
+                              SystemUiOverlayStyle(
+                            statusBarColor: Color(0xff002A4E),
+                            systemNavigationBarColor: Color(0xfff9f9f9),
+                            systemNavigationBarIconBrightness: Brightness.dark,
+                          ));
                           Navigator.push(
                               context,
-                              new MaterialPageRoute(
+                              MaterialPageRoute(
                                   builder: (context) =>
                                       SelectInterests(user: u)));
                         }

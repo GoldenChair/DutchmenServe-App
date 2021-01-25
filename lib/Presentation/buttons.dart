@@ -5,8 +5,10 @@ class NormalButton extends StatelessWidget {
   final String s;
   final Function press;
   final EdgeInsets padding;
+  final Color color;
+  final Color textColor;
 
-  NormalButton(this.s, this.press, {this.padding});
+  NormalButton(this.s, this.press, {this.padding, this.color, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +18,13 @@ class NormalButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(90)),
-          color: Color(0xff002A4E),
+          color: color ?? null,
         ),
         padding: EdgeInsets.symmetric(horizontal: 90, vertical: 12),
         child: Text(s,
             style: TextStyle(
               fontSize: 21,
-              // color: Color(0xff95C1DC),
-              color: Color(0xfff9f9f9),
+              color: textColor ?? Color(0xffaacde3), 
               fontWeight: FontWeight.w900,
             )),
       ),

@@ -27,11 +27,11 @@ class User {
     this.password = password;
     this.emailAddress = emailAddress ?? (username + '@lvc.edu');
     this.id = id;
-    this.interests = interests;
-    this.organizations = organizations;
+    this.interests = interests ?? [];
+    this.organizations = organizations ?? [];
     this.imagepath = imagepath;
-    this.events = events;
-    this.favorites = favorites;
+    this.events = events ?? [];
+    this.favorites = favorites ?? [];
   }
 
   // convert User to a json Map

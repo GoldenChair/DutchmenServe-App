@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dutchmenserve/Presentation/Constants.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'initialHomePage.dart';
 
@@ -201,6 +202,13 @@ class ProfilePageState extends State<ProfilePage> {
   void choiceAction(String choice, BuildContext context) {
     setState(() {
       if (choice == Constants.LogOut) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: Color(0xff002A4E),
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: Color(0xff002A4E),
+          systemNavigationBarIconBrightness: Brightness.dark,
+        ));
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => InitialLoginHome()),

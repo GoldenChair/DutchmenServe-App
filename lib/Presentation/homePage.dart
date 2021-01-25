@@ -1,198 +1,303 @@
 import 'dart:ui';
 
+import 'package:dutchmenserve/Presentation/EventsList.dart';
+import 'package:dutchmenserve/Presentation/FavoritedPage.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
+import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
+import 'package:dutchmenserve/Presentation/ProfilePage.dart';
+import 'package:dutchmenserve/Presentation/RegisteredPage.dart';
+import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
+import 'package:dutchmenserve/Presentation/connectWUsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
-import 'EventsList.dart';
-import 'OrganizationsPage.dart';
-import 'RegisteredPage.dart';
-import 'ReportHoursPage.dart';
-import 'connectWUsPage.dart';
-import 'NotificationsPage.dart';
+import 'package:flutter/services.dart';
 
 //Add to drawer "Your registed events" and your favorite events or add a bottom bar
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[900],
-        title: Center(
-            child: Text(
-          'Dutchmen Serve',
-          style: TextStyle(fontFamily: 'BebasNeue', fontSize: 40),
-        )),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => NotificationsPage()),
-                );
-              },
-              child: Icon(
-                Icons.notifications,
-                size: 30,
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
-      ),
-      // /* bottomNavigationBar: BottomNavigationBar(items: [
-      //   BottomNavigationBarItem(
-      //       icon: new Icon(Icons.pan_tool),
-      //       title: new Text('Your Registered Events')),
-      //   BottomNavigationBarItem(
-      //       icon: new Icon(Icons.favorite),
-      //       title: new Text('Your Favorite Events'))
-      // ]),*/
-      drawer: Drawer(
-        child: ListView(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Color(0xff002A4E),
+      systemNavigationBarColor: Color(0xfff9f9f9),
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Dutchmen Serve',
+            style: TextStyle(
+                fontFamily: 'BebasNeue',
+                color: Color(0xff95C1DC),
+                fontSize: 32),
+          ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {
+                  // Navigator.of(context).pushNamed('/notifications-page');
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => NotificationsPage()),
+                  );
+                }),
+            IconButton(
+                icon: Icon(Icons.add_a_photo),
+                onPressed: () {},
+                padding: EdgeInsets.only(right: 15)),
+          ],
+          bottom: TabBar(
+            // controller: _controller,
+            tabs: [
+              Tab(text: 'Volunteer'),
+              Tab(text: 'Liked'),
+              Tab(text: 'Profile'),
+            ],
+          ),
+        ),
+        drawer: createD(context),
+        body: TabBarView(
+          // controller: _controller,
           children: [
-            Container(
-              height: 100,
-              child: DrawerHeader(
-                  child: Row(
-                children: [
-                  Icon(
-                    Icons.account_circle,
-                    size: 50,
-                  ),
-                  SizedBox(width: 25),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/profile');
-                      //Navigator.push(
-                      //context,
-                      //new MaterialPageRoute(
-                      //builder: (context) => ProfilePage()));
-                    },
-                    child: Text(
-                      'Profile',
-                      style: TextStyle(fontFamily: 'BebasNeue', fontSize: 35),
-                    ),
-                  ),
-                ],
-              )),
-            ),
-            //drawers were orig encased in gesture dectector
-            ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text(
-                'Service Events',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => EventsList()),
-                );
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              leading: Icon(Icons.access_time),
-              title: Text(
-                'Report Hours',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => ReportHoursPage()));
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              leading: Icon(Icons.group),
-              title: Text(
-                'Organizations',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => OrganizationPage()));
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              leading: Icon(Icons.chat),
-              title: Text(
-                'Connect with Us',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => ConnectWUsPage()));
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              leading: Icon(Icons.pan_tool),
-              title: Text(
-                'Registered Events',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => RegisteredPage()));
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
+            RegisteredPage(),
+            FavoritedPage(),
+            ProfilePage(),
           ],
         ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   items: [
+        //     BottomNavigationBarItem(
+        //         icon: Icon(Icons.pan_tool), label: 'Volunteer'),
+        //     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Liked'),
+        //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        //   ],
+        // ),
       ),
-      body: Column(
-        //have row and then put in the column
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+    );
+  }
 
+// class HomePage extends StatefulWidget {
+//   @override
+//   _HomeState createState() => _HomeState();
+// }
+
+// class _HomeState extends State<HomePage> with TickerProviderStateMixin {
+//   TabController _controller;
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     _controller = TabController(vsync: this, length: 3);
+//   }
+
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(
+//           'Dutchmen Serve',
+//           style: TextStyle(
+//               fontFamily: 'BebasNeue', color: Color(0xff95C1DC), fontSize: 40),
+//         ),
+//         actions: <Widget>[
+//           IconButton(
+//               icon: Icon(Icons.notifications),
+//               onPressed: () {
+//                 // Navigator.of(context).pushNamed('/notifications-page');
+//                 Navigator.push(
+//                   context,
+//                   new MaterialPageRoute(
+//                       builder: (context) => NotificationsPage()),
+//                 );
+//               }),
+//           IconButton(
+//               icon: Icon(Icons.add_a_photo),
+//               onPressed: () {},
+//               padding: EdgeInsets.only(right: 15)),
+//         ],
+//         bottom: TabBar(
+//           controller: _controller,
+//           tabs: [
+//             Tab(text: 'Volunteer'),
+//             Tab(text: 'Liked'),
+//             Tab(text: 'Profile'),
+//           ],
+//         ),
+//       ),
+//       body: TabBarView(
+//         controller: _controller,
+//         children: [
+//           RegisteredPage(),
+//           FavoritedPage(),
+//           ProfilePage(),
+//         ],
+//       ),
+//       // bottomNavigationBar: BottomNavigationBar(
+//       //   items: [
+//       //     BottomNavigationBarItem(
+//       //         icon: Icon(Icons.pan_tool), label: 'Volunteer'),
+//       //     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Liked'),
+//       //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+//       //   ],
+//       // ),
+//     );
+//   }
+
+  // drawer
+  Widget createD(BuildContext context) {
+    return Drawer(
+      child: ListView(
         children: [
-          Spacer(),
-          createExpanded(
-            'We empower students for a life of citizenship both in our community and around the globe.',
-            Icons.public,
-            10,
+          Container(
+            height: 100,
+            child: DrawerHeader(
+                child: Row(
+              children: [
+                Icon(
+                  Icons.account_circle,
+                  size: 50,
+                ),
+                SizedBox(width: 25),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/profile');
+                    //Navigator.push(
+                    //context,
+                    //new MaterialPageRoute(
+                    //builder: (context) => ProfilePage()));
+                  },
+                  child: Text(
+                    'Profile',
+                    style: TextStyle(fontFamily: 'BebasNeue', fontSize: 35),
+                  ),
+                ),
+              ],
+            )),
           ),
-          Spacer(),
-          createExpanded(
-            'Students may enhance their self-knowledge as they examine their own identity and purpose in the context of a diverse world in which a variety of needs and injustices exist.',
-            Icons.people,
-            40,
+          //drawers were orig encased in gesture dectector
+          ListTile(
+            leading: Icon(Icons.calendar_today),
+            title: Text(
+              'Service Events',
+              style: TextStyle(fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => EventsList()),
+              );
+            },
           ),
-          Spacer(),
-          createExpanded(
-            'Students may grow their awareness and knowledge regarding needs and justice issues in a variety of areas.',
-            Icons.gavel,
-            70,
+          SizedBox(
+            height: 10,
           ),
-          Spacer(),
+          ListTile(
+            leading: Icon(Icons.access_time),
+            title: Text(
+              'Report Hours',
+              style: TextStyle(fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => ReportHoursPage()));
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            leading: Icon(Icons.group),
+            title: Text(
+              'Organizations',
+              style: TextStyle(fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => OrganizationPage()));
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            leading: Icon(Icons.chat),
+            title: Text(
+              'Connect with Us',
+              style: TextStyle(fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => ConnectWUsPage()));
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            leading: Icon(Icons.pan_tool),
+            title: Text(
+              'Registered Events',
+              style: TextStyle(fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => RegisteredPage()));
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
         ],
       ),
+    );
+  }
+
+  // original home
+  Widget createOG() {
+    return Column(
+      //have row and then put in the column
+      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+
+      children: [
+        Spacer(),
+        createExpanded(
+          'We empower students for a life of citizenship both in our community and around the globe.',
+          Icons.public,
+          10,
+        ),
+        Spacer(),
+        createExpanded(
+          'Students may enhance their self-knowledge as they examine their own identity and purpose in the context of a diverse world in which a variety of needs and injustices exist.',
+          Icons.people,
+          40,
+        ),
+        Spacer(),
+        createExpanded(
+          'Students may grow their awareness and knowledge regarding needs and justice issues in a variety of areas.',
+          Icons.gavel,
+          70,
+        ),
+        Spacer(),
+      ],
     );
   }
 
