@@ -13,7 +13,7 @@ import 'package:dutchmenserve/Presentation/FavoritedPage.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
-import 'package:dutchmenserve/Presentation/RegisteredPage.dart';
+import 'package:dutchmenserve/Presentation/VolunteerPage.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
@@ -30,7 +30,7 @@ class Routes {
   static const String organizationInfo = '/organization-info';
   static const String organizationsPage = '/organizations-page';
   static const String profilePage = '/profile-page';
-  static const String registeredPage = '/registered-page';
+  static const String VolunteerPage = '/registered-page';
   static const String reportGroupAddStudents = '/report-group-add-students';
   static const String reportHoursPage = '/report-hours-page';
   static const String reportIndividual = '/report-individual';
@@ -44,7 +44,7 @@ class Routes {
     organizationInfo,
     organizationsPage,
     profilePage,
-    registeredPage,
+    VolunteerPage,
     reportGroupAddStudents,
     reportHoursPage,
     reportIndividual,
@@ -62,9 +62,9 @@ class Router extends RouterBase {
     RouteDef(Routes.favoritedPage, page: FavoritedPage),
     RouteDef(Routes.notificationsPage, page: NotificationsPage),
     RouteDef(Routes.organizationInfo, page: OrganizationInfo),
-    RouteDef(Routes.organizationsPage, page: OrganizationPage),
+    RouteDef(Routes.organizationsPage, page: OrganizationsPage),
     RouteDef(Routes.profilePage, page: ProfilePage),
-    RouteDef(Routes.registeredPage, page: RegisteredPage),
+    RouteDef(Routes.VolunteerPage, page: VolunteerPage),
     RouteDef(Routes.reportGroupAddStudents, page: ReportGroupAddStudents),
     RouteDef(Routes.reportHoursPage, page: ReportHoursPage),
     RouteDef(Routes.reportIndividual, page: ReportNewHours),
@@ -108,9 +108,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    OrganizationPage: (data) {
+    OrganizationsPage: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OrganizationPage(),
+        builder: (context) => OrganizationsPage(),
         settings: data,
       );
     },
@@ -123,9 +123,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    RegisteredPage: (data) {
+    VolunteerPage: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => RegisteredPage(),
+        builder: (context) => VolunteerPage(),
         settings: data,
       );
     },

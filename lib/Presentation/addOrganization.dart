@@ -74,7 +74,7 @@ class _AddOrg extends State<AddOrganization> {
           // );
           submitOrganization(context, newOrg);
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => OrganizationPage()));
+              new MaterialPageRoute(builder: (context) => OrganizationsPage()));
         },
         child: Text("Submit"),
       ),

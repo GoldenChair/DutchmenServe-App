@@ -5,7 +5,7 @@ import 'package:dutchmenserve/Presentation/app_icons.dart';
 import 'package:dutchmenserve/Presentation/buttons.dart';
 import 'package:flutter/material.dart';
 
-import 'setUpProfile.dart';
+import 'Login.dart';
 import 'usernameRegistration.dart';
 
 import 'package:flutter/services.dart';
@@ -115,8 +115,13 @@ class InitialLoginHome extends StatelessWidget {
         NormalButton(
           'Sign in',
           () {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              statusBarColor: Color(0xff002A4E),
+              systemNavigationBarColor: Color(0xfff9f9f9),
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ));
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginIn()));
+                context, MaterialPageRoute(builder: (context) => Login()));
           },
           color: Color(0xffFFE400),
           textColor: Colors.black,

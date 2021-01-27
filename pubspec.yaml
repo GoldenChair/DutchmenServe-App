@@ -92,6 +92,9 @@ flutter:
   - family: AppIcons
     fonts:
       - asset: fonts/AppIcons.ttf
+  - family: IGicon
+    fonts:
+      - asset: fonts/IGicon.ttf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

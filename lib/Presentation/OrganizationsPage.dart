@@ -1,14 +1,15 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/Presentation/addOrganization.dart';
+import 'package:dutchmenserve/Presentation/organizationInfo.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'organizationInfo.dart';
 
-class OrganizationPage extends StatefulWidget {
-  OrganizationPage({Key key}) : super(key: key);
+
+class OrganizationsPage extends StatefulWidget {
+  OrganizationsPage({Key key}) : super(key: key);
 
   @override
   _OrganizationsPage createState() {
@@ -16,7 +17,7 @@ class OrganizationPage extends StatefulWidget {
   }
 }
 
-class _OrganizationsPage extends State<OrganizationPage> {
+class _OrganizationsPage extends State<OrganizationsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,18 +1,15 @@
 import 'dart:ui';
 
 import 'package:dutchmenserve/Presentation/EventsList.dart';
-import 'package:dutchmenserve/Presentation/FavoritedPage.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
-import 'package:dutchmenserve/Presentation/ProfilePage.dart';
-import 'package:dutchmenserve/Presentation/RegisteredPage.dart';
+import 'package:dutchmenserve/Presentation/VolunteerPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
 import 'package:dutchmenserve/Presentation/connectWUsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 
-//Add to drawer "Your registed events" and your favorite events or add a bottom bar
 
 class HomePage extends StatelessWidget {
   @override
@@ -26,16 +23,18 @@ class HomePage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          // centerTitle: true,
           title: Text(
             'Dutchmen Serve',
             style: TextStyle(
                 fontFamily: 'BebasNeue',
                 color: Color(0xff95C1DC),
-                fontSize: 32),
+                fontSize: 45),
           ),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.notifications),
+                icon: Icon(Icons.notifications, size: 28),
+                padding: EdgeInsets.only(right: 15),
                 onPressed: () {
                   // Navigator.of(context).pushNamed('/notifications-page');
                   Navigator.push(
@@ -44,114 +43,41 @@ class HomePage extends StatelessWidget {
                         builder: (context) => NotificationsPage()),
                   );
                 }),
-            IconButton(
-                icon: Icon(Icons.add_a_photo),
-                onPressed: () {},
-                padding: EdgeInsets.only(right: 15)),
           ],
           bottom: TabBar(
-            // controller: _controller,
             tabs: [
-              Tab(text: 'Volunteer'),
-              Tab(text: 'Liked'),
-              Tab(text: 'Profile'),
+              Tab(
+                text: 'Volunteer',
+                icon: Icon(
+                  Icons.pan_tool,
+                  // size: 20,
+                ),
+                iconMargin: EdgeInsets.only(bottom: 3, right: 6),
+              ),
+              Tab(
+                text: 'Report',
+                icon: Icon(Icons.event_note),
+                iconMargin: EdgeInsets.only(bottom: 2),
+              ),
+              Tab(
+                text: 'Connect',
+                icon: Icon(Icons.people),
+                iconMargin: EdgeInsets.only(bottom: 0),
+              ),
             ],
           ),
         ),
-        drawer: createD(context),
+        // drawer: createD(context),
         body: TabBarView(
-          // controller: _controller,
           children: [
-            RegisteredPage(),
-            FavoritedPage(),
-            ProfilePage(),
+            VolunteerPage(),
+            ReportHoursPage(),
+            ConnectWUsPage(),
           ],
         ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   items: [
-        //     BottomNavigationBarItem(
-        //         icon: Icon(Icons.pan_tool), label: 'Volunteer'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Liked'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        //   ],
-        // ),
       ),
     );
   }
-
-// class HomePage extends StatefulWidget {
-//   @override
-//   _HomeState createState() => _HomeState();
-// }
-
-// class _HomeState extends State<HomePage> with TickerProviderStateMixin {
-//   TabController _controller;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _controller = TabController(vsync: this, length: 3);
-//   }
-
-//   @override
-//   void dispose() {
-//     _controller.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Dutchmen Serve',
-//           style: TextStyle(
-//               fontFamily: 'BebasNeue', color: Color(0xff95C1DC), fontSize: 40),
-//         ),
-//         actions: <Widget>[
-//           IconButton(
-//               icon: Icon(Icons.notifications),
-//               onPressed: () {
-//                 // Navigator.of(context).pushNamed('/notifications-page');
-//                 Navigator.push(
-//                   context,
-//                   new MaterialPageRoute(
-//                       builder: (context) => NotificationsPage()),
-//                 );
-//               }),
-//           IconButton(
-//               icon: Icon(Icons.add_a_photo),
-//               onPressed: () {},
-//               padding: EdgeInsets.only(right: 15)),
-//         ],
-//         bottom: TabBar(
-//           controller: _controller,
-//           tabs: [
-//             Tab(text: 'Volunteer'),
-//             Tab(text: 'Liked'),
-//             Tab(text: 'Profile'),
-//           ],
-//         ),
-//       ),
-//       body: TabBarView(
-//         controller: _controller,
-//         children: [
-//           RegisteredPage(),
-//           FavoritedPage(),
-//           ProfilePage(),
-//         ],
-//       ),
-//       // bottomNavigationBar: BottomNavigationBar(
-//       //   items: [
-//       //     BottomNavigationBarItem(
-//       //         icon: Icon(Icons.pan_tool), label: 'Volunteer'),
-//       //     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Liked'),
-//       //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-//       //   ],
-//       // ),
-//     );
-//   }
 
   // drawer
   Widget createD(BuildContext context) {
@@ -227,7 +153,7 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => OrganizationPage()));
+                      builder: (context) => OrganizationsPage()));
             },
           ),
           SizedBox(
@@ -259,7 +185,7 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => RegisteredPage()));
+                      builder: (context) => VolunteerPage()));
             },
           ),
           SizedBox(

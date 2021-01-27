@@ -480,7 +480,7 @@ ThemeData basicTheme() {
       ),
     ),
     tabBarTheme: TabBarTheme(
-      indicatorSize: TabBarIndicatorSize.tab,
+      indicatorSize: TabBarIndicatorSize.label,
       labelColor: Color(0xffffffff),
       unselectedLabelColor: Color(0xb2ffffff),
     ),
