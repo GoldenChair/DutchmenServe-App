@@ -18,8 +18,8 @@ class Login extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-              statusBarColor: Color(0xff001d35),
-              systemNavigationBarColor: Color(0xff002A4E),
+              statusBarColor: Color(0xff002A4E),
+              systemNavigationBarColor: Color(0xffFFE400),
               systemNavigationBarIconBrightness: Brightness.dark,
             ));
             Navigator.push(
@@ -137,6 +137,8 @@ class LoginFormState extends State<LoginForm> {
                       () {
                         if (_loginFormKey.currentState.validate()) {
                           // TODO: and database verifies User
+                          User user = User('first', 'last', unController.text,
+                              pwController.text);
 
                           SystemChrome.setSystemUIOverlayStyle(
                               SystemUiOverlayStyle(
@@ -147,7 +149,7 @@ class LoginFormState extends State<LoginForm> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (context) => HomePage(user),
                             ),
                             (Route<dynamic> route) => false,
                           );

@@ -57,7 +57,7 @@ class SetUpOrgState extends State<SetUpOrgPage> {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(),
+        builder: (context) => HomePage(user),
       ),
       (Route<dynamic> route) => false,
     );

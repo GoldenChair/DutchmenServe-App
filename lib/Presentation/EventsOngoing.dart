@@ -1,3 +1,4 @@
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
 import 'EventInfo.dart';
@@ -5,6 +6,9 @@ import 'EventsCalendar.dart';
 import 'homePage.dart';
 
 class EventsOngoing extends StatelessWidget {
+  final User user;
+  const EventsOngoing(this.user);
+  
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -17,7 +21,7 @@ class EventsOngoing extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               ctxt,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage(user)),
             );
           },
         ),
@@ -27,7 +31,7 @@ class EventsOngoing extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => EventsCalendar()),
+                MaterialPageRoute(builder: (context) => EventsCalendar(user)),
               );
             },
           )

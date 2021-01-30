@@ -44,7 +44,7 @@ ThemeData basicTheme() {
     primaryColorBrightness: Brightness.dark,
     primaryColorLight: Color(0xff95c1dc),
     primaryColorDark: Color(0xff206090),
-    accentColor: Color(0xff3aa5f5),
+    accentColor: Colors.grey[600], // Color(0xff3aa5f5),
     accentColorBrightness: Brightness.dark,
     canvasColor: Color(0xfffafafa),
     scaffoldBackgroundColor: Color(0xfffafafa),

@@ -40,7 +40,7 @@ class ReportHoursPage extends StatelessWidget {
         );
       },
       tooltip: 'Report Hours',
-      child: Icon(Icons.add),
+      child: Icon(Icons.add, color: Colors.black),
     );
 
     // return SpeedDial(

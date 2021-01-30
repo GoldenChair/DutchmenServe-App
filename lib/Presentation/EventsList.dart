@@ -4,11 +4,15 @@ import 'package:dutchmenserve/Presentation/EventInfo.dart';
 import 'package:dutchmenserve/Presentation/EventsCalendar.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Opportunities Card with filter at top
 class EventsList extends StatelessWidget {
+  final User user;
+  const EventsList(this.user);
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,7 +27,7 @@ class EventsList extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => HomePage(user)),
               );
             },
           ),
@@ -33,7 +37,7 @@ class EventsList extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EventsCalendar()),
+                  MaterialPageRoute(builder: (context) => EventsCalendar(user)),
                 );
               },
             )

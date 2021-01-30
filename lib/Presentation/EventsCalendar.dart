@@ -3,11 +3,15 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 
 class EventsCalendar extends StatelessWidget {
+  final User user;
+  const EventsCalendar(this.user);
+  
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -20,7 +24,7 @@ class EventsCalendar extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               ctxt,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage(user)),
             );
           },
         ),
@@ -30,7 +34,7 @@ class EventsCalendar extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => EventsList()),
+                MaterialPageRoute(builder: (context) => EventsList(user)),
               );
             },
           )
@@ -46,7 +50,7 @@ class EventsCalendar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   ctxt,
-                  MaterialPageRoute(builder: (context) => EventsOngoing()),
+                  MaterialPageRoute(builder: (context) => EventsOngoing(user)),
                 );
               },
             ),

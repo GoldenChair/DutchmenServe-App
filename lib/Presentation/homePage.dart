@@ -6,12 +6,15 @@ import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/VolunteerPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
 import 'package:dutchmenserve/Presentation/connectWUsPage.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 
-
 class HomePage extends StatelessWidget {
+  final User user;
+  const HomePage(this.user);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -72,7 +75,7 @@ class HomePage extends StatelessWidget {
           children: [
             VolunteerPage(),
             ReportHoursPage(),
-            ConnectWUsPage(),
+            ConnectWUsPage(user),
           ],
         ),
       ),
@@ -120,7 +123,7 @@ class HomePage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                new MaterialPageRoute(builder: (context) => EventsList()),
+                new MaterialPageRoute(builder: (context) => EventsList(user)),
               );
             },
           ),
@@ -169,7 +172,7 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => ConnectWUsPage()));
+                      builder: (context) => ConnectWUsPage(user)));
             },
           ),
           SizedBox(
@@ -182,10 +185,8 @@ class HomePage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             onTap: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => VolunteerPage()));
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => VolunteerPage()));
             },
           ),
           SizedBox(

@@ -1,6 +1,7 @@
 import 'package:dutchmenserve/models/event.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
+class User extends Equatable {
   String firstName;
   String lastName;
   String username;
@@ -33,6 +34,9 @@ class User {
     this.events = events ?? [];
     this.favorites = favorites ?? [];
   }
+
+// // Empty user which represents an unauthenticated user.
+//   static const empty = User(emailAddress: '', id: '', name: null, imagepath: null);
 
   // convert User to a json Map
   Map<String, dynamic> toJson() => {
@@ -104,12 +108,6 @@ class User {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is User &&
-        o.firstName == firstName &&
-        o.lastName == lastName &&
-        o.username == username;
-  }
+  // TODO: implement props
+  List<Object> get props => [id, username];
 }

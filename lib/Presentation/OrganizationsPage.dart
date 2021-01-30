@@ -1,130 +1,195 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/Presentation/addOrganization.dart';
+import 'package:dutchmenserve/Presentation/app_icons.dart';
 import 'package:dutchmenserve/Presentation/organizationInfo.dart';
+import 'package:dutchmenserve/Presentation/splash.dart';
 import 'package:dutchmenserve/models/organization.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-
+// TODO: change to stateless?
 class OrganizationsPage extends StatefulWidget {
-  OrganizationsPage({Key key}) : super(key: key);
+  final User user;
+  OrganizationsPage({Key key, this.user}) : super(key: key);
 
   @override
   _OrganizationsPage createState() {
-    return _OrganizationsPage();
+    return _OrganizationsPage(user);
   }
 }
 
 class _OrganizationsPage extends State<OrganizationsPage> {
+  User user;
+  _OrganizationsPage(this.user);
+
+  final List<Organization> orgs = [
+    Organization(
+        'Lebanon Valley Educational Partnership', 'B there or B square',
+        id: 1, email: 'b@lvc.edu', officers: [1, 2, 3, 4, 5], members: [1, 2]),
+    Organization('Colleges Against Cancer',
+        'see me at Relay, this is a longer description',
+        id: 2, email: 'c@lvc.edu', officers: [3], members: [3, 4, 5]),
+    Organization('Alpha Phi Omega',
+        'how fun fun fun we do so many fun things together with the brothers',
+        id: 3,
+        email: 'apo@lvc.edu',
+        officers: [8],
+        members: [6, 8, 9],
+        imagepath: 'images/apo.jpeg'),
+    Organization('AST', 'hello hi hi',
+        id: 4, email: 'ast@lvc.edu', officers: [7], members: [7, 10, 12]),
+    Organization('Gamma Sigma Sigma', 'xmas we organize the presents',
+        id: 5, email: 'gs@lvc.edu', officers: [], members: [11, 12]),
+  ];
+
+  ListView buildOrgList(BuildContext context, List<Organization> orgs) {
+    return ListView.separated(
+      padding: EdgeInsets.all(20.0),
+      itemBuilder: (BuildContext context, int index) {
+        return createOrgCard(context, orgs[index]);
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+      itemCount: orgs.length,
+    );
+  }
+
+  Widget createOrgCard(BuildContext context, Organization o1) {
+    return Card(
+      child: Column(
+        children: [
+          ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OrgInfo(
+                    org: o1,
+                  ),
+                ),
+              );
+            },
+            leading: o1.imagepath == null
+                ? CircleAvatar(
+                          backgroundColor: Colors.white54,
+                          radius: 25.0,
+                          child: Icon(
+                            Icons.group_work,
+                            size: 40,
+                            color: Color(0xffDDDDDE),
+                          ))
+                : CircleAvatar(
+                    radius: 25,
+                    backgroundImage: AssetImage(o1.imagepath),
+                  ),
+            title: Container(
+              margin: EdgeInsets.only(top: 15, bottom: 2),
+              child: Text(
+                o1.orgName,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  o1.email,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: Text(
+                    o1.description,
+                    style: TextStyle(fontSize: 14),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                ButtonBar(
+                  alignment: MainAxisAlignment.end,
+                  children: [
+                    user.organizations.contains(o1.id)
+                        ? FlatButton(
+                            child: Text('Unfollow'),
+                            onPressed: () {
+                              setState(() {
+                                user.organizations.remove(o1.id);
+                                o1.members.remove(user.id);
+                              });
+                            },
+                          )
+                        : FlatButton(
+                            child: Text('Follow'),
+                            onPressed: () {
+                              setState(() {
+                                user.organizations.add(o1.id);
+                                o1.members.add(user.id);
+                              });
+                            },
+                          ),
+                    FlatButton(
+                      child: Text('Learn More'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrgInfo(
+                              org: o1,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => OrganizationCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("LVC Service Organizations"),
-          backgroundColor: Colors.indigo[800],
-        ),
-        body: BlocBuilder<OrganizationCubit, OrganizationState>(
-          builder: (context, state) {
-            if (state is OrganizationInitial) {
-              return buildInitial();
-            } else if (state is LoadedState) {
-              final orgs = state.orgs;
-              return buildOrgList(context, orgs);
-            } else if (state is LoadingState) {
-              return buildLoading();
-            } else {
-              return buildInitial();
-            }
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => OrgPage()));
-          },
-          child: Icon(Icons.add),
+        appBar: AppBar(title: Text("Service Organizations")),
+        body: buildOrgList(context, orgs),
+        // body: BlocBuilder<OrganizationCubit, OrganizationState>(
+        //   builder: (context, state) {
+        //     if (state is LoadedState) {
+        //       final orgs = state.orgs;
+        //       return buildOrgList(context, orgs);
+        //     } else if (state is LoadingState) {
+        //       return Center(
+        //   child: CircularProgressIndicator(),
+        // );
+        //     } else {
+        //       return SplashPage();
+        //     }
+        //   },
+        // ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(right: 1, bottom: 10),
+          child: FloatingActionButton(
+            backgroundColor: Color(0xffFFE400),
+            tooltip: 'Add a new organization',
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddOrgPage()));
+            },
+            child: Icon(Icons.add, color: Colors.black),
+          ),
         ),
       ),
     );
   }
-}
-
-Widget buildInitial() {
-  return Container(
-    child: Text('Organzations'),
-  );
-}
-
-Widget buildLoading() {
-  return Center(
-    child: CircularProgressIndicator(),
-  );
-}
-
-ListView buildOrgList(BuildContext context, List<Organization> o1) {
-  return ListView.separated(
-    padding: const EdgeInsets.all(20.0),
-    itemBuilder: (BuildContext context, int index) {
-      return Container(
-        child: createOrgCard(context, o1[index]),
-      );
-    },
-    separatorBuilder: (BuildContext context, int index) => const Divider(),
-    itemCount: o1.length,
-  );
-}
-
-//List<Icon> icons in parameter?
-Container createOrgCard(BuildContext context, Organization o1) {
-  //final orgCube = context.bloc<OrganizationCubit>();
-  //orgCube.getOrgs();
-  return Container(
-    //padding: EdgeInsets.all(25),
-    child: Card(
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: [
-          ListTile(
-            //this will be an imagepath some day
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                (Icons.group),
-                size: 40,
-              ),
-            ),
-            title: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(o1.orgName),
-            ),
-          ),
-          // Image.asset(imagePath),
-          ButtonBar(
-            alignment: MainAxisAlignment.end,
-            children: [
-              FlatButton(
-                textColor: Colors.indigoAccent,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrgInfo(
-                        orgToDisplay: o1,
-                      ),
-                    ),
-                  );
-                  // Perform some action
-                },
-                child: Text('Learn More'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
 }

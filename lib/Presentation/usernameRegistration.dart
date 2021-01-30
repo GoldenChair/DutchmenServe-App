@@ -73,24 +73,6 @@ class RegisterFormState extends State<UserNameReg> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register an account'),
-        brightness: Brightness.dark,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-              statusBarColor: Color(0xff001d35),
-              systemNavigationBarColor: Color(0xff002A4E),
-              systemNavigationBarIconBrightness: Brightness.dark,
-            ));
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => InitialLoginHome()),
-            );
-          },
-        ),
-      ),
       body: BlocProvider(
         create: (context) => UsersCubit(),
         child: GestureDetector(
@@ -106,6 +88,26 @@ class RegisterFormState extends State<UserNameReg> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: CustomScrollView(
               slivers: [
+                SliverAppBar(
+                  title: Text('Register an account'),
+                  brightness: Brightness.dark,
+                  floating: true,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                        statusBarColor: Color(0xff002A4E),
+                        systemNavigationBarColor: Color(0xffFFE400),
+                        systemNavigationBarIconBrightness: Brightness.dark,
+                      ));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InitialLoginHome()),
+                      );
+                    },
+                  ),
+                ),
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: Container(
