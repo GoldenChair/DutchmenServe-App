@@ -12,25 +12,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EventsList extends StatelessWidget {
   final User user;
   const EventsList(this.user);
-  
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EventCubit(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Events- List View"),
-          backgroundColor: Colors.indigo[800],
+          title: Text(""),
           automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage(user)),
-              );
-            },
-          ),
+          backgroundColor: Colors.transparent,
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => HomePage(user)),
+          //     );
+          //   },
+          // ),
           actions: [
             IconButton(
               icon: Icon(Icons.date_range),

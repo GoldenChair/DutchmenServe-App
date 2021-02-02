@@ -56,6 +56,8 @@ class Event(models.Model):
     location = models.CharField(max_length = 50, default = 'Lebanon Valley College', null = True)
     description = models.TextField(max_length=500, null=True)
     interests = models.ManyToManyField(Interests, null = True, blank = True)
+    isCommunity = models.BooleanField()
+    isResidential = models.BooleanField()
 
     ##interests = models.CharField(max_length = 5, choices = interest_choices, default = interest1)
     imagepath = models.FileField(null = True, blank = True)

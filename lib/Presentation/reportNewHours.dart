@@ -5,6 +5,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
+import 'package:dutchmenserve/Presentation/buttons.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
@@ -17,10 +18,7 @@ class ReportNewHours extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('New Report'),
-        backgroundColor: Colors.indigo[800],
-      ),
+      appBar: AppBar(title: Text('New Report')),
       body: MultiBlocProvider(
         providers: [
           BlocProvider<EventCubit>(
@@ -67,17 +65,20 @@ class _RNHState extends State<RNHStateful> {
               createLTAddStudents(context),
               createLTPhotos(),
               Center(
-                child: RaisedButton(
-                  child: Text('Submit'),
-                  onPressed: () {
-                    // TODO: send report to repo
-                    _hrs = (double.parse(_hrsController.text)) + _partialHour;
-                    var b = context.watch<ReportCubit>();
-                    b.submitReport(new Report(_event, _hrs, _self));
-                    // TODO: alert to confirm submitting report
-                    // Navigate back to report hours page
-                    Navigator.pop(context);
-                  },
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 25),
+                  child: NormalButton(
+                    'Submit',
+                    () {
+                      // TODO: send report to repo
+                      _hrs = (double.parse(_hrsController.text)) + _partialHour;
+                      var b = context.watch<ReportCubit>();
+                      b.submitReport(new Report(_event, _hrs, _self));
+                      // TODO: alert to confirm submitting report
+                      // Navigate back to report hours page
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ),
             ],

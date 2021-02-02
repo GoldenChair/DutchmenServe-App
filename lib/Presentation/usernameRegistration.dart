@@ -153,7 +153,8 @@ class RegisterFormState extends State<UserNameReg> {
 
                               // save new User in DB
                               User u = User(
-                                  fn, ln, unController.text, pwController.text);
+                                  fn, ln, unController.text, pwController.text,
+                                  id: 1);
 
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.

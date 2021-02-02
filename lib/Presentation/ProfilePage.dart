@@ -98,7 +98,7 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account'),
+        title: Text('Profile'),
         actions: [
           FlatButton(
             onPressed: () {

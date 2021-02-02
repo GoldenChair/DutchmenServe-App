@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class Event {
@@ -7,6 +6,8 @@ class Event {
   String location;
   String description;
   List<int> interests;
+  bool isCommunity;
+  bool isResidential;
   int id;
   String imagepath;
   List<int> registered;
@@ -14,13 +15,15 @@ class Event {
 
   // constructor
   Event(String eventName, DateTime date, String location, String description,
-      List<int> interests,
-      {int id, String imagepath}) {
+      List<int> interests, isCommunity,
+      {int id, String imagepath, bool isResidential}) {
     this.eventName = eventName;
     this.date = date;
     this.location = location;
     this.description = description;
     this.interests = interests;
+    this.isCommunity = isCommunity;
+    this.isResidential = isResidential ?? false;
     this.id = id;
     this.imagepath = imagepath;
     registered = [];
@@ -34,6 +37,8 @@ class Event {
         'location': location,
         'description': description,
         'interests': interests,
+        'isCommunity': isCommunity,
+        'isResidential': isResidential,
         'id': id, // may be null
         'imagepath': imagepath, // may be null
         'registered': registered, // may be empty
@@ -47,6 +52,8 @@ class Event {
     date = DateTime.parse(json['date']);
     location = json['location'];
     description = json['description'];
+    isCommunity = json['isCommunity'];
+    isResidential = json['isResidential'];
     imagepath = json['imagepath'];
     interests = parseList(json['interests']);
     registered = parseList(json['registered']);

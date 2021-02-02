@@ -58,11 +58,11 @@ class InitialLoginHome extends StatelessWidget {
         toolbarHeight: 90,
         backgroundColor: Color(0xff002A4E),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           'Dutchmen Serve',
+          minFontSize: 55,
           style: TextStyle(
             fontFamily: 'BebasNeue',
-            fontSize: 55,
             fontWeight: FontWeight.normal,
             color: Color(0xff95C1DC),
           ),

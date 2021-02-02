@@ -138,7 +138,8 @@ class LoginFormState extends State<LoginForm> {
                         if (_loginFormKey.currentState.validate()) {
                           // TODO: and database verifies User
                           User user = User('first', 'last', unController.text,
-                              pwController.text);
+                              pwController.text,
+                              id: 1);
 
                           SystemChrome.setSystemUIOverlayStyle(
                               SystemUiOverlayStyle(
