@@ -2,6 +2,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
+import 'package:dutchmenserve/Presentation/buttons.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,50 +12,74 @@ import 'package:flutter/material.dart';
 class EventsCalendar extends StatelessWidget {
   final User user;
   const EventsCalendar(this.user);
-  
+
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Events- Calendar View'),
-        backgroundColor: Colors.indigo[800],
+        title: Text('Events Calendar'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-              ctxt,
-              MaterialPageRoute(builder: (context) => HomePage(user)),
-            );
+            Navigator.pop(ctxt);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: () {
-              Navigator.push(
-                ctxt,
-                MaterialPageRoute(builder: (context) => EventsList(user)),
-              );
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.list),
+        //     onPressed: () {
+        //       Navigator.push(
+        //         ctxt,
+        //         MaterialPageRoute(builder: (context) => EventsList(user)),
+        //       );
+        //     },
+        //   )
+        // ],
       ),
       body: BlocProvider<EventCubit>(
         create: (context) => EventCubit(),
-        child: Column(
-          children: [
-            OppsCalendarStateful(),
-            RaisedButton(
-              child: Text('See Ongoing Events'),
-              onPressed: () {
-                Navigator.push(
-                  ctxt,
-                  MaterialPageRoute(builder: (context) => EventsOngoing(user)),
-                );
-              },
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              OppsCalendarStateful(),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                    ctxt,
+                    MaterialPageRoute(
+                        builder: (context) => EventsOngoing(user)),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(90)),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 12),
+                  child: Text('See Ongoing Events',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xffaacde3),
+                        fontWeight: FontWeight.w900,
+                      )),
+                ),
+              )
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              //   child: NormalButton(
+              //     'See Ongoing Events',
+              //     () {
+              //       Navigator.push(
+              //         ctxt,
+              //         MaterialPageRoute(
+              //             builder: (context) => EventsOngoing(user)),
+              //       );
+              //     },
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );

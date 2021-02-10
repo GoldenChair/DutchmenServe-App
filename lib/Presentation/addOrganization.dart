@@ -128,15 +128,15 @@ class _AddOrgState extends State<AddOrgPage> {
                         ),
                         ListTile(
                           // tileColor: Colors.white,
-                          leading: CircleAvatar(
-                            child: Icon(Icons.add_a_photo),
-                            backgroundColor: Colors.transparent,
+                          leading: Icon(Icons.add_a_photo),
+                          title: Text('Profile'),
+                          trailing: FlatButton(
+                            color: Colors.grey[200],
+                            child: Text('Upload'),
+                            onPressed: () {
+                              //TODO: implement adding photos
+                            },
                           ),
-                          title: Text('Add Profile',
-                              style: TextStyle(color: Colors.grey[700])),
-                          onTap: () {
-                            //TODO: upload photo
-                          },
                         ),
                         Spacer(flex: 1),
                         NormalButton(

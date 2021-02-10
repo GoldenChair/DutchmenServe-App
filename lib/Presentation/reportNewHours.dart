@@ -14,34 +14,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class ReportNewHours extends StatelessWidget {
-  @override
-  Widget build(BuildContext ctxt) {
-    return Scaffold(
-      appBar: AppBar(title: Text('New Report')),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<EventCubit>(
-            create: (BuildContext context) => EventCubit(),
-          ),
-          BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(),
-          ),
-        ],
-        child: RNHStateful(),
-      ),
-    );
-  }
-}
-
-class RNHStateful extends StatefulWidget {
-  RNHStateful({Key key}) : super(key: key);
+class ReportNewHours extends StatefulWidget {
+  ReportNewHours({Key key}) : super(key: key);
 
   @override
   _RNHState createState() => _RNHState();
 }
 
-class _RNHState extends State<RNHStateful> {
+class _RNHState extends State<ReportNewHours> {
   // data of report
   DateTime _dateTime;
   TextEditingController _hrsController = TextEditingController();
@@ -53,37 +33,63 @@ class _RNHState extends State<RNHStateful> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<EventCubit, EventState>(
-        builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              createLTDate(),
-              createLTEvent(state),
-              createLTHours(),
-              createLTAddStudents(context),
-              createLTPhotos(),
-              Center(
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 25),
-                  child: NormalButton(
-                    'Submit',
-                    () {
-                      // TODO: send report to repo
-                      _hrs = (double.parse(_hrsController.text)) + _partialHour;
-                      var b = context.watch<ReportCubit>();
-                      b.submitReport(new Report(_event, _hrs, _self));
-                      // TODO: alert to confirm submitting report
-                      // Navigate back to report hours page
-                      Navigator.pop(context);
-                    },
+    return Scaffold(
+      appBar: AppBar(title: Text('New Report')),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<EventCubit>(
+            create: (BuildContext context) => EventCubit(),
+          ),
+          BlocProvider<ReportCubit>(
+            create: (BuildContext context) => ReportCubit(),
+          ),
+        ],
+        child: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: SingleChildScrollView(
+            child: BlocBuilder<EventCubit, EventState>(
+              builder: (context, state) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      createLTDate(),
+                      createLTEvent(state),
+                      createLTHours(),
+                      createLTAddStudents(context),
+                      createLTPhotos(),
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 25),
+                          child: NormalButton(
+                            'Submit',
+                            () {
+                              // TODO: send report to repo
+                              _hrs = (double.parse(_hrsController.text)) +
+                                  _partialHour;
+                              var b = context.watch<ReportCubit>();
+                              b.submitReport(new Report(_event, _hrs, _self));
+                              // TODO: alert to confirm submitting report
+                              // Navigate back to report hours page
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ],
-          );
-        },
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -201,45 +207,63 @@ class _RNHState extends State<RNHStateful> {
         controller: _hrsController,
         decoration: InputDecoration(
           hintText: "Hours",
+          hintStyle: TextStyle(color: Colors.grey[600]),
+          contentPadding: EdgeInsets.only(bottom: 0, left: 10),
         ),
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.digitsOnly
         ],
       ),
-      trailing: DropdownButton<double>(
-        value: _partialHour,
-        onChanged: (double newValue) {
-          setState(() {
-            _partialHour = newValue;
-          });
-        },
-        items: <double>[0, .25, .5, .75]
-            .map<DropdownMenuItem<double>>((double value) {
-          return DropdownMenuItem<double>(
-            value: value,
-            child: Text(value.toString()),
-          );
-        }).toList(),
+      trailing: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+          ),
+        ),
+        padding: EdgeInsets.only(left: 10),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<double>(
+            value: _partialHour,
+            onChanged: (double newValue) {
+              setState(() {
+                _partialHour = newValue;
+              });
+            },
+            items: <double>[0, .25, .5, .75]
+                .map<DropdownMenuItem<double>>((double value) {
+              return DropdownMenuItem<double>(
+                value: value,
+                child: Text(value.toString()),
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
   }
 
-  ListTile createLTAddStudents(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.group_add),
-      title: Text('Additional Students'),
-      trailing: FlatButton(
-        child: Text('Add'),
-        color: Colors.grey[200],
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ReportGroupAddStudents()),
-          );
-        },
+  Widget createLTAddStudents(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 5),
+      child: ListTile(
+        leading: Icon(Icons.group_add),
+        title: Text('Additional Students'),
+        trailing: FlatButton(
+          child: Text('Add'),
+          color: Colors.grey[200],
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ReportGroupAddStudents()),
+            );
+          },
+        ),
+        subtitle: Text('None'), // TODO: update students added
       ),
-      subtitle: Text('None'), // TODO: update students added
     );
   }
 

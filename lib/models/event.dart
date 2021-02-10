@@ -15,7 +15,7 @@ class Event {
 
   // constructor
   Event(String eventName, DateTime date, String location, String description,
-      List<int> interests, isCommunity,
+      List<int> interests, bool isCommunity,
       {int id, String imagepath, bool isResidential}) {
     this.eventName = eventName;
     this.date = date;
@@ -69,7 +69,9 @@ class Event {
   }
 
   String dateString() {
-    final DateFormat formatter = DateFormat('MM/dd/yyyy H:mm');
+    // return DateFormat.yMMMEd().format(dt);
+    // final DateFormat formatter = DateFormat('MM/dd/yyyy H:mm');
+    final DateFormat formatter = DateFormat('EEE. M/d, h:mm a');
     return formatter.format(date);
   }
 

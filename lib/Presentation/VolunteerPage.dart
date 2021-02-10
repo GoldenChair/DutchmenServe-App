@@ -1,6 +1,7 @@
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
+//unused
 class VolunteerPage extends StatelessWidget {
   final User user;
   const VolunteerPage(this.user);

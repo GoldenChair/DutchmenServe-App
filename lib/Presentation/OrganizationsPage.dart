@@ -57,100 +57,97 @@ class _OrganizationsPage extends State<OrganizationsPage> {
 
   Widget createOrgCard(BuildContext context, Organization o1) {
     return Card(
-      child: Column(
-        children: [
-          ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OrgInfo(
-                    org: o1,
-                  ),
-                ),
-              );
-            },
-            leading: o1.imagepath == null
-                ? CircleAvatar(
-                          backgroundColor: Colors.white54,
-                          radius: 25.0,
-                          child: Icon(
-                            Icons.group_work,
-                            size: 40,
-                            color: Color(0xffDDDDDE),
-                          ))
-                : CircleAvatar(
-                    radius: 25,
-                    backgroundImage: AssetImage(o1.imagepath),
-                  ),
-            title: Container(
-              margin: EdgeInsets.only(top: 15, bottom: 2),
-              child: Text(
-                o1.orgName,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+      elevation: 5,
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrgInfo(
+                org: o1,
               ),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          );
+        },
+        leading: o1.imagepath == null
+            ? CircleAvatar(
+                backgroundColor: Colors.white54,
+                radius: 25.0,
+                child: Icon(
+                  Icons.group_work,
+                  size: 40,
+                  color: Color(0xffDDDDDE),
+                ))
+            : CircleAvatar(
+                radius: 25,
+                backgroundImage: AssetImage(o1.imagepath),
+              ),
+        title: Container(
+          margin: EdgeInsets.only(top: 15, bottom: 2),
+          child: Text(
+            o1.orgName,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              o1.email,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.left,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              child: Text(
+                o1.description,
+                style: TextStyle(fontSize: 14),
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  o1.email,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.left,
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5),
-                  child: Text(
-                    o1.description,
-                    style: TextStyle(fontSize: 14),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.end,
-                  children: [
-                    user.organizations.contains(o1.id)
-                        ? FlatButton(
-                            child: Text('Unfollow'),
-                            onPressed: () {
-                              setState(() {
-                                user.organizations.remove(o1.id);
-                                o1.members.remove(user.id);
-                              });
-                            },
-                          )
-                        : FlatButton(
-                            child: Text('Follow'),
-                            onPressed: () {
-                              setState(() {
-                                user.organizations.add(o1.id);
-                                o1.members.add(user.id);
-                              });
-                            },
-                          ),
-                    FlatButton(
-                      child: Text('Learn More'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OrgInfo(
-                              org: o1,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                user.organizations.contains(o1.id)
+                    ? FlatButton(
+                        child: Text('Unfollow'),
+                        onPressed: () {
+                          setState(() {
+                            user.organizations.remove(o1.id);
+                            o1.members.remove(user.id);
+                          });
+                        },
+                      )
+                    : FlatButton(
+                        child: Text('Follow'),
+                        onPressed: () {
+                          setState(() {
+                            user.organizations.add(o1.id);
+                            o1.members.add(user.id);
+                          });
+                        },
+                      ),
+                FlatButton(
+                  child: Text('Learn More'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrgInfo(
+                          org: o1,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -176,12 +173,13 @@ class _OrganizationsPage extends State<OrganizationsPage> {
         //     }
         //   },
         // ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
         floatingActionButton: Padding(
-          padding: EdgeInsets.only(right: 1, bottom: 10),
+          padding: EdgeInsets.only(right: 5, bottom: 15),
           child: FloatingActionButton(
             backgroundColor: Color(0xffFFE400),
             tooltip: 'Add a new organization',
+            mini: true,
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AddOrgPage()));

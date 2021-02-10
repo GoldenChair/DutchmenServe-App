@@ -8,7 +8,6 @@ import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart' as gauges;
 
@@ -20,7 +19,7 @@ class _PieData {
   final Color color;
 }
 
-// does this really need to be stateful??????
+// does this really need to be stateful?????? no, change to stateless once bloc hooked up
 class ReportHoursPage extends StatefulWidget {
   User user;
   ReportHoursPage(this.user, {Key key}) : super(key: key);
@@ -82,12 +81,12 @@ class _ReportHoursState extends State<ReportHoursPage> {
     Colors.blueGrey[100], //Color(0xffd9d9d9),
   ];
 
-  List<Color> camCom = [
+  final List<Color> camCom = [
     Color(0xffCCCCFF),
     Color(0xff8D9EFA),
   ];
 
-  List<Report> all = [
+  final List<Report> all = [
     Report.fromID(2, .5, 1),
     Report.fromID(1, 3, 1),
     Report.fromID(3, 1, 2),
@@ -333,94 +332,113 @@ class _ReportHoursState extends State<ReportHoursPage> {
       );
     }
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 3),
+      margin: EdgeInsets.only(bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           child,
           Text(
             text,
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 16),
           ),
         ],
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // user.printUser();
-    List<double> res = countHours(all, user.id);
-    return Scaffold(
-      body: Column(
+  Widget legend() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
         children: [
-          Stack(
-            alignment: Alignment.center,
+          legendItem(
+            'Progress to Service Award',
+            gradient: SweepGradient(
+                colors: <Color>[Color(0xFF00a9b5), Color(0xFFa4edeb)],
+                stops: <double>[0.25, 0.75]),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(child: radialBar(res), height: 200, width: 200),
-              Container(
-                child: serviceTypeDonut(res),
-                height: 320,
-                width: 320,
+              legendItem(
+                'Campus',
+                color: camCom[0],
               ),
-              Container(child: interestDonut(res), height: 400),
+              SizedBox(width: 40),
+              legendItem(
+                'Community',
+                color: camCom[1],
+              ),
             ],
           ),
           Container(
-              height: 100,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  legendItem(
-                    'Progress to Gold Award',
-                    gradient: SweepGradient(
-                        colors: <Color>[Color(0xFF00a9b5), Color(0xFFa4edeb)],
-                        stops: <double>[0.25, 0.75]),
+            margin: EdgeInsets.only(bottom: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                10,
+                (i) => Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: colors[i],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      legendItem(
-                        'Campus',
-                        color: camCom[0],
-                      ),
-                      SizedBox(width: 40),
-                      legendItem(
-                        'Community',
-                        color: camCom[1],
-                      ),
-                    ],
+                  padding: EdgeInsets.all(5),
+                  child: Icon(
+                    icons[i],
+                    color: Colors.white,
+                    size: 15,
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(
-                        10,
-                        (i) => Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: colors[i],
-                          ),
-                          padding: EdgeInsets.all(5),
-                          child: Icon(
-                            icons[i],
-                            color: Colors.white,
-                            size: 15,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ))
+                ),
+              ),
+            ),
+          )
         ],
+      ),
+    );
+  }
+
+  bool toShow = false;
+  String legendLabel = 'Show Legend';
+
+  @override
+  Widget build(BuildContext context) {
+    List<double> res = countHours(all, user.id);
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(child: radialBar(res), height: 200, width: 200),
+                Container(
+                  child: serviceTypeDonut(res),
+                  height: 300,
+                  width: 300,
+                ),
+                Container(child: interestDonut(res), height: 390),
+              ],
+            ),
+            ActionChip(
+              label: Text(legendLabel),
+              onPressed: () {
+                setState(() {
+                  toShow = !toShow;
+                  if (toShow)
+                    legendLabel = 'Hide Legend';
+                  else
+                    legendLabel = 'Show Legend';
+                });
+              },
+            ),
+            if (toShow) legend(),
+          ],
+        ),
       ),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(top: 15),
         child: fab(context),
       ),
-      // floatingActionButton: fab(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
@@ -438,247 +456,5 @@ class _ReportHoursState extends State<ReportHoursPage> {
       tooltip: 'Report Hours',
       child: Icon(Icons.add, color: Colors.black),
     );
-
-    // Function toolTipBuilder(List<_PieData> pieData) {
-    //   return (dynamic data, dynamic point, dynamic series, int pointIndex,
-    //       int seriesIndex) {
-    //     return Container(
-    //       // height: 30,
-    //       // width: 100,
-    //       decoration: BoxDecoration(color: Colors.black),
-    //       child: Row(
-    //         children: <Widget>[
-    //           Icon(
-    //             icons[seriesIndex],
-    //             size: 16,
-    //             color: colors[seriesIndex],
-    //           ),
-    //           AutoSizeText(
-    //             interests[seriesIndex].interest + ' ' + pieData[seriesIndex].text,
-    //             style: TextStyle(
-    //               fontSize: 12,
-    //               color: Colors.white,
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     );
-    //   };
-    // }
-
-    // return SpeedDial(
-    //   animatedIcon: AnimatedIcons.menu_close,
-    //   children: [
-    //     SpeedDialChild(
-    //       child: Icon(Icons.person),
-    //       backgroundColor: Colors.indigoAccent[100],
-    //       label: 'Individual',
-    //       onTap: () {
-    //         Navigator.push(
-    //           context,
-    //           MaterialPageRoute(builder: (context) => ReportNewHours()),
-    //         );
-    //       },
-    //     ),
-    //     SpeedDialChild(
-    //       child: Icon(Icons.group),
-    //       backgroundColor: Colors.indigoAccent[200],
-    //       label: 'Group',
-    //       onTap: () {
-    //         Navigator.push(
-    //           context,
-    //           MaterialPageRoute(builder: (context) => ReportNewHours()),
-    //         );
-    //       },
-    //     ),
-    //   ],
-    // );
   }
-
-  // Widget oldView() {
-  //   return ListView(
-  //     children: [
-  //       Center(
-  //           child: Text(
-  //         'Summary',
-  //         textAlign: TextAlign.center,
-  //       )),
-  //       Card(
-  //         color: Colors.indigo,
-  //         elevation: 5,
-  //       ),
-  //       CircularPercentIndicator(
-  //         progressColor: Colors.blue[700],
-  //         percent: 0.72,
-  //         animation: true,
-  //         radius: 250.0,
-  //         lineWidth: 15.0,
-  //         circularStrokeCap: CircularStrokeCap.round,
-  //         center: Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             AutoSizeText(
-  //               'Semester To Date:',
-  //               style: TextStyle(
-  //                 fontSize: 14,
-  //               ),
-  //               maxLines: 1,
-  //             ),
-  //             AutoSizeText(
-  //               '30',
-  //               style: TextStyle(
-  //                 fontSize: 30,
-  //               ),
-  //               maxLines: 1,
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.gavel,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.black,
-  //             percent: 0.07,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.pets,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.yellow[700],
-  //             percent: 0.05,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.color_lens,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.blue[700],
-  //             percent: 0.02,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.child_care,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.green,
-  //             percent: 0.07,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.group,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.pink,
-  //             percent: 0.28,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.computer,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.grey,
-  //             percent: 0.15,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.school,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.blue[700],
-  //             percent: 0.12,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.face,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.blue[700],
-  //             percent: 0.02,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(25.0),
-  //           child: LinearPercentIndicator(
-  //             leading: Icon(
-  //               Icons.more_horiz,
-  //               size: 40,
-  //             ),
-  //             progressColor: Colors.blue[700],
-  //             percent: 0.22,
-  //             animation: true,
-  //             linearStrokeCap: LinearStrokeCap.roundAll,
-  //             lineHeight: 25.0,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

@@ -1,8 +1,6 @@
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/aboutPage.dart';
-import 'package:dutchmenserve/Presentation/app_icons.dart';
-import 'package:dutchmenserve/Presentation/ig_icon.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
