@@ -1,7 +1,6 @@
 import 'dart:ui';
-import 'package:dutchmenserve/Presentation/buttons.dart';
+import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/organizationSelect.dart';
-import 'package:dutchmenserve/Presentation/setUpConfirmation.dart';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';

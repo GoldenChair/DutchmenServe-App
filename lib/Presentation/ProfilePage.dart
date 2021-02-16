@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:dutchmenserve/Presentation/Constants.dart';
-import 'package:dutchmenserve/Presentation/buttons.dart';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,7 @@ class ProfilePageState extends State<ProfilePage> {
   User user;
   ProfilePageState(this.user);
 
-  final List<Interest> interests = [
+  List<Interest> interests = [
     Interest('Animals'),
     Interest('Disabilities'),
     Interest('Education'),
@@ -34,7 +32,7 @@ class ProfilePageState extends State<ProfilePage> {
     Interest('Veterans'),
     Interest('Other'),
   ];
-  final List<IconData> icons = [
+  List<IconData> icons = [
     Icons.pets,
     Icons.accessible,
     Icons.school,
@@ -46,7 +44,7 @@ class ProfilePageState extends State<ProfilePage> {
     Icons.stars,
     Icons.more_horiz,
   ];
-  final List<Color> colors = [
+  List<Color> colors = [
     Colors.pink[600],
     Colors.blueAccent[200],
     Colors.orangeAccent[700],

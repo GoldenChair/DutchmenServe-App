@@ -404,7 +404,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
   Widget build(BuildContext context) {
     List<double> res = countHours(all, user.id);
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Scrollbar(
         child: Column(
           children: [
             Stack(

@@ -30,8 +30,6 @@ class _AddStudentsState extends State<AddStudentsStateful>
     with SingleTickerProviderStateMixin {
   List<User> users = [];
 
-  _AddStudentsState({Key key});
-
   AnimationController _animationController;
   Animation<Color> _colorTween;
 

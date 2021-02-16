@@ -5,7 +5,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
-import 'package:dutchmenserve/Presentation/buttons.dart';
+import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';

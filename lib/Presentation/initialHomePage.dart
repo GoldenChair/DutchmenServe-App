@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dutchmenserve/Presentation/Login.dart';
 import 'package:dutchmenserve/Presentation/app_icons.dart';
-import 'package:dutchmenserve/Presentation/buttons.dart';
+import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/usernameRegistration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

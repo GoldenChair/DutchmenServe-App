@@ -1,16 +1,3 @@
-// final List<Interest> interests = [
-//     Interest('Animals'),
-//     Interest('Disabilities'),
-//     Interest('Education'),
-//     Interest('Food'),
-//     Interest('Health\nWellness'),
-//     Interest('Housing'),
-//     Interest('Older Adults'),
-//     Interest('Service Trips'),
-//     Interest('Veterans'),
-//     Interest('Other'),
-//   ];
-
 class Interest {
   int id;
   String interest;

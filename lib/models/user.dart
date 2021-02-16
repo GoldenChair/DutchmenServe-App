@@ -88,6 +88,15 @@ class User extends Equatable {
   //   return res;
   // }
 
+  bool isRegistered(Event e) {
+    return events.contains(e.id);
+  }
+
+  void unregister(Event e) {
+    events.remove(e.id);
+    e.registered.remove(id);
+  }
+
   void register(Event e) {
     events.add(e.id);
     e.registered.add(id);

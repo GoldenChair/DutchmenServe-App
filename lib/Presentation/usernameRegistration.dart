@@ -1,5 +1,5 @@
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
-import 'package:dutchmenserve/Presentation/buttons.dart';
+import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:dutchmenserve/Presentation/interestSelection.dart';
 import 'package:dutchmenserve/models/user.dart';

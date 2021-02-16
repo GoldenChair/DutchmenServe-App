@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
@@ -20,85 +18,87 @@ class HomePage extends StatelessWidget {
       systemNavigationBarColor: Color(0xfff9f9f9),
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
+    
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        body: buildScrollable(context),
+      ),
+    );
+  }
 
-    // scroll so only tabs show?
-    // return DefaultTabController(
-    //   length: 3,
-    //   child: Scaffold(
-    //     body: NestedScrollView(
-    //       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-    //         return <Widget>[
-    //           SliverOverlapAbsorber(
-    //             handle:
-    //                 NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-    //             sliver: SliverAppBar(
-    //               pinned: false,
-    //               forceElevated: innerBoxIsScrolled,
-    //               title: Text(
-    //                 'Dutchmen Serve',
-    //                 style: TextStyle(
-    //                     fontFamily: 'BebasNeue',
-    //                     color: Color(0xff95C1DC),
-    //                     fontSize: 45),
-    //               ),
-    //               actions: <Widget>[
-    //                 IconButton(
-    //                     icon: Icon(Icons.notifications, size: 28),
-    //                     padding: EdgeInsets.only(right: 15),
-    //                     onPressed: () {
-    //                       // Navigator.of(context).pushNamed('/notifications-page');
-    //                       Navigator.push(
-    //                         context,
-    //                         new MaterialPageRoute(
-    //                             builder: (context) => NotificationsPage()),
-    //                       );
-    //                     }),
-    //               ],
-    //               bottom: TabBar(
-    //                 tabs: [
-    //                   Tab(
-    //                     text: 'Volunteer',
-    //                     icon: Icon(
-    //                       Icons.pan_tool,
-    //                       // size: 20,
-    //                     ),
-    //                     iconMargin: EdgeInsets.only(bottom: 3, right: 6),
-    //                   ),
-    //                   Tab(
-    //                     text: 'Report',
-    //                     icon: Icon(Icons.event_note),
-    //                     iconMargin: EdgeInsets.only(bottom: 2),
-    //                   ),
-    //                   Tab(
-    //                     text: 'Connect',
-    //                     icon: Icon(Icons.people),
-    //                     iconMargin: EdgeInsets.only(bottom: 0),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ];
-    //       },
-    //       body: TabBarView(
-    //         children: [
-    //           EventsList(user),
-    //           ReportHoursPage(user),
-    //           ConnectWUsPage(user),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+  // scroll so only tabs show
+  Widget buildScrollable(BuildContext context) {
+    return NestedScrollView(
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            forceElevated: innerBoxIsScrolled,
+            title: Text(
+              'Dutchmen Serve',
+              style: TextStyle(
+                  fontFamily: 'BebasNeue',
+                  color: Color(0xff95C1DC),
+                  fontSize: 45),
+            ),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.notifications, size: 28),
+                  padding: EdgeInsets.only(right: 15),
+                  onPressed: () {
+                    // Navigator.of(context).pushNamed('/notifications-page');
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => NotificationsPage()),
+                    );
+                  }),
+            ],
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  text: 'Volunteer',
+                  icon: Icon(
+                    Icons.pan_tool,
+                    // size: 20,
+                  ),
+                  iconMargin: EdgeInsets.only(bottom: 3, right: 6),
+                ),
+                Tab(
+                  text: 'Report',
+                  icon: Icon(Icons.event_note),
+                  iconMargin: EdgeInsets.only(bottom: 2),
+                ),
+                Tab(
+                  text: 'Connect',
+                  icon: Icon(Icons.people),
+                  iconMargin: EdgeInsets.only(bottom: 0),
+                ),
+              ],
+            ),
+          ),
+        ];
+      },
+      body: TabBarView(
+        children: [
+          EventsList(user: user),
+          ReportHoursPage(user),
+          ConnectWUsPage(user),
+        ],
+      ),
+    );
+  }
 
+  Widget buildNonScrollable(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          // centerTitle: true,
           title: Text(
             'Dutchmen Serve',
-            
             style: TextStyle(
                 fontFamily: 'BebasNeue',
                 color: Color(0xff95C1DC),
@@ -151,7 +151,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        // drawer: createD(context),
         body: TabBarView(
           children: [
             EventsList(user: user),
