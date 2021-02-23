@@ -48,12 +48,12 @@ class RegisterFormState extends State<UserNameReg> {
     return InputDecoration(
       isDense: true,
       filled: true,
-      fillColor: Color(0xfff9f9f9),
+      fillColor: const Color(0xfff9f9f9),
       labelText: labelText,
       labelStyle: TextStyle(fontSize: 16, color: Colors.grey[700]),
       errorStyle:
           focusNode.hasFocus ? TextStyle(fontSize: 0, height: 0) : TextStyle(),
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       suffixIcon: pw
           ? IconButton(
               onPressed: () {
@@ -72,13 +72,12 @@ class RegisterFormState extends State<UserNameReg> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
+    final FocusScopeNode currentFocus = FocusScope.of(context);
     return Scaffold(
       body: BlocProvider(
         create: (context) => UsersCubit(),
         child: GestureDetector(
           onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-
             if (!currentFocus.hasPrimaryFocus) {
               currentFocus.unfocus();
             }
@@ -96,8 +95,8 @@ class RegisterFormState extends State<UserNameReg> {
                     icon: Icon(Icons.arrow_back),
                     onPressed: () {
                       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                        statusBarColor: Color(0xff002A4E),
-                        systemNavigationBarColor: Color(0xffFFE400),
+                        statusBarColor: const Color(0xff002A4E),
+                        systemNavigationBarColor: const Color(0xffFFE400),
                         systemNavigationBarIconBrightness: Brightness.dark,
                       ));
                       Navigator.push(
@@ -111,14 +110,14 @@ class RegisterFormState extends State<UserNameReg> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: <Widget>[
                         Spacer(flex: 3),
                         TextFormField(
                           controller: unController,
-                          decoration: decor(
-                              'LVC Username', FocusScope.of(context), false),
+                          decoration:
+                              decor('LVC Username', currentFocus, false),
                           validator: (value) {
                             if (value.isEmpty) {
                               return '*required';
@@ -127,19 +126,22 @@ class RegisterFormState extends State<UserNameReg> {
                                 ? 'Do not use the @ char.'
                                 : null;
                           },
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => currentFocus.nextFocus(),
                         ),
                         Spacer(),
                         TextFormField(
                           controller: pwController,
                           obscureText: _obscurePW,
-                          decoration: decor(
-                              'LVC Password', FocusScope.of(context), true),
+                          decoration: decor('LVC Password', currentFocus, true),
                           validator: (value) {
                             if (value.isEmpty) {
                               return '*required';
                             }
                             return null;
                           },
+                          textInputAction: TextInputAction.done,
+                          onFieldSubmitted: (_) => currentFocus.unfocus(),
                         ),
                         Spacer(flex: 4),
                         NormalButton(
@@ -162,12 +164,13 @@ class RegisterFormState extends State<UserNameReg> {
                               //     SnackBar(content: Text('Account verified')));
 
                               // unfocus keyboard
-                              FocusScope.of(context).unfocus();
+                              currentFocus.unfocus();
 
                               SystemChrome.setSystemUIOverlayStyle(
                                   SystemUiOverlayStyle(
-                                statusBarColor: Color(0xff002A4E),
-                                systemNavigationBarColor: Color(0xfff9f9f9),
+                                statusBarColor: const Color(0xff002A4E),
+                                systemNavigationBarColor:
+                                    const Color(0xfff9f9f9),
                                 systemNavigationBarIconBrightness:
                                     Brightness.dark,
                               ));

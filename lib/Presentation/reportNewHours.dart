@@ -33,6 +33,7 @@ class _RNHState extends State<ReportNewHours> {
 
   @override
   Widget build(BuildContext context) {
+    final FocusScopeNode currentFocus = FocusScope.of(context);
     return Scaffold(
       appBar: AppBar(title: Text('New Report')),
       body: MultiBlocProvider(
@@ -46,8 +47,6 @@ class _RNHState extends State<ReportNewHours> {
         ],
         child: GestureDetector(
           onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-
             if (!currentFocus.hasPrimaryFocus) {
               currentFocus.unfocus();
             }
@@ -56,18 +55,18 @@ class _RNHState extends State<ReportNewHours> {
             child: BlocBuilder<EventCubit, EventState>(
               builder: (context, state) {
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       createLTDate(),
                       createLTEvent(state),
-                      createLTHours(),
+                      createLTHours(currentFocus),
                       createLTAddStudents(context),
                       createLTPhotos(),
                       Center(
                         child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 25),
+                          margin: const EdgeInsets.symmetric(vertical: 25),
                           child: NormalButton(
                             'Submit',
                             () {
@@ -99,8 +98,8 @@ class _RNHState extends State<ReportNewHours> {
     return ListTile(
       leading: Icon(Icons.insert_invitation),
       title: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
           _dateTime == null ? 'Date' : DateFormat.yMd().format(_dateTime),
           style: TextStyle(
@@ -136,7 +135,7 @@ class _RNHState extends State<ReportNewHours> {
       List events, DateTime dt) {
     List<DropdownMenuItem<Event>> items = List();
     for (Event e in events) {
-      if (e.dateCompare(dt)) {
+      if (e.dateCompare(dt)==0) {
         items.add(
           DropdownMenuItem(
             child: Text(e.eventName),
@@ -180,8 +179,8 @@ class _RNHState extends State<ReportNewHours> {
   ListTile blank(String text) {
     return ListTile(
       title: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
           text,
           style: TextStyle(
@@ -200,7 +199,7 @@ class _RNHState extends State<ReportNewHours> {
     );
   }
 
-  ListTile createLTHours() {
+  ListTile createLTHours(FocusScopeNode currentFocus) {
     return ListTile(
       leading: Icon(Icons.timelapse),
       title: TextField(
@@ -208,12 +207,14 @@ class _RNHState extends State<ReportNewHours> {
         decoration: InputDecoration(
           hintText: "Hours",
           hintStyle: TextStyle(color: Colors.grey[600]),
-          contentPadding: EdgeInsets.only(bottom: 0, left: 10),
+          contentPadding: const EdgeInsets.only(bottom: 0, left: 10),
         ),
         keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly
         ],
+        textInputAction: TextInputAction.done,
+        onSubmitted: (_) => currentFocus.unfocus(),
       ),
       trailing: Container(
         decoration: BoxDecoration(
@@ -224,7 +225,7 @@ class _RNHState extends State<ReportNewHours> {
             ),
           ),
         ),
-        padding: EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 10),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<double>(
             value: _partialHour,
@@ -248,7 +249,7 @@ class _RNHState extends State<ReportNewHours> {
 
   Widget createLTAddStudents(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 5),
+      margin: const EdgeInsets.only(top: 5),
       child: ListTile(
         leading: Icon(Icons.group_add),
         title: Text('Additional Students'),

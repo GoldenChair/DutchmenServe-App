@@ -82,8 +82,8 @@ class _ReportHoursState extends State<ReportHoursPage> {
   ];
 
   final List<Color> camCom = [
-    Color(0xffCCCCFF),
-    Color(0xff8D9EFA),
+    const Color(0xffCCCCFF),
+    const Color(0xff8D9EFA),
   ];
 
   final List<Report> all = [
@@ -128,7 +128,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
       );
     }
     return SfCircularChart(
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
       tooltipBehavior: TooltipBehavior(
         tooltipPosition: TooltipPosition.pointer,
         enable: true,
@@ -173,7 +173,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
     ];
     // or red: 0xffA02A2C
     return SfCircularChart(
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
       tooltipBehavior: TooltipBehavior(
         tooltipPosition: TooltipPosition.pointer,
         enable: true,
@@ -233,14 +233,18 @@ class _ReportHoursState extends State<ReportHoursPage> {
               pointerOffset: .05,
               sizeUnit: gauges.GaugeSizeUnit.factor,
               cornerStyle: gauges.CornerStyle.startCurve,
-              gradient: SweepGradient(
-                  colors: <Color>[Color(0xFF00a9b5), Color(0xFFa4edeb)],
-                  stops: <double>[0.25, 0.75]),
+              gradient: SweepGradient(colors: <Color>[
+                const Color(0xFF00a9b5),
+                const Color(0xFFa4edeb)
+              ], stops: <double>[
+                0.25,
+                0.75
+              ]),
             ),
             gauges.MarkerPointer(
               value: progress,
               markerType: gauges.MarkerType.diamond,
-              color: Color(0xFF87e8e8),
+              color: const Color(0xFF87e8e8),
             )
           ],
           annotations: <gauges.GaugeAnnotation>[
@@ -277,7 +281,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
               length: 0.3,
               thickness: 3,
               lengthUnit: gauges.GaugeSizeUnit.factor,
-              color: Color(0xfff9f9f9)),
+              color: const Color(0xfff9f9f9)),
         )
       ],
     );
@@ -318,13 +322,13 @@ class _ReportHoursState extends State<ReportHoursPage> {
         height: 15,
         width: 15,
         decoration: BoxDecoration(gradient: gradient, shape: BoxShape.circle),
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
       );
     } else {
       child = Container(
         height: 15,
         width: 15,
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: color,
@@ -332,7 +336,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
       );
     }
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -348,14 +352,18 @@ class _ReportHoursState extends State<ReportHoursPage> {
 
   Widget legend() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           legendItem(
             'Progress to Service Award',
-            gradient: SweepGradient(
-                colors: <Color>[Color(0xFF00a9b5), Color(0xFFa4edeb)],
-                stops: <double>[0.25, 0.75]),
+            gradient: SweepGradient(colors: <Color>[
+              const Color(0xFF00a9b5),
+              const Color(0xFFa4edeb)
+            ], stops: <double>[
+              0.25,
+              0.75
+            ]),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -372,7 +380,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 50),
+            margin: const EdgeInsets.only(bottom: 50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
@@ -382,7 +390,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
                     shape: BoxShape.circle,
                     color: colors[i],
                   ),
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: Icon(
                     icons[i],
                     color: Colors.white,
@@ -397,14 +405,14 @@ class _ReportHoursState extends State<ReportHoursPage> {
     );
   }
 
-  bool toShow = false;
-  String legendLabel = 'Show Legend';
+  // bool toShow = false;
+  // String legendLabel = 'Show Legend';
 
   @override
   Widget build(BuildContext context) {
     List<double> res = countHours(all, user.id);
     return Scaffold(
-      body: Scrollbar(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
@@ -419,33 +427,31 @@ class _ReportHoursState extends State<ReportHoursPage> {
                 Container(child: interestDonut(res), height: 390),
               ],
             ),
-            ActionChip(
-              label: Text(legendLabel),
-              onPressed: () {
-                setState(() {
-                  toShow = !toShow;
-                  if (toShow)
-                    legendLabel = 'Hide Legend';
-                  else
-                    legendLabel = 'Show Legend';
-                });
-              },
-            ),
-            if (toShow) legend(),
+            legend(),
+            // ActionChip(
+            //   label: Text(legendLabel),
+            //   onPressed: () {
+            //     setState(() {
+            //       toShow = !toShow;
+            //       if (toShow)
+            //         legendLabel = 'Hide Legend';
+            //       else
+            //         legendLabel = 'Show Legend';
+            //     });
+            //   },
+            // ),
+            // if (toShow) legend(),
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(top: 15),
-        child: fab(context),
-      ),
+      floatingActionButton: fab(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
   Widget fab(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: Color(0xffFFE400),
+      backgroundColor: const Color(0xffFFE400),
       onPressed: () {
         Navigator.push(
           context,

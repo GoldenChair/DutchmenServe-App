@@ -35,7 +35,7 @@ class _AddOrgState extends State<AddOrgPage> {
     return InputDecoration(
       isDense: true,
       filled: true,
-      fillColor: Color(0xfff9f9f9),
+      fillColor: const Color(0xfff9f9f9),
       labelText: labelText,
       alignLabelWithHint: true,
       labelStyle: TextStyle(
@@ -44,19 +44,18 @@ class _AddOrgState extends State<AddOrgPage> {
       ),
       errorStyle:
           focusNode.hasFocus ? TextStyle(fontSize: 0, height: 0) : TextStyle(),
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final FocusScopeNode currentFocus = FocusScope.of(context);
     return BlocProvider<OrganizationCubit>(
       create: (context) => OrganizationCubit(),
       child: Scaffold(
         body: GestureDetector(
           onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-
             if (!currentFocus.hasPrimaryFocus) {
               currentFocus.unfocus();
             }
@@ -73,20 +72,21 @@ class _AddOrgState extends State<AddOrgPage> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: <Widget>[
                         Spacer(flex: 1),
                         TextFormField(
                           controller: orgName,
-                          decoration: decor(
-                              'Organization Name', FocusScope.of(context)),
+                          decoration: decor('Organization Name', currentFocus),
                           validator: (value) {
                             if (value.isEmpty) {
                               return '*required';
                             }
                             return null;
                           },
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => currentFocus.nextFocus(),
                         ),
                         Flexible(
                           flex: 3,
@@ -99,8 +99,7 @@ class _AddOrgState extends State<AddOrgPage> {
                             maxLines: null,
                             maxLength: 100,
                             maxLengthEnforced: true,
-                            decoration:
-                                decor('Description', FocusScope.of(context)),
+                            decoration: decor('Description', currentFocus),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return '*required';
@@ -112,18 +111,22 @@ class _AddOrgState extends State<AddOrgPage> {
                                 return 'Keep description in one line';
                               return null;
                             },
+                            textInputAction: TextInputAction.next,
+                            onEditingComplete: () => currentFocus.nextFocus(),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
+                          margin: const EdgeInsets.symmetric(vertical: 5),
                           child: TextFormField(
                             controller: orgEmail,
-                            decoration: decor('Email', FocusScope.of(context)),
+                            decoration: decor('Email', currentFocus),
                             validator: (value) {
                               if (value.isNotEmpty && !value.contains('@'))
                                 return 'Missing the @ char';
                               return null;
                             },
+                            textInputAction: TextInputAction.done,
+                            onFieldSubmitted: (_) => currentFocus.unfocus(),
                           ),
                         ),
                         ListTile(
@@ -149,7 +152,7 @@ class _AddOrgState extends State<AddOrgPage> {
                                 email: orgEmail.text, //TODO: image path
                               );
 
-                              FocusScope.of(context).unfocus();
+                              currentFocus.unfocus();
                               Navigator.pop(context);
                             }
                           },

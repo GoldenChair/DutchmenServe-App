@@ -58,6 +58,7 @@ class Event(models.Model):
     interests = models.ManyToManyField(Interests, blank = True)
     # isCommunity = models.BooleanField()
     # isResidential = models.BooleanField()
+    # isOngoing = models.BooleanField()
     imagepath = models.FileField(null = True, blank = True)
     deleted = models.BooleanField(default=False)
     registered = models.ManyToManyField(User, blank = True)

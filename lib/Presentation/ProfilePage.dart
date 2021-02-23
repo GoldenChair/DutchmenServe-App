@@ -160,34 +160,6 @@ class ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Divider(height: 40),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                ),
-                child: ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Logout',
-                      style: TextStyle(
-                          color: Color(0xffA02A2C),
-                          fontWeight: FontWeight.w700)),
-                  onTap: () {
-                    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                      statusBarColor: Color(0xff001d35),
-                      statusBarBrightness: Brightness.dark,
-                      statusBarIconBrightness: Brightness.dark,
-                      systemNavigationBarColor: Color(0xff002A4E),
-                      systemNavigationBarIconBrightness: Brightness.dark,
-                    ));
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => InitialLoginHome()),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                ),
-              ),
             ],
           ),
         ),

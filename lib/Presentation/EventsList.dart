@@ -95,7 +95,7 @@ List<Event> evlist = [
       imagepath: 'images/afca.JPG'),
   Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
       'Log online to help fill in gaps in maps', <int>[5], true,
-      id: 5, imagepath: 'images/mapathon.jpg'),
+      id: 5, imagepath: 'images/mapathon.jpg', isOngoing: true),
   Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
       'Spend time with Compeer buddy', <int>[5], true,
       id: 6, imagepath: 'images/compeer.png'),
@@ -104,7 +104,7 @@ List<Event> evlist = [
       id: 7, imagepath: 'images/afca.JPG'),
   Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
       'Log online to help fill in gaps in maps', <int>[5], true,
-      id: 8, imagepath: 'images/mapathon.jpg'),
+      id: 8, imagepath: 'images/mapathon.jpg', isOngoing: true),
   Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
       'Spend time with Compeer buddy', <int>[5], true,
       id: 9, imagepath: 'images/compeer.png'),
@@ -132,31 +132,76 @@ class EventsListState extends State<EventsList> {
   User user;
   EventsListState(this.user);
 
-  final List<Widget> interests = List.generate(
-    10,
-    (i) => Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: colors[i],
-      ),
-      padding: EdgeInsets.all(5),
-      child: Icon(
-        icons[i],
-        color: Colors.white,
-        size: 15,
-      ),
-    ),
-  );
+  final List<String> filterLabels = ['Registered', 'Ongoing', 'Upcoming'];
+  List<bool> selected =
+      List.generate(3, (index) => false); // default filters off
+  Set<Event> eventSet = Set();
+  List<Event> showEvents = evlist; // default start with full list
 
-  final List<String> labels = ['Registered', 'Ongoing', 'Upcoming'];
-  List<bool> selected = List.generate(3, (index) => false);
+  void doFilter(int index, bool newSelect) {
+    if (newSelect) {
+      // add events
+      switch (filterLabels[index]) {
+        case 'Registered':
+          {
+            for (Event e in evlist) {
+              if (user.isRegistered(e)) eventSet.add(e);
+            }
+          }
+          break;
+
+        case 'Ongoing':
+          {
+            for (Event e in evlist) {
+              if (e.isOngoing) eventSet.add(e);
+            }
+          }
+          break;
+
+        case 'Upcoming':
+          {
+            for (Event e in evlist) {
+              if (e.dateCompare(DateTime.now()) >= 0) eventSet.add(e);
+            }
+          }
+          break;
+      }
+    } else {
+      // remove events
+      switch (filterLabels[index]) {
+        case 'Registered':
+          {
+            for (Event e in evlist) {
+              if (user.isRegistered(e)) eventSet.remove(e);
+            }
+          }
+          break;
+
+        case 'Ongoing':
+          {
+            for (Event e in evlist) {
+              if (e.isOngoing) eventSet.remove(e);
+            }
+          }
+          break;
+
+        case 'Upcoming':
+          {
+            for (Event e in evlist) {
+              if (e.dateCompare(DateTime.now()) >= 0) eventSet.remove(e);
+            }
+          }
+          break;
+      }
+    }
+  }
 
   Widget generateChip(int index) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: FilterChip(
         label: Text(
-          labels[index],
+          filterLabels[index],
           style: TextStyle(fontSize: 15),
         ),
         labelStyle:
@@ -165,23 +210,27 @@ class EventsListState extends State<EventsList> {
         onSelected: (bool newValue) {
           setState(() {
             selected[index] = newValue;
-            // TODO: filter events list
+            if (selected.every((element) => false) ||
+                selected.every((element) => true)) {
+              showEvents = evlist;
+            } else {
+              doFilter(index, newValue);
+              showEvents = eventSet.toList();
+            }
           });
         },
         backgroundColor: Colors.grey[300],
-        selectedColor: Color(0xffFFE400),
+        selectedColor: const Color(0xffFFE400),
         showCheckmark: false,
         elevation: selected[index] ? 0 : 3,
       ),
     );
   }
 
-  // unused
   List<Widget> generateChips() {
-    return List.generate(labels.length, (index) => generateChip(index));
+    return List.generate(filterLabels.length, (index) => generateChip(index));
   }
 
-  // function to create card for each event
   GestureDetector createEventCard(BuildContext context, Event e) {
     return GestureDetector(
       onTap: () {
@@ -199,7 +248,7 @@ class EventsListState extends State<EventsList> {
             children: [
               ListTile(
                 title: Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 2),
+                  margin: const EdgeInsets.only(top: 10, bottom: 2),
                   child: Text(
                     e.eventName,
                     softWrap: true,
@@ -222,7 +271,7 @@ class EventsListState extends State<EventsList> {
                 child: Image(image: AssetImage(e.imagepath)),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5, left: 15, right: 5),
+                padding: const EdgeInsets.only(top: 5, left: 15, right: 5),
                 child: Text(
                   e.description,
                   softWrap: true,
@@ -252,7 +301,7 @@ class EventsListState extends State<EventsList> {
                                 description: '',
                                 showCheckbox: false,
                                 child: Icon(Icons.error,
-                                    size: 70, color: Color(0xffA02A2C)),
+                                    size: 70, color: const Color(0xffA02A2C)),
                               );
                             }).then((valueFromDialog) {
                           if (valueFromDialog == null) return;
@@ -274,7 +323,7 @@ class EventsListState extends State<EventsList> {
                                 description:
                                     'I confirm I will be at this event on time and if I need to change my registration, I will at least 24 hours in advance.',
                                 child: Icon(Icons.error,
-                                    size: 70, color: Color(0xffA02A2C)),
+                                    size: 70, color: const Color(0xffA02A2C)),
                               );
                             }).then((valueFromDialog) {
                           if (valueFromDialog == null) return;
@@ -295,6 +344,23 @@ class EventsListState extends State<EventsList> {
       ),
     );
   }
+
+  //unused interest bubbles-- add to event card
+  final List<Widget> interests = List.generate(
+    10,
+    (i) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: colors[i],
+      ),
+      padding: const EdgeInsets.all(5),
+      child: Icon(
+        icons[i],
+        color: Colors.white,
+        size: 15,
+      ),
+    ),
+  );
 
   Widget showCalendarView(BuildContext context) {
     return SliverPadding(
@@ -320,6 +386,8 @@ class EventsListState extends State<EventsList> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> chips = generateChips();
+    showEvents.sort((a, b) => a.date.compareTo(b.date));
     return CustomScrollView(
       slivers: [
         // showCalendarView(context);
@@ -327,15 +395,15 @@ class EventsListState extends State<EventsList> {
           padding: const EdgeInsets.only(top: 20),
           sliver: SliverToBoxAdapter(
             child: Row(
-              children: generateChips(),
+              children: chips,
               mainAxisAlignment: MainAxisAlignment.center,
             ),
           ),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-              (context, index) => createEventCard(context, evlist[index]),
-              childCount: evlist.length),
+              (context, index) => createEventCard(context, showEvents[index]),
+              childCount: showEvents.length),
         ),
       ],
     );

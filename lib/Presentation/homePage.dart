@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
+import 'package:dutchmenserve/Presentation/VolunteerPage.dart';
 import 'package:dutchmenserve/Presentation/connectWUsPage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class HomePage extends StatelessWidget {
     ));
     
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         body: buildScrollable(context),
       ),
@@ -77,6 +78,11 @@ class HomePage extends StatelessWidget {
                   icon: Icon(Icons.people),
                   iconMargin: EdgeInsets.only(bottom: 0),
                 ),
+                Tab(
+                  text: 'Test',
+                  icon: Icon(Icons.ac_unit),
+                  iconMargin: EdgeInsets.only(bottom: 0),
+                ),
               ],
             ),
           ),
@@ -87,6 +93,7 @@ class HomePage extends StatelessWidget {
           EventsList(user: user),
           ReportHoursPage(user),
           ConnectWUsPage(user),
+          CastFilter(),
         ],
       ),
     );

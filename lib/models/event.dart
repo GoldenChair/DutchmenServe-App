@@ -8,6 +8,7 @@ class Event {
   List<int> interests;
   bool isCommunity;
   bool isResidential;
+  bool isOngoing;
   int id;
   String imagepath;
   List<int> registered;
@@ -16,7 +17,7 @@ class Event {
   // constructor
   Event(String eventName, DateTime date, String location, String description,
       List<int> interests, bool isCommunity,
-      {int id, String imagepath, bool isResidential}) {
+      {int id, String imagepath, bool isResidential, bool isOngoing}) {
     this.eventName = eventName;
     this.date = date;
     this.location = location;
@@ -24,6 +25,7 @@ class Event {
     this.interests = interests;
     this.isCommunity = isCommunity;
     this.isResidential = isResidential ?? false;
+    this.isOngoing = isOngoing ?? false;
     this.id = id;
     this.imagepath = imagepath;
     registered = [];
@@ -39,6 +41,7 @@ class Event {
         'interests': interests,
         'isCommunity': isCommunity,
         'isResidential': isResidential,
+        'isOngoing': isOngoing,
         'id': id, // may be null
         'imagepath': imagepath, // may be null
         'registered': registered, // may be empty
@@ -54,6 +57,7 @@ class Event {
     description = json['description'];
     isCommunity = json['isCommunity'];
     isResidential = json['isResidential'];
+    isOngoing = json['isOngoing'];
     imagepath = json['imagepath'];
     interests = parseList(json['interests']);
     registered = parseList(json['registered']);
@@ -75,8 +79,10 @@ class Event {
     return formatter.format(date);
   }
 
-  bool dateCompare(DateTime dt) {
-    return date.year == dt.year && date.month == dt.month && date.day == dt.day;
+  int dateCompare(DateTime dt) {
+    if (date.year == dt.year && date.month == dt.month && date.day == dt.day)
+      return 0;
+    return date.compareTo(dt);
   }
 
   void printEvent() {
