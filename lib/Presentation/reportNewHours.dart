@@ -30,6 +30,10 @@ class _RNHState extends State<ReportNewHours> {
   Event _event;
   List<DropdownMenuItem<Event>> _dropdownMenuItems;
   User _self;
+  bool _showIndividual = false;
+  TextEditingController _eventNameController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  bool _isCommunity = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +59,14 @@ class _RNHState extends State<ReportNewHours> {
             child: BlocBuilder<EventCubit, EventState>(
               builder: (context, state) {
                 return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       createLTDate(),
                       createLTEvent(state),
+                      createLTIndividual(currentFocus),
                       createLTHours(currentFocus),
                       createLTAddStudents(context),
                       createLTPhotos(),
@@ -70,11 +76,21 @@ class _RNHState extends State<ReportNewHours> {
                           child: NormalButton(
                             'Submit',
                             () {
-                              // TODO: send report to repo
+                              // send report to repo
+                              if (_showIndividual) {
+                                _event = Event.individual(
+                                  _eventNameController.text,
+                                  _dateTime,
+                                  _descriptionController.text,
+                                  _isCommunity,
+                                  id: 9, // made up id for now
+                                );
+                                // TODO: send new event first and get id
+                              }
                               _hrs = (double.parse(_hrsController.text)) +
                                   _partialHour;
                               var b = context.watch<ReportCubit>();
-                              b.submitReport(new Report(_event, _hrs, _self));
+                              b.submitReport(Report(_event, _hrs, _self));
                               // TODO: alert to confirm submitting report
                               // Navigate back to report hours page
                               Navigator.pop(context);
@@ -118,9 +134,9 @@ class _RNHState extends State<ReportNewHours> {
       onTap: () {
         showDatePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2020),
-                lastDate: DateTime(2022))
+                initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                firstDate: DateTime(DateTime.now().year),
+                lastDate: DateTime(DateTime.now().year + 1))
             .then((date) {
           setState(() {
             _dateTime = date;
@@ -135,7 +151,7 @@ class _RNHState extends State<ReportNewHours> {
       List events, DateTime dt) {
     List<DropdownMenuItem<Event>> items = List();
     for (Event e in events) {
-      if (e.dateCompare(dt)==0) {
+      if (e.dateCompare(dt) == 0) {
         items.add(
           DropdownMenuItem(
             child: Text(e.eventName),
@@ -144,6 +160,8 @@ class _RNHState extends State<ReportNewHours> {
         );
       }
     }
+    items
+        .add(DropdownMenuItem(child: Text('Individual'), value: Event.blank()));
     return items;
   }
 
@@ -152,23 +170,19 @@ class _RNHState extends State<ReportNewHours> {
       if (state.events.isEmpty) return blank('No events on this date');
 
       _dropdownMenuItems = buildDropDownMenuItems(state.events, _dateTime);
-      // _event = null;
-      if (_dropdownMenuItems.isEmpty) {
-        return blank('No events on this date');
-      } else {
-        return ListTile(
-          title: DropdownButton<Event>(
-            isExpanded: true,
-            value: _event,
-            onChanged: (Event newValue) {
-              setState(() {
-                _event = newValue;
-              });
-            },
-            items: _dropdownMenuItems,
-          ),
-        );
-      }
+      return ListTile(
+        title: DropdownButton<Event>(
+          isExpanded: true,
+          value: _event,
+          onChanged: (Event newValue) {
+            setState(() {
+              _event = newValue;
+              if (newValue == Event.blank()) _showIndividual = true;
+            });
+          },
+          items: _dropdownMenuItems,
+        ),
+      );
     }
     // else loading state or error state
     else {
@@ -197,6 +211,61 @@ class _RNHState extends State<ReportNewHours> {
         ),
       ),
     );
+  }
+
+  Widget createLTIndividual(FocusScopeNode currentFocus) {
+    if (_showIndividual) {
+      // ask for
+      // set state: _event = Event.individual(values);
+      return Column(
+        children: [
+          ListTile(
+            title: TextField(
+              controller: _eventNameController,
+              decoration: InputDecoration(
+                hintText: "Event Name",
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                contentPadding: const EdgeInsets.only(bottom: 0, left: 10),
+              ),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => currentFocus.unfocus(),
+            ),
+          ),
+          ListTile(
+            title: TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                hintText: "Description",
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                contentPadding: const EdgeInsets.only(bottom: 0, left: 10),
+              ),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => currentFocus.unfocus(),
+            ),
+          ),
+          ListTile(
+            title: DropdownButton<bool>(
+              isExpanded: true,
+              value: _isCommunity,
+              onChanged: (bool newValue) {
+                setState(() {
+                  _isCommunity = newValue;
+                });
+              },
+              items:
+                  <bool>[false, true].map<DropdownMenuItem<bool>>((bool value) {
+                return DropdownMenuItem<bool>(
+                  value: value,
+                  child: Text(value ? 'Community' : 'Campus'),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Row();
+    }
   }
 
   ListTile createLTHours(FocusScopeNode currentFocus) {

@@ -53,7 +53,7 @@ class _AddStudentsState extends State<AddStudentsStateful> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Report- Add Students'),
+        title: Text('Add Students'),
         actions: <Widget>[
           IconButton(
             icon: Icon(

@@ -32,6 +32,28 @@ class Event {
     deleted = false;
   }
 
+  Event.blank() {
+    eventName = '';
+    date = null;
+    location = '';
+    description = '';
+    interests = [];
+    isCommunity = false;
+    id = null;
+  }
+
+  Event.individual(String eventName, DateTime date, 
+      String description, bool isCommunity,
+      {List<int> interests, int id}) {
+    this.eventName = eventName;
+    this.date = date;
+    this.location = ''; // not tracked 
+    this.description = description;
+    this.isCommunity = isCommunity;
+    this.interests = []; // currently not built to input interests
+    this.id = id;
+  }
+
   // convert Event to a json Map
   Map<String, dynamic> toJson() => {
         'eventName': eventName,
@@ -78,6 +100,7 @@ class Event {
     final DateFormat formatter = DateFormat('EEE. M/d, h:mm a');
     return formatter.format(date);
   }
+
 
   int dateCompare(DateTime dt) {
     if (date.year == dt.year && date.month == dt.month && date.day == dt.day)

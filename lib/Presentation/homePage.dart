@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
-import 'package:dutchmenserve/Presentation/VolunteerPage.dart';
 import 'package:dutchmenserve/Presentation/connectWUsPage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +18,9 @@ class HomePage extends StatelessWidget {
       systemNavigationBarColor: Color(0xfff9f9f9),
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
-    
+
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         body: buildScrollable(context),
       ),
@@ -78,11 +77,6 @@ class HomePage extends StatelessWidget {
                   icon: Icon(Icons.people),
                   iconMargin: EdgeInsets.only(bottom: 0),
                 ),
-                Tab(
-                  text: 'Test',
-                  icon: Icon(Icons.ac_unit),
-                  iconMargin: EdgeInsets.only(bottom: 0),
-                ),
               ],
             ),
           ),
@@ -93,7 +87,6 @@ class HomePage extends StatelessWidget {
           EventsList(user: user),
           ReportHoursPage(user),
           ConnectWUsPage(user),
-          CastFilter(),
         ],
       ),
     );
