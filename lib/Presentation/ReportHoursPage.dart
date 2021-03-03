@@ -32,6 +32,9 @@ class _ReportHoursState extends State<ReportHoursPage> {
   User user;
   _ReportHoursState(this.user);
 
+  bool _toShow = false;
+  String _legendLabel = 'Show Legend';
+
   final List<Interest> interests = [
     Interest('Animals'),
     Interest('Disabilities'),
@@ -379,34 +382,33 @@ class _ReportHoursState extends State<ReportHoursPage> {
               ),
             ],
           ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 50),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(
-                10,
-                (i) => Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: colors[i],
-                  ),
-                  padding: const EdgeInsets.all(5),
-                  child: Icon(
-                    icons[i],
-                    color: Colors.white,
-                    size: 15,
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(
+              10,
+              (i) => Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors[i],
+                ),
+                padding: const EdgeInsets.all(5),
+                child: Icon(
+                  icons[i],
+                  color: Colors.white,
+                  size: 15,
                 ),
               ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
+            child: Text('Tap outer ring to see interest labels!',
+                style: TextStyle(fontSize: 14)),
+          ),
         ],
       ),
     );
   }
-
-  // bool toShow = false;
-  // String legendLabel = 'Show Legend';
 
   @override
   Widget build(BuildContext context) {
@@ -415,6 +417,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Container(height: 10),
             Stack(
               alignment: Alignment.center,
               children: [
@@ -424,23 +427,23 @@ class _ReportHoursState extends State<ReportHoursPage> {
                   height: 300,
                   width: 300,
                 ),
-                Container(child: interestDonut(res), height: 390),
+                Container(child: interestDonut(res), height: 380),
               ],
             ),
-            legend(),
-            // ActionChip(
-            //   label: Text(legendLabel),
-            //   onPressed: () {
-            //     setState(() {
-            //       toShow = !toShow;
-            //       if (toShow)
-            //         legendLabel = 'Hide Legend';
-            //       else
-            //         legendLabel = 'Show Legend';
-            //     });
-            //   },
-            // ),
-            // if (toShow) legend(),
+            // legend(),
+            ActionChip(
+              label: Text(_legendLabel),
+              onPressed: () {
+                setState(() {
+                  _toShow = !_toShow;
+                  if (_toShow)
+                    _legendLabel = 'Hide Legend';
+                  else
+                    _legendLabel = 'Show Legend';
+                });
+              },
+            ),
+            if (_toShow) legend(),
           ],
         ),
       ),
