@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
@@ -6,6 +7,7 @@ import 'package:dutchmenserve/Presentation/connectWUsPage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   final User user;
@@ -19,10 +21,13 @@ class HomePage extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: buildScrollable(context),
+    return BlocProvider(
+      create: (context) => EventCubit(),
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          body: buildScrollable(context),
+        ),
       ),
     );
   }

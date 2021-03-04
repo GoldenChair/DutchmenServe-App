@@ -16,18 +16,7 @@ class EventCubit extends Cubit<EventState> {
   Future<void> getEvents() async {
     try {
       emit(LoadingState());
-      // final events = await _repository.getEvents();
-      final events = <Event>[
-        Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'),
-            'Lebanon', 'pack medical supplies', <int>[5], true,
-            id: 1, imagepath: 'images/afca.JPG'),
-        Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
-            'Log online to help fill in gaps in maps', <int>[5], true,
-            id: 2, imagepath: 'images/mapathon.jpg'),
-        Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'),
-            'LVC', 'Spend time with Compeer buddy', <int>[5], true,
-            id: 3, imagepath: 'images/compeer.png'),
-      ];
+      final events = await _repository.getEvents();
       emit(LoadedState(events));
     } catch (e) {
       emit(ErrorState());

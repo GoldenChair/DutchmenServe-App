@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext ctxt) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: InitialLoginHome(),
       theme: basicTheme(),
+      home: InitialLoginHome(),
       routes: <String, WidgetBuilder>{
         '/profile': (BuildContext context) => new ProfilePage(),
       },

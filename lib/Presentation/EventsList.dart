@@ -4,126 +4,15 @@ import 'package:dutchmenserve/Presentation/EventInfo.dart';
 import 'package:dutchmenserve/Presentation/EventsCalendar.dart';
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/models/event.dart';
-import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-List<Interest> interests = [
-  Interest('Animals', id: 1),
-  Interest('Disabilities', id: 2),
-  Interest('Education', id: 3),
-  Interest('Food', id: 4),
-  Interest('Health\nWellness', id: 5),
-  Interest('Housing', id: 6),
-  Interest('Older Adults', id: 7),
-  Interest('Service Trips', id: 8),
-  Interest('Veterans', id: 9),
-  Interest('Other', id: 10),
-];
-
-List<IconData> icons = [
-  Icons.pets,
-  Icons.accessible,
-  Icons.school,
-  Icons.local_restaurant,
-  Icons.healing,
-  Icons.home,
-  Icons.face,
-  Icons.explore,
-  Icons.stars,
-  Icons.more_horiz,
-];
-
-// index colors by interest id
-List<Color> colors = [
-  Colors.pink[600],
-  Colors.blueAccent[200],
-  Colors.orangeAccent[700],
-  Colors.lime,
-  Colors.redAccent,
-  Colors.greenAccent[700],
-  Colors.deepPurple[400],
-  Colors.teal[600],
-  Colors.purple[600],
-  Colors.blueGrey[600],
-];
-
-List<Color> fillColors = [
-  Colors.pink[100], //Color(0xfffccde5),
-  Colors.blue[100], //Color(0xff80b1d3),
-  Colors.orange[100], //Color(0xffffffb3),
-  Colors.lime[100], //Color(0xfffdb462),
-  Colors.red[100], //Color(0xfffb8072),
-  Colors.green[100], //Color(0xffb3de69),
-  Colors.deepPurple[100], //Color(0xffbebada),
-  Colors.teal[100], //Color(0xff8dd3c7),
-  Colors.purple[100], //Color(0xffbc80bd),
-  Colors.blueGrey[100], //Color(0xffd9d9d9),
-];
-
-List<Event> evlist = [
-  Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
-      'pack medical supplies', <int>[5], true,
-      id: 1, imagepath: 'images/afca.JPG'),
-  Event(
-      'Mapathon',
-      DateTime.parse('2021-04-05T12:00:00Z'),
-      'LVC',
-      'Log online to help fill in gaps in maps and other things make this a long description blah blah hello hi idk what to type but this will be long as an example',
-      <int>[5],
-      true,
-      id: 2,
-      imagepath: 'images/mapathon.jpg'),
-  Event(
-      'Compeer Virtual Buddy Lets make this a really long title',
-      DateTime.parse('2021-03-08T12:00:00Z'),
-      'LVC',
-      'Spend time with Compeer buddy!',
-      <int>[5],
-      true,
-      id: 3,
-      imagepath: 'images/compeer.png'),
-  Event(
-      'AFCA Warehouse',
-      DateTime.parse('2020-12-08T12:00:00Z'),
-      'Lebanon and around the corner just making this really long as an example',
-      'pack medical supplies',
-      <int>[5],
-      true,
-      id: 4,
-      imagepath: 'images/afca.JPG'),
-  Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
-      'Log online to help fill in gaps in maps', <int>[5], true,
-      id: 5, imagepath: 'images/mapathon.jpg', isOngoing: true),
-  Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
-      'Spend time with Compeer buddy', <int>[5], true,
-      id: 6, imagepath: 'images/compeer.png'),
-  Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
-      'pack medical supplies', <int>[5], true,
-      id: 7, imagepath: 'images/afca.JPG'),
-  Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
-      'Log online to help fill in gaps in maps', <int>[5], true,
-      id: 8, imagepath: 'images/mapathon.jpg', isOngoing: true),
-  Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
-      'Spend time with Compeer buddy', <int>[5], true,
-      id: 9, imagepath: 'images/compeer.png'),
-  Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
-      'pack medical supplies', <int>[5], true,
-      id: 10, imagepath: 'images/afca.JPG'),
-  Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
-      'Log online to help fill in gaps in maps', <int>[5], true,
-      id: 12, imagepath: 'images/mapathon.jpg'),
-  Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
-      'Spend time with Compeer buddy', <int>[5], true,
-      id: 13, imagepath: 'images/compeer.png'),
-];
-
 // Opportunities Card with filter at top
+// add interests to cards?
 class EventsList extends StatefulWidget {
-  User user;
+  final User user;
   EventsList({Key key, this.user}) : super(key: key);
-  bool isSelected = false;
   @override
   EventsListState createState() => EventsListState(user);
 }
@@ -285,23 +174,6 @@ class EventsListState extends State<EventsList> {
       return Row();
   }
 
-  //unused interest bubbles-- add to event card
-  final List<Widget> interests = List.generate(
-    10,
-    (i) => Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: colors[i],
-      ),
-      padding: const EdgeInsets.all(5),
-      child: Icon(
-        icons[i],
-        color: Colors.white,
-        size: 15,
-      ),
-    ),
-  );
-
   Widget showCalendarView(BuildContext context) {
     return SliverPadding(
       padding: const EdgeInsets.only(top: 20),
@@ -326,91 +198,80 @@ class EventsListState extends State<EventsList> {
 
   @override
   Widget build(BuildContext context) {
-    evlist.sort((a, b) => a.date.compareTo(b.date));
-    return CustomScrollView(
-      slivers: [
-        // showCalendarView(context);
-        SliverPadding(
-          padding: const EdgeInsets.only(top: 20),
-          sliver: SliverToBoxAdapter(
-            child: Row(
-              children: generateChips(),
-              mainAxisAlignment: MainAxisAlignment.center,
+    return BlocBuilder<EventCubit, EventState>(
+      builder: (context, state) {
+        if (state is LoadedState) {
+          final evlist = state.events;
+          evlist.sort((a, b) => a.date.compareTo(b.date));
+
+          return CustomScrollView(
+            slivers: [
+              // showCalendarView(context);
+              SliverPadding(
+                padding: const EdgeInsets.only(top: 20),
+                sliver: SliverToBoxAdapter(
+                  child: Row(
+                    children: generateChips(),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (context, index) => createEventCard(context, evlist[index]),
+                    childCount: evlist.length),
+              ),
+            ],
+          );
+        } else if (state is ErrorState) {
+          return Center(
+            child: Icon(Icons.close),
+          );
+        } else if (state is LoadingState) {
+          return Dialog(
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new CircularProgressIndicator(),
+                new Text("Loading"),
+              ],
             ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-              (context, index) => createEventCard(context, evlist[index]),
-              childCount: evlist.length),
-        ),
-      ],
+          );
+        } else {
+          return Container();
+        }
+      },
     );
 
-    return BlocProvider(
-      create: (context) => EventCubit(),
-      child: Scaffold(
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: Color(0xffFFE400),
-          //   child: Icon(
-          //     Icons.date_range,
-          //     color: Colors.black,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => EventsCalendar(user)),
-          //     );
-          //   },
-          // ),
+    // return BlocProvider(
+    //   create: (context) => EventCubit(),
+    //   child: Scaffold(
 
-          // testing without bloc
-          // body: CustomScrollView(
-          //   slivers: [
-          //     SliverGrid(
-          //       gridDelegate:
-          //           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          //       delegate:
-          //           SliverChildBuilderDelegate((BuildContext context, int index) {
-          //         return generateChip(index);
-          //       }, childCount: 3),
-          //     ),
-          //     SliverPadding(
-          //       padding: const EdgeInsets.symmetric(vertical: 10),
-          //       sliver: SliverList(
-          //         delegate: SliverChildBuilderDelegate(
-          //             (context, index) => createEventCard(context, evlist[index]),
-          //             childCount: evlist.length),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-
-          // with bloc builder
-          // body: SingleChildScrollView(
-          //   child: BlocBuilder<EventCubit, EventState>(
-          //     builder: (context, state) {
-          //       if (state is LoadedState) {
-          //         return Column(
-          //             children: evlist //state.events
-          //                 .map((e) => createEventCard(context, e))
-          //                 .toList());
-          //       } else {
-          //         return Dialog(
-          //           child: new Row(
-          //             mainAxisSize: MainAxisSize.min,
-          //             children: [
-          //               new CircularProgressIndicator(),
-          //               new Text("Loading"),
-          //             ],
-          //           ),
-          //         );
-          //       }
-          //     },
-          //   ),
-          // ),
-          ),
-    );
+    // with bloc builder
+    // body: SingleChildScrollView(
+    //   child: BlocBuilder<EventCubit, EventState>(
+    //     builder: (context, state) {
+    //       if (state is LoadedState) {
+    //         return Column(
+    //             children: evlist //state.events
+    //                 .map((e) => createEventCard(context, e))
+    //                 .toList());
+    //       } else {
+    //         return Dialog(
+    //           child: new Row(
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               new CircularProgressIndicator(),
+    //               new Text("Loading"),
+    //             ],
+    //           ),
+    //         );
+    //       }
+    //     },
+    //   ),
+    // ),
+    // ),
+    // );
   }
 }
 
@@ -474,3 +335,25 @@ class EventsListState extends State<EventsList> {
 //       }
 //     }
 //   }
+
+// sliver example
+// body: CustomScrollView(
+//   slivers: [
+//     SliverGrid(
+//       gridDelegate:
+//           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+//       delegate:
+//           SliverChildBuilderDelegate((BuildContext context, int index) {
+//         return generateChip(index);
+//       }, childCount: 3),
+//     ),
+//     SliverPadding(
+//       padding: const EdgeInsets.symmetric(vertical: 10),
+//       sliver: SliverList(
+//         delegate: SliverChildBuilderDelegate(
+//             (context, index) => createEventCard(context, evlist[index]),
+//             childCount: evlist.length),
+//       ),
+//     ),
+//   ],
+// ),
