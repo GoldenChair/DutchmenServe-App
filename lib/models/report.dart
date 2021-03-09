@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';

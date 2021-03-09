@@ -1,9 +1,7 @@
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
-import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
-import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReportCubit extends Cubit<ReportState> {

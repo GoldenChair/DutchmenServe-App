@@ -1,23 +1,123 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
-import 'package:dutchmenserve/Presentation/addOrganization.dart';
+import 'package:dutchmenserve/Presentation/splash.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrgInfo extends StatelessWidget {
-  final Organization orgToDisplay;
+  final Organization org;
 
-  OrgInfo({Key key, @required this.orgToDisplay}) : super(key: key);
+  OrgInfo({Key key, @required this.org}) : super(key: key);
+
+  Widget createOfficerCard(BuildContext context, int oid) {
+    return ListTile(
+      dense: true,
+      leading:
+          Icon(Icons.supervisor_account, size: 40, color: Colors.transparent),
+      title: Text(
+        oid.toString(),
+        style: TextStyle(fontSize: 18),
+      ),
+      subtitle: Text(
+        'email@lvc.edu',
+        style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
+
+  Widget showOfficers(BuildContext context) {
+    return Column(
+      children: [
+        Divider(indent: 100, endIndent: 100, color: Colors.grey),
+        Text("O F F I C E R S"),
+        Divider(indent: 100, endIndent: 100, color: Colors.grey),
+        ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.symmetric(horizontal: 0),
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              child: createOfficerCard(context, org.officers[index]),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) => Divider(
+            height: 0,
+            color: Colors.transparent,
+          ),
+          itemCount: org.officers.length,
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrganizationCubit>(
-        create: (context) => OrganizationCubit(),
-        //put bloc builder
-        child: OrganizationInfo(
-          orgToDisplay: orgToDisplay,
-        ));
+      create: (context) => OrganizationCubit(),
+      //put bloc builder
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(org.orgName),
+          actions: [
+            FlatButton(
+              child: Text(
+                'EDIT',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                //TODO: edit
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SplashPage()));
+              },
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 50),
+                child: Center(
+                  child: org.imagepath == null
+                      ? CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 65.0,
+                          child: Icon(
+                            Icons.group_work,
+                            size: 130,
+                            color: Color(0xffDDDDDE),
+                          ))
+                      : CircleAvatar(
+                          radius: 65.0,
+                          backgroundImage: AssetImage(org.imagepath)),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: Text(
+                  org.description,
+                  textAlign: TextAlign.center,
+                  // style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+                child: ListTile(
+                  leading: Icon(Icons.email, color: Color(0xff206090)),
+                  title: Text(
+                    org.email,
+                    // style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              org.officers.isEmpty ? Container() : showOfficers(context),
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -31,9 +131,7 @@ class OrganizationInfo extends StatelessWidget {
     return BlocProvider<OrganizationCubit>(
       create: (context) => OrganizationCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.indigo[800],
-        ),
+        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -94,20 +192,20 @@ class OrganizationInfo extends StatelessWidget {
                 //   ),
                 // ),
 
-                ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(20.0),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child:
-                          createOfficers(context, orgToDisplay.officers[index]),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                  itemCount: orgToDisplay.officers.length,
-                ),
+                // ListView.separated(
+                //   physics: NeverScrollableScrollPhysics(),
+                //   shrinkWrap: true,
+                //   padding: const EdgeInsets.all(20.0),
+                //   itemBuilder: (BuildContext context, int index) {
+                //     return Container(
+                //       child:
+                //           createOfficers(context, orgToDisplay.officers[index]),
+                //     );
+                //   },
+                //   separatorBuilder: (BuildContext context, int index) =>
+                //       const Divider(),
+                //   itemCount: orgToDisplay.officers.length,
+                // ),
                 SizedBox(
                     height: 20.0,
                     width: 120.0,
@@ -185,44 +283,26 @@ class OrganizationInfo extends StatelessWidget {
                 heroTag: null,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  removeOrganization(ctxt, orgToDisplay);
-                  Navigator.pop(ctxt);
-                },
-                child: Text("Delete"),
-                heroTag: null,
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: FloatingActionButton(
+            //     onPressed: () {
+            //       removeOrganization(ctxt, orgToDisplay);
+            //       Navigator.pop(ctxt);
+            //     },
+            //     child: Text("Delete"),
+            //     heroTag: null,
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
 
-  void removeOrganization(BuildContext context, Organization org) {
-    //final orgCubit;
-    final orgCubit = context.bloc<OrganizationCubit>();
-    orgCubit.removeOrg(org);
-  }
-}
-
-//List<Icon> icons in parameter?
-Card createOfficers(BuildContext context, String o1) {
-  //final orgCube = context.bloc<OrganizationCubit>();
-  //orgCube.getOrgs();
-  return Card(
-    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-    child: ListTile(
-      leading: Icon(Icons.supervisor_account, color: Colors.black54),
-      title: Text(o1,
-          style: TextStyle(
-            color: Colors.black54,
-            fontFamily: 'SourceSansPro',
-            fontSize: 20,
-          )),
-    ),
-  );
+  // void removeOrganization(BuildContext context, Organization org) {
+  //   //final orgCubit;
+  //   final orgCubit = context.bloc<OrganizationCubit>();
+  //   orgCubit.removeOrg(org);
+  // }
 }

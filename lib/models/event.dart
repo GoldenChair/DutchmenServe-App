@@ -1,13 +1,14 @@
-import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class Event {
   String eventName;
-  // String date;
   DateTime date;
   String location;
   String description;
   List<int> interests;
+  bool isCommunity;
+  bool isResidential;
+  bool isOngoing;
   int id;
   String imagepath;
   List<int> registered;
@@ -15,19 +16,42 @@ class Event {
 
   // constructor
   Event(String eventName, DateTime date, String location, String description,
-      List<int> interests,
-      {int id, String imagepath}) {
+      List<int> interests, bool isCommunity,
+      {int id, String imagepath, bool isResidential, bool isOngoing}) {
     this.eventName = eventName;
-    // this.date = date;
     this.date = date;
     this.location = location;
     this.description = description;
     this.interests = interests;
+    this.isCommunity = isCommunity;
+    this.isResidential = isResidential ?? false;
+    this.isOngoing = isOngoing ?? false;
     this.id = id;
     this.imagepath = imagepath;
     registered = [];
     deleted = false;
-    // dt = DateFormat('M/d/yy').add_jm().parse(date);
+  }
+
+  Event.blank() {
+    eventName = '';
+    date = null;
+    location = '';
+    description = '';
+    interests = [];
+    isCommunity = false;
+    id = null;
+  }
+
+  Event.individual(String eventName, DateTime date, 
+      String description, bool isCommunity,
+      {List<int> interests, int id}) {
+    this.eventName = eventName;
+    this.date = date;
+    this.location = ''; // not tracked 
+    this.description = description;
+    this.isCommunity = isCommunity;
+    this.interests = []; // currently not built to input interests
+    this.id = id;
   }
 
   // convert Event to a json Map
@@ -37,6 +61,9 @@ class Event {
         'location': location,
         'description': description,
         'interests': interests,
+        'isCommunity': isCommunity,
+        'isResidential': isResidential,
+        'isOngoing': isOngoing,
         'id': id, // may be null
         'imagepath': imagepath, // may be null
         'registered': registered, // may be empty
@@ -50,6 +77,9 @@ class Event {
     date = DateTime.parse(json['date']);
     location = json['location'];
     description = json['description'];
+    isCommunity = json['isCommunity'];
+    isResidential = json['isResidential'];
+    isOngoing = json['isOngoing'];
     imagepath = json['imagepath'];
     interests = parseList(json['interests']);
     registered = parseList(json['registered']);
@@ -64,17 +94,18 @@ class Event {
     this.deleted = true;
   }
 
-  void register(List<int> users) {
-    registered.addAll(users);
-  }
-
   String dateString() {
-    final DateFormat formatter = DateFormat('MM/dd/yyyy H:mm');
+    // return DateFormat.yMMMEd().format(dt);
+    // final DateFormat formatter = DateFormat('MM/dd/yyyy H:mm');
+    final DateFormat formatter = DateFormat('EEE. M/d, h:mm a');
     return formatter.format(date);
   }
 
-  bool dateCompare(DateTime dt) {
-    return date.year == dt.year && date.month == dt.month && date.day == dt.day;
+
+  int dateCompare(DateTime dt) {
+    if (date.year == dt.year && date.month == dt.month && date.day == dt.day)
+      return 0;
+    return date.compareTo(dt);
   }
 
   void printEvent() {

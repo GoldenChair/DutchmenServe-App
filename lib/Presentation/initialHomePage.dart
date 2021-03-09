@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dutchmenserve/Presentation/Login.dart';
+import 'package:dutchmenserve/Presentation/app_icons.dart';
+import 'package:dutchmenserve/Presentation/widgets.dart';
+import 'package:dutchmenserve/Presentation/usernameRegistration.dart';
 import 'package:flutter/material.dart';
-
-import 'setUpProfile.dart';
-import 'usernameRegistration.dart';
+import 'package:flutter/services.dart';
 
 /*
 This class builds the initial page we launch that allows for users 
@@ -13,108 +15,148 @@ registered themselves on the app.
 
 */
 
-
 class InitialLoginHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Color(0xff002A4E),
+      systemNavigationBarColor: Color(0xffFFE400),
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+
+    List<String> statement = [
+      'We empower students for a life of citizenship both in our community and around the globe.',
+      'We enhance our self-knowledge as we examine our own identity and purpose within a diverse world.',
+      'We grow our awareness and knowledge for needs and justice issues in a variety of areas.',
+    ];
+
+    List<Widget> icons = [
+      Icon(
+        AppIcons.hearthands,
+        size: 40,
+        color: Color(0xff206090),
+      ),
+      Icon(
+        AppIcons.analysis,
+        size: 44,
+        color: Color(0xff206090),
+      ),
+      Container(
+          child: Icon(
+            AppIcons.plant,
+            size: 30,
+            color: Color(0xff206090),
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 8)),
+    ];
+
     return Scaffold(
+      backgroundColor: Color(0xffFFE400),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.blue[900],
-        title: Center(
-            child: Text(
+        brightness: Brightness.dark,
+        toolbarHeight: 90,
+        backgroundColor: Color(0xff002A4E),
+        centerTitle: true,
+        title: AutoSizeText(
           'Dutchmen Serve',
-          style: TextStyle(fontFamily: 'BebasNeue', fontSize: 40),
-        )),
+          minFontSize: 55,
+          style: TextStyle(
+            fontFamily: 'BebasNeue',
+            fontWeight: FontWeight.normal,
+            color: Color(0xff95C1DC),
+          ),
+        ),
       ),
-      body: Column(
-        //have row and then put in the column
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-
+      body: Stack(
         children: [
-          Spacer(),
-          createExpanded(
-            'We empower students for a life of citizenship both in our community and around the globe.',
-            Icons.public,
-            10,
-          ),
-          Spacer(),
-          createExpanded(
-            'Students may enhance their self-knowledge as they examine their own identity and purpose in the context of a diverse world in which a variety of needs and injustices exist.',
-            Icons.people,
-            40,
-          ),
-          Spacer(),
-          createExpanded(
-            'Students may grow their awareness and knowledge regarding needs and justice issues in a variety of areas.',
-            Icons.gavel,
-            70,
-          ),
-          Spacer(),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Container(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: RaisedButton(
-                        color: Colors.blue[800],
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => UserNameReg()));
-                        },
-                        child: Text('Register ',
-                            style: TextStyle(
-                              fontSize: 20,
-                            )),
-                      ),
-                    ),
+              Spacer(),
+              Container(
+                child: Image(image: AssetImage('images/lvc_blue.png')),
+                padding: EdgeInsets.symmetric(horizontal: 80),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: AutoSizeText(
+                  'Office of Community Service and Volunteerism',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.w900,
+                    fontSize: 15,
+                    color: Color(0xff002A4E),
                   ),
+                  maxLines: 2,
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Container(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: RaisedButton(
-                        color: Colors.blue[800],
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => LoginIn()));
-                        },
-                        child: Text('Log In ',
-                            style: TextStyle(
-                              fontSize: 20,
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Spacer(),
+              createTextContainer(statement[0], icons[0], 10, 3),
+              Spacer(),
+              createTextContainer(statement[1], icons[1], 40, 4),
+              Spacer(),
+              createTextContainer(statement[2], icons[2], 70, 3),
+              Spacer(),
+              Center(child: createButtons(context)),
             ],
           ),
-          Spacer(flex: 2),
         ],
       ),
     );
   }
+
+  Widget createButtons(BuildContext context) {
+    return Column(
+      children: [
+        NormalButton(
+          'Sign in',
+          () {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              statusBarColor: Color(0xff002A4E),
+              systemNavigationBarColor: Color(0xfff9f9f9),
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
+          color: Color(0xff002A4E),
+          textColor: Colors.white,
+        ),
+        TextButton(
+          child: Text(
+            'Create account',
+            style: TextStyle(
+              color: Color(0xff002A4E),
+              decoration: TextDecoration.underline,
+              fontSize: 16,
+            ),
+          ),
+          onPressed: () {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              // statusBarColor: Color(0xff002A4E),
+              systemNavigationBarColor: Color(0xfff9f9f9),
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserNameReg()));
+          },
+        ),
+      ],
+    );
+  }
+
   // function to create rounded text expandable
-  Expanded createExpanded(String s, IconData iconData, double margin) {
+  Expanded createTextContainer(String s, Widget i, double margin, int mL) {
     return Expanded(
       flex: 3,
       child: Container(
         margin: EdgeInsets.only(right: margin),
         decoration: BoxDecoration(
-          border: Border.all(),
+          // color: Color(0xfff9f9f9),
+          color: Colors.white,
+          border: Border.all(color: Colors.transparent),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(70.0),
             bottomRight: Radius.circular(70.0),
@@ -124,28 +166,20 @@ class InitialLoginHome extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Spacer(),
-            Flexible(
-              flex: 8,
-              child: Icon(
-                iconData,
-                size: 50,
-                color: Colors.black,
-              ),
-            ),
+            Flexible(flex: 8, child: i),
             Spacer(),
             Flexible(
               flex: 25,
-              // child: Padding(
-              //   padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              //   child: Text(
-              //     s,
-              //     style: TextStyle(fontFamily: 'KiteOne', fontSize: 14),
-              //   ),
-              // ),
-              child: AutoSizeText(
-                s,
-                style: TextStyle(fontFamily: 'KiteOne'),
-                maxLines: 4,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: AutoSizeText(
+                  s,
+                  style: TextStyle(
+                    fontFamily: 'KiteOne',
+                    color: Colors.black,
+                  ),
+                  maxLines: mL,
+                ),
               ),
             ),
           ],

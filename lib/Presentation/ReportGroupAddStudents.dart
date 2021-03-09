@@ -26,11 +26,8 @@ class AddStudentsStateful extends StatefulWidget {
   _AddStudentsState createState() => _AddStudentsState();
 }
 
-class _AddStudentsState extends State<AddStudentsStateful>
-    with SingleTickerProviderStateMixin {
+class _AddStudentsState extends State<AddStudentsStateful> with SingleTickerProviderStateMixin {
   List<User> users = [];
-
-  _AddStudentsState({Key key});
 
   AnimationController _animationController;
   Animation<Color> _colorTween;
@@ -56,9 +53,7 @@ class _AddStudentsState extends State<AddStudentsStateful>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Report- Add Students'),
-        backgroundColor: Colors.indigo[800],
-        // automaticallyImplyLeading: false,
+        title: Text('Add Students'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -71,6 +66,7 @@ class _AddStudentsState extends State<AddStudentsStateful>
             },
           )
         ],
+        // automaticallyImplyLeading: false,
         // leading: BackButton(
         //   onPressed: () {
         //     //TODO: popup asking if you want to lose changes

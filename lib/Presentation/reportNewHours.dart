@@ -5,6 +5,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
+import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
@@ -13,14 +14,32 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class ReportNewHours extends StatelessWidget {
+class ReportNewHours extends StatefulWidget {
+  ReportNewHours({Key key}) : super(key: key);
+
   @override
-  Widget build(BuildContext ctxt) {
+  _RNHState createState() => _RNHState();
+}
+
+class _RNHState extends State<ReportNewHours> {
+  // data of report
+  DateTime _dateTime;
+  TextEditingController _hrsController = TextEditingController();
+  double _hrs = 0;
+  double _partialHour = 0;
+  Event _event;
+  List<DropdownMenuItem<Event>> _dropdownMenuItems;
+  User _self;
+  bool _showIndividual = false;
+  TextEditingController _eventNameController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  bool _isCommunity = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final FocusScopeNode currentFocus = FocusScope.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('New Report'),
-        backgroundColor: Colors.indigo[800],
-      ),
+      appBar: AppBar(title: Text('New Report')),
       body: MultiBlocProvider(
         providers: [
           BlocProvider<EventCubit>(
@@ -30,59 +49,62 @@ class ReportNewHours extends StatelessWidget {
             create: (BuildContext context) => ReportCubit(),
           ),
         ],
-        child: RNHStateful(),
-      ),
-    );
-  }
-}
-
-class RNHStateful extends StatefulWidget {
-  RNHStateful({Key key}) : super(key: key);
-
-  @override
-  _RNHState createState() => _RNHState();
-}
-
-class _RNHState extends State<RNHStateful> {
-  // data of report
-  DateTime _dateTime;
-  TextEditingController _hrsController = new TextEditingController();
-  double _hrs = 0;
-  double _partialHour = 0;
-  Event _event;
-  List<DropdownMenuItem<Event>> _dropdownMenuItems;
-  User _self;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<EventCubit, EventState>(
-        builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              createLTDate(),
-              createLTEvent(state),
-              createLTHours(),
-              createLTAddStudents(context),
-              createLTPhotos(),
-              Center(
-                child: RaisedButton(
-                  child: Text('Submit'),
-                  onPressed: () {
-                    // TODO: send report to repo
-                    _hrs = (double.parse(_hrsController.text)) + _partialHour;
-                    var b = context.watch<ReportCubit>();
-                    b.submitReport(new Report(_event, _hrs, _self));
-                    // TODO: alert to confirm submitting report
-                    // Navigate back to report hours page
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
-          );
-        },
+        child: GestureDetector(
+          onTap: () {
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: SingleChildScrollView(
+            child: BlocBuilder<EventCubit, EventState>(
+              builder: (context, state) {
+                return Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      createLTDate(),
+                      createLTEvent(state),
+                      createLTIndividual(currentFocus),
+                      createLTHours(currentFocus),
+                      createLTAddStudents(context),
+                      createLTPhotos(),
+                      Center(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 25),
+                          child: NormalButton(
+                            'Submit',
+                            () {
+                              // send report to repo
+                              if (_showIndividual) {
+                                _event = Event.individual(
+                                  _eventNameController.text,
+                                  _dateTime,
+                                  _descriptionController.text,
+                                  _isCommunity,
+                                  id: 9, // made up id for now
+                                );
+                                // TODO: send new event first and get id
+                              }
+                              _hrs = (double.parse(_hrsController.text)) +
+                                  _partialHour;
+                              var b = context.watch<ReportCubit>();
+                              b.submitReport(Report(_event, _hrs, _self));
+                              // TODO: alert to confirm submitting report
+                              // Navigate back to report hours page
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -92,8 +114,8 @@ class _RNHState extends State<RNHStateful> {
     return ListTile(
       leading: Icon(Icons.insert_invitation),
       title: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
           _dateTime == null ? 'Date' : DateFormat.yMd().format(_dateTime),
           style: TextStyle(
@@ -112,9 +134,9 @@ class _RNHState extends State<RNHStateful> {
       onTap: () {
         showDatePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2020),
-                lastDate: DateTime(2022))
+                initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                firstDate: DateTime(DateTime.now().year),
+                lastDate: DateTime(DateTime.now().year + 1))
             .then((date) {
           setState(() {
             _dateTime = date;
@@ -129,7 +151,7 @@ class _RNHState extends State<RNHStateful> {
       List events, DateTime dt) {
     List<DropdownMenuItem<Event>> items = List();
     for (Event e in events) {
-      if (e.dateCompare(dt)) {
+      if (e.dateCompare(dt) == 0) {
         items.add(
           DropdownMenuItem(
             child: Text(e.eventName),
@@ -138,6 +160,8 @@ class _RNHState extends State<RNHStateful> {
         );
       }
     }
+    items
+        .add(DropdownMenuItem(child: Text('Individual'), value: Event.blank()));
     return items;
   }
 
@@ -146,23 +170,19 @@ class _RNHState extends State<RNHStateful> {
       if (state.events.isEmpty) return blank('No events on this date');
 
       _dropdownMenuItems = buildDropDownMenuItems(state.events, _dateTime);
-      // _event = null;
-      if (_dropdownMenuItems.isEmpty) {
-        return blank('No events on this date');
-      } else {
-        return ListTile(
-          title: DropdownButton<Event>(
-            isExpanded: true,
-            value: _event,
-            onChanged: (Event newValue) {
-              setState(() {
-                _event = newValue;
-              });
-            },
-            items: _dropdownMenuItems,
-          ),
-        );
-      }
+      return ListTile(
+        title: DropdownButton<Event>(
+          isExpanded: true,
+          value: _event,
+          onChanged: (Event newValue) {
+            setState(() {
+              _event = newValue;
+              if (newValue == Event.blank()) _showIndividual = true;
+            });
+          },
+          items: _dropdownMenuItems,
+        ),
+      );
     }
     // else loading state or error state
     else {
@@ -173,8 +193,8 @@ class _RNHState extends State<RNHStateful> {
   ListTile blank(String text) {
     return ListTile(
       title: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
           text,
           style: TextStyle(
@@ -193,52 +213,127 @@ class _RNHState extends State<RNHStateful> {
     );
   }
 
-  ListTile createLTHours() {
+  Widget createLTIndividual(FocusScopeNode currentFocus) {
+    if (_showIndividual) {
+      // ask for
+      // set state: _event = Event.individual(values);
+      return Column(
+        children: [
+          ListTile(
+            title: TextField(
+              controller: _eventNameController,
+              decoration: InputDecoration(
+                hintText: "Event Name",
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                contentPadding: const EdgeInsets.only(bottom: 0, left: 10),
+              ),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => currentFocus.unfocus(),
+            ),
+          ),
+          ListTile(
+            title: TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                hintText: "Description",
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                contentPadding: const EdgeInsets.only(bottom: 0, left: 10),
+              ),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => currentFocus.unfocus(),
+            ),
+          ),
+          ListTile(
+            title: DropdownButton<bool>(
+              isExpanded: true,
+              value: _isCommunity,
+              onChanged: (bool newValue) {
+                setState(() {
+                  _isCommunity = newValue;
+                });
+              },
+              items:
+                  <bool>[false, true].map<DropdownMenuItem<bool>>((bool value) {
+                return DropdownMenuItem<bool>(
+                  value: value,
+                  child: Text(value ? 'Community' : 'Campus'),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Row();
+    }
+  }
+
+  ListTile createLTHours(FocusScopeNode currentFocus) {
     return ListTile(
       leading: Icon(Icons.timelapse),
       title: TextField(
         controller: _hrsController,
         decoration: InputDecoration(
           hintText: "Hours",
+          hintStyle: TextStyle(color: Colors.grey[600]),
+          contentPadding: const EdgeInsets.only(bottom: 0, left: 10),
         ),
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        keyboardType: TextInputType.numberWithOptions(),
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.digitsOnly
         ],
+        textInputAction: TextInputAction.done,
+        onSubmitted: (_) => currentFocus.unfocus(),
       ),
-      trailing: DropdownButton<double>(
-        value: _partialHour,
-        onChanged: (double newValue) {
-          setState(() {
-            _partialHour = newValue;
-          });
-        },
-        items: <double>[0, .25, .5, .75]
-            .map<DropdownMenuItem<double>>((double value) {
-          return DropdownMenuItem<double>(
-            value: value,
-            child: Text(value.toString()),
-          );
-        }).toList(),
+      trailing: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+          ),
+        ),
+        padding: const EdgeInsets.only(left: 10),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<double>(
+            value: _partialHour,
+            onChanged: (double newValue) {
+              setState(() {
+                _partialHour = newValue;
+              });
+            },
+            items: <double>[0, .25, .5, .75]
+                .map<DropdownMenuItem<double>>((double value) {
+              return DropdownMenuItem<double>(
+                value: value,
+                child: Text(value.toString()),
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
   }
 
-  ListTile createLTAddStudents(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.group_add),
-      title: Text('Additional Students'),
-      trailing: FlatButton(
-        child: Text('Add'),
-        color: Colors.grey[200],
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ReportGroupAddStudents()),
-          );
-        },
+  Widget createLTAddStudents(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 5),
+      child: ListTile(
+        leading: Icon(Icons.group_add),
+        title: Text('Additional Students'),
+        trailing: FlatButton(
+          child: Text('Add'),
+          color: Colors.grey[200],
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ReportGroupAddStudents()),
+            );
+          },
+        ),
+        subtitle: Text('None'), // TODO: update students added
       ),
-      subtitle: Text('None'), // TODO: update students added
     );
   }
 

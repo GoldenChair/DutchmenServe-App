@@ -1,8 +1,10 @@
 import 'dart:ui';
-
+import 'package:dutchmenserve/Presentation/widgets.dart';
+import 'package:dutchmenserve/Presentation/organizationSelect.dart';
+import 'package:dutchmenserve/models/interest.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-
-import 'organizationSelect.dart';
+import 'package:flutter/services.dart';
 
 /*
 Page to select interests by having the user
@@ -10,313 +12,195 @@ click on the interests.
  */
 
 class SelectInterests extends StatefulWidget {
-  SelectInterests({Key key}) : super(key: key);
+  final User user;
+  SelectInterests({Key key, @required this.user}) : super(key: key);
 
   @override
   _SelectInterestsState createState() {
-    return _SelectInterestsState();
+    return _SelectInterestsState(user);
   }
 }
 
 class _SelectInterestsState extends State<SelectInterests> {
-  List<bool> _selections = List.generate(2, (index) => false);
-  List<bool> s2 = List.generate(2, (index) => false);
-  List<bool> s3 = List.generate(2, (index) => false);
-  List<bool> s4 = List.generate(2, (index) => false);
-  List<bool> s5 = List.generate(2, (index) => false);
-  List<bool> s6 = List.generate(2, (index) => false);
-  bool _rights = true;
+  User user;
+  _SelectInterestsState(this.user);
 
-  var interestType = [
-    'Advocacy & Human Rights',
-    'Animals',
+  final List<Interest> interests = [
+    Interest('Animals'),
+    Interest('Disabilities'),
+    Interest('Education'),
+    Interest('Food'),
+    Interest('Health\nWellness'),
+    Interest('Housing'),
+    Interest('Older Adults'),
+    Interest('Service Trips'),
+    Interest('Veterans'),
+    Interest('Other'),
   ];
+
+  final List<IconData> icons = [
+    Icons.pets,
+    Icons.accessible,
+    Icons.school,
+    Icons.local_restaurant,
+    Icons.healing,
+    Icons.home,
+    Icons.face,
+    Icons.explore,
+    Icons.stars,
+    Icons.more_horiz,
+  ];
+
+  final List<Color> colors = [
+    Colors.pink[600],
+    Colors.blueAccent[200],
+    Colors.orangeAccent[700],
+    Colors.lime,
+    Colors.redAccent,
+    Colors.greenAccent[700],
+    Colors.deepPurple[400],
+    Colors.teal[600],
+    Colors.purple[600],
+    Colors.blueGrey[600],
+  ];
+
+  final List<Color> fillColors = [
+    Colors.pink[100], //Color(0xfffccde5),
+    Colors.blue[100], //Color(0xff80b1d3),
+    Colors.orange[100], //Color(0xffffffb3),
+    Colors.lime[100], //Color(0xfffdb462),
+    Colors.red[100], //Color(0xfffb8072),
+    Colors.green[100], //Color(0xffb3de69),
+    Colors.deepPurple[100], //Color(0xffbebada),
+    Colors.teal[100], //Color(0xff8dd3c7),
+    Colors.purple[100], //Color(0xffbc80bd),
+    Colors.blueGrey[100], //Color(0xffd9d9d9),
+  ];
+
+  List<bool> _s = List.generate(12, (index) => false);
+
+  Color changeColor(int i) {
+    if (_s[i])
+      return colors[i];
+    else
+      return Color(0xff002A4E);
+  }
+
+  List<Column> generateWidgets() {
+    return List.generate(
+      10,
+      (index) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 5),
+            child: Icon(
+              icons[index],
+              size: 40,
+              semanticLabel: interests[index].interest,
+              color: changeColor(index),
+            ),
+          ),
+          Flexible(
+            child: Text(
+              interests[index].interest,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Flexible createGridView(List<Column> widgets) {
+    return Flexible(
+      child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 5,
+          children: widgets.asMap().entries.map(
+            (widget) {
+              return Container(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Container(
+                      margin: EdgeInsets.all(10),
+                      color: Color(0xffDDDDDE),
+                      child: ToggleButtons(
+                        selectedColor: Colors.black,
+                        fillColor: fillColors[widget.key],
+                        splashColor: Colors.transparent,
+                        renderBorder: false,
+                        constraints: BoxConstraints.expand(
+                          width: constraints.maxWidth - 20,
+                        ),
+                        isSelected: [_s[widget.key]],
+                        onPressed: (int key) {
+                          // note: key stays 0 and never changes, don't use; use widget.key
+                          setState(() {
+                            _s[widget.key] = !_s[widget.key];
+                          });
+                        },
+                        children: [widget.value],
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ).toList()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Column> w = generateWidgets();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Select your interests'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-            Widget>[
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ToggleButtons(
-                isSelected: _selections,
+      appBar: AppBar(title: Text('Select your interests')),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Flexible(
+              child: Row(
                 children: [
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(left: 30),
+                  Flexible(child: Container()),
+                  Flexible(
+                    flex: 16,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Icon(
-                          Icons.gavel,
-                          size: 100,
-                          color:
-                              _selections[0] ? Colors.blue[800] : Colors.black,
-                        ),
-                        Flexible(
-                          child: Text('Advocacy & Human Rights'),
-                        ),
+                      children: <Widget>[
+                        createGridView(w),
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(right: 30),
-                    // height: 175,
-                    width: 150,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Icon(Icons.pets,
-                            size: 100,
-                            color: _selections[1]
-                                ? Colors.blue[800]
-                                : Colors.black),
-                        Text('Animals'),
-                      ],
-                    ),
-                  ),
+                  Flexible(child: Container()),
                 ],
-                onPressed: (int index) {
-                  setState(() {
-                    _selections[index] = !_selections[index];
-                  });
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, bottom: 5),
+              child: NormalButton(
+                'Next',
+                () {
+                  for (int i = 0; i < 11; i++) {
+                    if (_s[i]) user.interests.add(i);
+                  }
+                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                    statusBarColor: Color(0xff002A4E),
+                    systemNavigationBarColor: Color(0xfff9f9f9),
+                    systemNavigationBarIconBrightness: Brightness.dark,
+                  ));
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => SetUpOrgPage(user: user)));
                 },
               ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ToggleButtons(
-                  isSelected: s2,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 30, top: 30),
-                      // height: 175,
-                      width: 150,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Spacer(),
-                          Icon(Icons.color_lens,
-                              size: 100,
-                              color: s2[0] ? Colors.blue[800] : Colors.black),
-                          Text('Arts & Culture'),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      //height: 175,
-                      margin: EdgeInsets.only(right: 30),
-                      width: 150,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Spacer(),
-                          Icon(Icons.child_care,
-                              size: 100,
-                              color: s2[1] ? Colors.blue[800] : Colors.black),
-                          Text('Children & Youth'),
-                        ],
-                      ),
-                    ),
-                  ],
-                  onPressed: (int index) {
-                    setState(() {
-                      s2[index] = !s2[index];
-                    });
-                  }),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ToggleButtons(
-                isSelected: s3,
-                children: [
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(left: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(
-                          flex: 1,
-                        ),
-                        Icon(Icons.group,
-                            size: 100,
-                            color: s3[0] ? Colors.blue[800] : Colors.black),
-                        Text('Community'),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(right: 30),
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Spacer(),
-                          Icon(Icons.computer,
-                              size: 100,
-                              color: s3[1] ? Colors.blue[800] : Colors.black),
-                          Text('Technology'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    s3[index] = !s3[index];
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ToggleButtons(
-                isSelected: s4,
-                children: [
-                  Center(
-                    child: Container(
-                      // height: 175,
-                      width: 150,
-                      margin: EdgeInsets.only(left: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Spacer(),
-                          Icon(Icons.school,
-                              size: 100,
-                              color: s4[0] ? Colors.blue[800] : Colors.black),
-                          Text('Education & Literacy'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      // height: 175,
-                      width: 150,
-                      margin: EdgeInsets.only(right: 30),
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Spacer(
-                              flex: 5,
-                            ),
-                            Icon(Icons.face,
-                                size: 100,
-                                color: s4[1] ? Colors.blue[800] : Colors.black),
-                            Text('Seniors'),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    s4[index] = !s4[index];
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ToggleButtons(
-                isSelected: s5,
-                children: [
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(left: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Icon(
-                          Icons.more_horiz,
-                          size: 100,
-                          color: s5[0] ? Colors.blue[800] : Colors.black,
-                        ),
-                        Text('Other'),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    // height: 175,
-                    width: 150,
-                    margin: EdgeInsets.only(right: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Icon(
-                          Icons.all_inclusive,
-                          size: 100,
-                          color: s5[1] ? Colors.blue[800] : Colors.black,
-                        ),
-                        Text('All'),
-                      ],
-                    ),
-                  )
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    s5[index] = !s5[index];
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          RaisedButton(
-            color: Colors.blue[800],
-            onPressed: () {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => setUpOrgPage()));
-            },
-            child: Text('Next ',
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-          ),
-        ]),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -258,6 +258,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2"
+  flutter_statusbarcolor:
+    dependency: "direct main"
+    description:
+      name: flutter_statusbarcolor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -396,6 +403,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.3"
+  passwordfield:
+    dependency: "direct main"
+    description:
+      name: passwordfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.82"
   path:
     dependency: transitive
     description:
@@ -410,13 +424,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.0"
-  percent_indicator:
+  pie_chart:
     dependency: "direct main"
     description:
-      name: percent_indicator
+      name: pie_chart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.7+4"
+    version: "4.0.1"
   pool:
     dependency: transitive
     description:
@@ -520,6 +534,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0-nullsafety.1"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "18.4.39"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "18.4.41"
+  syncfusion_flutter_gauges:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_gauges
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "18.4.41"
   table_calendar:
     dependency: "direct main"
     description:

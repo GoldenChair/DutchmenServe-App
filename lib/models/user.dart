@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:dutchmenserve/models/event.dart';
-import 'package:dutchmenserve/models/organization.dart';
-import 'package:flutter/foundation.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
+class User extends Equatable {
   String firstName;
   String lastName;
   String username;
@@ -15,26 +12,31 @@ class User {
   List<int> organizations;
   String imagepath;
   List<int> events;
-  // no deleted
+  List<int> favorites;
 
   User(String firstName, String lastName, String username, String password,
-      String emailAddress,
-      {int id,
+      {String emailAddress,
+      int id,
       List<int> interests,
       List<int> organizations,
       String imagepath,
-      List<int> events}) {
+      List<int> events,
+      List<int> favorites}) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
     this.password = password;
-    this.emailAddress = emailAddress;
+    this.emailAddress = emailAddress ?? (username + '@lvc.edu');
     this.id = id;
-    this.interests = interests;
-    this.organizations = organizations;
+    this.interests = interests ?? [];
+    this.organizations = organizations ?? [];
     this.imagepath = imagepath;
-    this.events = events;
+    this.events = events ?? [];
+    this.favorites = favorites ?? [];
   }
+
+// // Empty user which represents an unauthenticated user.
+//   static const empty = User(emailAddress: '', id: '', name: null, imagepath: null);
 
   // convert User to a json Map
   Map<String, dynamic> toJson() => {
@@ -48,6 +50,7 @@ class User {
         'organizations': organizations,
         'imagepath': imagepath,
         'events': events ?? [],
+        'favorites': favorites ?? [],
       };
 
   // another constructor given a json Map
@@ -62,6 +65,7 @@ class User {
     organizations = parseList(json['org']);
     imagepath = json['imagepath'];
     events = parseList(json['events']);
+    favorites = parseList(json['favorites']);
   }
 
   List<int> parseList(List<dynamic> json) {
@@ -84,6 +88,26 @@ class User {
   //   return res;
   // }
 
+  bool isRegistered(Event e) {
+    return events.contains(e.id);
+  }
+
+  void unregister(Event e) {
+    events.remove(e.id);
+    e.registered.remove(id);
+  }
+
+  void register(Event e) {
+    events.add(e.id);
+    e.registered.add(id);
+  }
+
+  void registerAll(List<Event> ev) {
+    for (var e in ev) {
+      register(e);
+    }
+  }
+
   void printUser() {
     print(lastName + ', ' + firstName);
     print(username + ' | ' + password);
@@ -93,12 +117,6 @@ class User {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is User &&
-        o.firstName == firstName &&
-        o.lastName == lastName &&
-        o.username == username;
-  }
+  // TODO: implement props
+  List<Object> get props => [id, username];
 }

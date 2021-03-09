@@ -1,10 +1,27 @@
+import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
 import 'EventInfo.dart';
 import 'EventsCalendar.dart';
 import 'homePage.dart';
 
+final List<Event> events = [
+  Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
+      'pack medical supplies', <int>[5], true,
+      id: 1, imagepath: 'images/afca.JPG'),
+  Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
+      'Log online to help fill in gaps in maps', <int>[5], true,
+      id: 2, imagepath: 'images/mapathon.jpg'),
+  Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
+      'Spend time with Compeer buddy', <int>[5], true,
+      id: 3, imagepath: 'images/compeer.png'),
+];
+
 class EventsOngoing extends StatelessWidget {
+  final User user;
+  const EventsOngoing(this.user);
+
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -17,7 +34,7 @@ class EventsOngoing extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               ctxt,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage(user)),
             );
           },
         ),
@@ -27,7 +44,7 @@ class EventsOngoing extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => EventsCalendar()),
+                MaterialPageRoute(builder: (context) => EventsCalendar(user)),
               );
             },
           )
@@ -35,29 +52,7 @@ class EventsOngoing extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [
-            createEventCard(
-              ctxt,
-              'AFCA Warehouse',
-              'Date, Location',
-              'images/afca.JPG',
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-            ),
-            createEventCard(
-              ctxt,
-              'MissingMaps Mapathon',
-              'Date, Location',
-              'images/mapathon.jpg',
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-            ),
-            createEventCard(
-              ctxt,
-              'Compeer Virtual Buddy',
-              'Date, Location',
-              'images/compeer.png',
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-            ),
-          ],
+          children: events.map((e) => createEventCard(ctxt, e)).toList(),
         ),
       ),
     );
@@ -65,13 +60,13 @@ class EventsOngoing extends StatelessWidget {
 }
 
 // function to create card for each event
-GestureDetector createEventCard(BuildContext ctxt, String eventName,
-    String eventSubtitle, String eventDescription, String imagePath) {
+GestureDetector createEventCard(BuildContext context, Event e) {
+  Color _iconColor = Colors.white;
   return GestureDetector(
     onTap: () {
       Navigator.push(
-        ctxt,
-        MaterialPageRoute(builder: (context) => EventInfo()),
+        context,
+        MaterialPageRoute(builder: (context) => EventInfo(e)),
       );
     },
     child: Container(
@@ -83,49 +78,44 @@ GestureDetector createEventCard(BuildContext ctxt, String eventName,
             ListTile(
               leading: IconButton(
                 icon: Icon(Icons.pan_tool),
-                onPressed: () {},
+                color: _iconColor,
+                onPressed: () {
+                  //TODO: implement register for event
+                },
               ),
-              title: Text(eventName),
+              title: Text(e.eventName),
               subtitle: Text(
-                eventSubtitle,
+                e.dateString() + ' | ' + e.location,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
-            // Image.asset(imagePath),
+            Image(
+              image: AssetImage(e.imagepath),
+            ),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                eventDescription,
+                e.description,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                FlatButton(
-                  textColor: Colors.indigoAccent,
-                  onPressed: () {
-                    // Perform some action
-                  },
-                  child: Text('REGISTER'),
-                ),
-                FlatButton(
-                  textColor: Colors.indigoAccent,
-                  onPressed: () {
-                    // Perform some action
-                  },
-                  child: Text('FAVORITE'),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
                       icon: Icon(Icons.favorite_border),
-                      onPressed: () {},
+                      onPressed: () {
+                        //TODO: implement favoriting event
+                      },
                     ),
                     IconButton(
                       icon: Icon(Icons.share),
-                      onPressed: () {},
+                      onPressed: () {
+                        //TODO: implement sharing
+                      },
                     )
                   ],
                 ),

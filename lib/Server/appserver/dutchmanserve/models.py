@@ -19,7 +19,7 @@ class User(models.Model):
     password = models.CharField(max_length = 150, null = True, blank = True)
     emailAddress = models.EmailField(max_length = 254, null = True, blank = True)
     ##events = models.ForeignKey(Event, on_delete=models.SET_NULL)
-    interests = models.ManyToManyField(Interests, null =True, blank = True)
+    interests = models.ManyToManyField(Interests, blank = True)
     ##organizations = models.ForeignKey(Organization, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -55,13 +55,13 @@ class Event(models.Model):
     date = models.DateTimeField('Date', null = True)
     location = models.CharField(max_length = 50, default = 'Lebanon Valley College', null = True)
     description = models.TextField(max_length=500, null=True)
-    interests = models.ManyToManyField(Interests, null = True, blank = True)
-
-    ##interests = models.CharField(max_length = 5, choices = interest_choices, default = interest1)
+    interests = models.ManyToManyField(Interests, blank = True)
+    # isCommunity = models.BooleanField()
+    # isResidential = models.BooleanField()
+    # isOngoing = models.BooleanField()
     imagepath = models.FileField(null = True, blank = True)
     deleted = models.BooleanField(default=False)
-    registered = models.ManyToManyField(User, null = True, blank = True)
-    #need to add users
+    registered = models.ManyToManyField(User, blank = True)
     def __str__(self):
         return self.eventName
 
@@ -70,24 +70,19 @@ class Organization(models.Model):
     ##org_id = models.AutoField
     description = models.TextField(max_length=400, null= True, blank = True)
     email = models.EmailField(max_length = 254, null = True, blank = True)
-    officers = models.ManyToManyField(User, related_name='officers', null = True, blank = True)
+    officers = models.ManyToManyField(User, related_name='officers', blank = True)
     users = models.ManyToManyField(User, related_name='members', null = True, blank = True)
     deleted = models.BooleanField(default=False, null=True)
     imagepath = models.FileField(null = True, blank= True)
-    ##Need officers and users
     def __str__(self):
         return self.orgName
 
 class Report(models.Model):
     event = models.ForeignKey(Event,null =True, on_delete= models.SET_NULL)
-    
-    ##Event event
     hours = models.DecimalField(null = True, blank = True, decimal_places=2, max_digits=5)
     user = models.ForeignKey(User, null = True, on_delete=models.SET_NULL)
     additional = models.ManyToManyField(User, related_name='People', blank = True)
     deleted = models.BooleanField(default=False, blank=True)
     imagepath = models.FileField(null = True, blank= True)
-    ##User user
-    # list of users
     #image?
      
