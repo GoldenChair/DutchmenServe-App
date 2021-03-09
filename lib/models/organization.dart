@@ -29,9 +29,9 @@ class Organization {
   Map<String, dynamic> toJson() => {
         'orgName': orgName,
         'description': description,
-        'id': id, // may be null
-        'email': email, // may be null
-        'imagePath': imagepath, // may be null
+        'id': id, // may be blank
+        'email': email, // may be blank
+        'imagePath': imagepath, // may be blank
         'users': members,
         'officers': officers,
         'deleted': deleted,
