@@ -10,15 +10,16 @@ class User extends Equatable {
   int id;
   List<int> interests;
   List<int> organizations;
+  List<int> officer;
   String imagepath;
   List<int> events;
-  List<int> favorites;
 
   User(String firstName, String lastName, String username, String password,
       {String emailAddress,
       int id,
       List<int> interests,
       List<int> organizations,
+      List<int> officer,
       String imagepath,
       List<int> events,
       List<int> favorites}) {
@@ -30,9 +31,9 @@ class User extends Equatable {
     this.id = id;
     this.interests = interests ?? [];
     this.organizations = organizations ?? [];
+    this.officer = officer ?? [];
     this.imagepath = imagepath;
     this.events = events ?? [];
-    this.favorites = favorites ?? [];
   }
 
 // // Empty user which represents an unauthenticated user.
@@ -48,9 +49,9 @@ class User extends Equatable {
         'id': id, // may be null
         'interests': interests ?? [],
         'organizations': organizations,
+        'officer': officer,
         'imagepath': imagepath,
         'events': events ?? [],
-        'favorites': favorites ?? [],
       };
 
   // another constructor given a json Map
@@ -63,9 +64,9 @@ class User extends Equatable {
     id = json['id'];
     interests = parseList(json['interests']);
     organizations = parseList(json['org']);
+    officer = parseList(json['officer']);
     imagepath = json['imagepath'];
     events = parseList(json['events']);
-    favorites = parseList(json['favorites']);
   }
 
   List<int> parseList(List<dynamic> json) {

@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Opportunities Card with filter at top
 // add interests to cards?
+// build out event info page
+// link up registration to cubit
 class EventsList extends StatefulWidget {
   final User user;
   EventsList({Key key, this.user}) : super(key: key);
@@ -95,7 +97,9 @@ class EventsListState extends State<EventsList> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Image(image: AssetImage(e.imagepath)),
+                  child: e.imagepath == null
+                      ? Container()
+                      : Image(image: AssetImage(e.imagepath)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5, left: 15, right: 5),

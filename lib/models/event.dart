@@ -19,7 +19,7 @@ class Event {
       List<int> interests, bool isCommunity,
       {int id, String imagepath, bool isResidential, bool isOngoing}) {
     this.eventName = eventName;
-    this.date = date;
+    this.date = date; // can be set to null for ongoing event
     this.location = location;
     this.description = description;
     this.interests = interests;
@@ -82,6 +82,7 @@ class Event {
     isOngoing = json['isOngoing'];
     imagepath = json['imagepath'];
     interests = parseList(json['interests']);
+    // a.removeWhere((value) => value == null);
     registered = parseList(json['registered']);
     deleted = json['deleted'];
   }

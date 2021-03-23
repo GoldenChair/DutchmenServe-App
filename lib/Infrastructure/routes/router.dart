@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
-import 'package:dutchmenserve/Presentation/FavoritedPage.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
@@ -17,7 +16,6 @@ import 'package:dutchmenserve/Presentation/organizationInfo.dart';
     MaterialRoute(page: HomePage, initial: true),
     MaterialRoute(page: EventsList),
     MaterialRoute(page: EventsOngoing),
-    MaterialRoute(page: FavoritedPage),
     MaterialRoute(page: NotificationsPage),
     MaterialRoute(page: OrganizationInfo),
     MaterialRoute(page: OrganizationsPage),
