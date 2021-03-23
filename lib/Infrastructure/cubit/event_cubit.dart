@@ -19,6 +19,7 @@ class EventCubit extends Cubit<EventState> {
       final events = await _repository.getEvents();
       emit(LoadedState(events));
     } catch (e) {
+      print(e);
       emit(ErrorState());
     }
   }

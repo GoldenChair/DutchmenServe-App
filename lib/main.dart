@@ -10,9 +10,6 @@ final GetIt getIt = GetIt.instance;
 void main() async {
   GetIt.I.registerSingleton<Repository>(FakeRepository());
   runApp(MyApp());
-
-  // cd lib\Server\appserver
-  // python manage.py runserver 5455
 }
 
 class MyApp extends StatelessWidget {
