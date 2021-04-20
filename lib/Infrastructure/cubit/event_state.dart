@@ -24,9 +24,9 @@ class LoadedState extends EventState {
 }
 
 class LoadedRegisteredState extends EventState {
-  final List<User> users;
-
   LoadedRegisteredState(this.users);
+  
+  final List<User> users;
 
   @override
   List<Object> get props => [users];
@@ -35,4 +35,24 @@ class LoadedRegisteredState extends EventState {
 class ErrorState extends EventState {
   @override
   List<Object> get props => [];
+}
+
+class RegistrationSuccessState extends EventState {
+    @override
+    List<Object> get props => [];
+}
+
+class RegistrationFailedState extends EventState {
+    @override
+    List<Object> get props => [];
+}
+
+class UnregisterSuccessState extends EventState {
+    @override
+    List<Object> get props => [];
+}
+
+class UnregisterFailedState extends EventState {
+    @override
+    List<Object> get props => [];
 }

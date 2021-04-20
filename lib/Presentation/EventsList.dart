@@ -58,7 +58,7 @@ class EventsListState extends State<EventsList> {
   Widget createEventCard(BuildContext context, Event e) {
     // 0 registered, 1 ongoing, 2 upcoming
     if (selected.every((element) => element == false) ||
-        (selected[0] && user.events.contains(e.id)) ||
+        (selected[0] && e.registered.contains(user.id)) ||
         (selected[1] && e.isOngoing) ||
         (selected[2] && (e.dateCompare(DateTime.now()) >= 0))) {
       return GestureDetector(
@@ -116,12 +116,12 @@ class EventsListState extends State<EventsList> {
                   padding: const EdgeInsets.all(10),
                   child: Center(
                     child: IconButton(
-                      icon: user.isRegistered(e)
+                      icon: e.registered.contains(user.id)
                           ? Icon(Icons.pan_tool, size: 30)
                           : Icon(Icons.pan_tool_outlined, size: 30),
                       color: Colors.blueGrey[700], //Color(0xff206090),
                       onPressed: () {
-                        if (user.isRegistered(e)) {
+                        if (e.registered.contains(user.id)) {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -137,9 +137,12 @@ class EventsListState extends State<EventsList> {
                               }).then((valueFromDialog) {
                             if (valueFromDialog == null) return;
                             if (valueFromDialog) {
-                              setState(() {
-                                user.unregister(e);
-                              });
+                              // send request to delete registration
+                              BlocProvider.of<EventCubit>(context)
+                                  .unregisterUser(user, e);
+                              // setState(() {
+                              //   user.unregister(e);
+                              // });
                             }
                           });
                         } else {
@@ -159,9 +162,12 @@ class EventsListState extends State<EventsList> {
                               }).then((valueFromDialog) {
                             if (valueFromDialog == null) return;
                             if (valueFromDialog) {
-                              setState(() {
-                                user.register(e);
-                              });
+                              // send request to post registration
+                              BlocProvider.of<EventCubit>(context)
+                                  .registerUser(user, e);
+                              // setState(() {
+                              //   user.register(e);
+                              // });
                             }
                           });
                         }
@@ -202,7 +208,36 @@ class EventsListState extends State<EventsList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventCubit, EventState>(
+    return BlocConsumer<EventCubit, EventState>(
+      listener: (context, state) {
+        if (state is RegistrationFailedState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  "Registration did not go through-- please refresh and try again."),
+            ),
+          );
+        } else if (state is RegistrationSuccessState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("You are registered!"),
+            ),
+          );
+        } else if (state is UnregisterFailedState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content:
+                  Text("Deregistration failed-- please refresh and try again."),
+            ),
+          );
+        } else if (state is UnregisterSuccessState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("You are no longer registered!"),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is LoadedState) {
           final evlist = state.events;
@@ -246,118 +281,5 @@ class EventsListState extends State<EventsList> {
         }
       },
     );
-
-    // return BlocProvider(
-    //   create: (context) => EventCubit(),
-    //   child: Scaffold(
-
-    // with bloc builder
-    // body: SingleChildScrollView(
-    //   child: BlocBuilder<EventCubit, EventState>(
-    //     builder: (context, state) {
-    //       if (state is LoadedState) {
-    //         return Column(
-    //             children: evlist //state.events
-    //                 .map((e) => createEventCard(context, e))
-    //                 .toList());
-    //       } else {
-    //         return Dialog(
-    //           child: new Row(
-    //             mainAxisSize: MainAxisSize.min,
-    //             children: [
-    //               new CircularProgressIndicator(),
-    //               new Text("Loading"),
-    //             ],
-    //           ),
-    //         );
-    //       }
-    //     },
-    //   ),
-    // ),
-    // ),
-    // );
   }
 }
-
-//Set<Event> eventSet = Set();
-// List<Event> showEvents = evlist; // default start with full list
-
-// void doFilter(int index, bool newSelect) {
-//     if (newSelect) {
-//       // add events
-//       switch (filterLabels[index]) {
-//         case 'Registered':
-//           {
-//             for (Event e in evlist) {
-//               if (user.isRegistered(e)) eventSet.add(e);
-//             }
-//           }
-//           break;
-
-//         case 'Ongoing':
-//           {
-//             for (Event e in evlist) {
-//               if (e.isOngoing) eventSet.add(e);
-//             }
-//           }
-//           break;
-
-//         case 'Upcoming':
-//           {
-//             for (Event e in evlist) {
-//               if (e.dateCompare(DateTime.now()) >= 0) eventSet.add(e);
-//             }
-//           }
-//           break;
-//       }
-//     } else {
-//       // remove events
-//       switch (filterLabels[index]) {
-//         case 'Registered':
-//           {
-//             for (Event e in evlist) {
-//               if (user.isRegistered(e)) eventSet.remove(e);
-//             }
-//           }
-//           break;
-
-//         case 'Ongoing':
-//           {
-//             for (Event e in evlist) {
-//               if (e.isOngoing) eventSet.remove(e);
-//             }
-//           }
-//           break;
-
-//         case 'Upcoming':
-//           {
-//             for (Event e in evlist) {
-//               if (e.dateCompare(DateTime.now()) >= 0) eventSet.remove(e);
-//             }
-//           }
-//           break;
-//       }
-//     }
-//   }
-
-// sliver example
-// body: CustomScrollView(
-//   slivers: [
-//     SliverGrid(
-//       gridDelegate:
-//           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-//       delegate:
-//           SliverChildBuilderDelegate((BuildContext context, int index) {
-//         return generateChip(index);
-//       }, childCount: 3),
-//     ),
-//     SliverPadding(
-//       padding: const EdgeInsets.symmetric(vertical: 10),
-//       sliver: SliverList(
-//         delegate: SliverChildBuilderDelegate(
-//             (context, index) => createEventCard(context, evlist[index]),
-//             childCount: evlist.length),
-//       ),
-//     ),
-//   ],
-// ),

@@ -1,6 +1,5 @@
 part of 'users_cubit.dart';
 
-
 abstract class UsersState extends Equatable {
   // const UsersState();
 

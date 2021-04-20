@@ -2,6 +2,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
 import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventCubit extends Cubit<EventState> {
@@ -20,6 +21,36 @@ class EventCubit extends Cubit<EventState> {
       emit(LoadedState(events));
     } catch (e) {
       print(e);
+      emit(ErrorState());
+    }
+  }
+
+  void registerUser(User u, Event e) async {
+    try {
+      emit(LoadingState());
+      final success = await _repository.postRegistration(e.id, u.id);
+      if (success) 
+        emit(RegistrationSuccessState());
+      else
+        emit(RegistrationFailedState());
+      final events = await _repository.getEvents();
+      emit(LoadedState(events));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
+
+  void unregisterUser(User u, Event e) async {
+    try {
+      emit(LoadingState());
+      final success = await _repository.deleteRegistration(e.id, u.id);
+      if (success) 
+        emit(UnregisterSuccessState());
+      else
+        emit(UnregisterFailedState());
+      final events = await _repository.getEvents();
+      emit(LoadedState(events));
+    } catch (e) {
       emit(ErrorState());
     }
   }
