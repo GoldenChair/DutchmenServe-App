@@ -119,7 +119,9 @@ class EventsListState extends State<EventsList> {
                       icon: e.registered.contains(user.id)
                           ? Icon(Icons.pan_tool, size: 30)
                           : Icon(Icons.pan_tool_outlined, size: 30),
-                      color: Colors.blueGrey[700], //Color(0xff206090),
+                      color: e.registered.contains(user.id)
+                          ? Color(0xff002A4E)
+                          : Color(0xff95C1DC), //Colors.blueGrey[700],
                       onPressed: () {
                         if (e.registered.contains(user.id)) {
                           showDialog(
@@ -206,6 +208,11 @@ class EventsListState extends State<EventsList> {
     );
   }
 
+  Future _refreshEventList() async {
+    BlocProvider.of<EventCubit>(context).getEvents();
+    // setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<EventCubit, EventState>(
@@ -213,27 +220,58 @@ class EventsListState extends State<EventsList> {
         if (state is RegistrationFailedState) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                  "Registration did not go through-- please refresh and try again."),
+              content: Text("Registration for " +
+                  state.eventName +
+                  " did not go through. Please refresh and try again."),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
             ),
           );
         } else if (state is RegistrationSuccessState) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text("You are registered!"),
+              content: Text("You are registered for " + state.eventName + "!"),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
             ),
           );
         } else if (state is UnregisterFailedState) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content:
-                  Text("Deregistration failed-- please refresh and try again."),
+              content: Text("Deregistration for " +
+                  state.eventName +
+                  " failed-- please refresh and try again."),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
             ),
           );
         } else if (state is UnregisterSuccessState) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text("You are no longer registered!"),
+              content: Text(
+                  "You are no longer registered for " + state.eventName + "!"),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
             ),
           );
         }
@@ -243,24 +281,29 @@ class EventsListState extends State<EventsList> {
           final evlist = state.events;
           evlist.sort((a, b) => a.date.compareTo(b.date));
 
-          return CustomScrollView(
-            slivers: [
-              // showCalendarView(context);
-              SliverPadding(
-                padding: const EdgeInsets.only(top: 20),
-                sliver: SliverToBoxAdapter(
-                  child: Row(
-                    children: generateChips(),
-                    mainAxisAlignment: MainAxisAlignment.center,
+          return RefreshIndicator(
+            color: Color(0xff206090), //Color(0xff002A4E),
+            onRefresh: _refreshEventList,
+            child: CustomScrollView(
+              slivers: [
+                // showCalendarView(context);
+                SliverPadding(
+                  padding: const EdgeInsets.only(top: 20),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      children: generateChips(),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (context, index) => createEventCard(context, evlist[index]),
-                    childCount: evlist.length),
-              ),
-            ],
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (context, index) =>
+                          createEventCard(context, evlist[index]),
+                      childCount: evlist.length),
+                ),
+              ],
+            ),
           );
         } else if (state is ErrorState) {
           return Center(

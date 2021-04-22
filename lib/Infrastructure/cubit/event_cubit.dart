@@ -29,10 +29,10 @@ class EventCubit extends Cubit<EventState> {
     try {
       emit(LoadingState());
       final success = await _repository.postRegistration(e.id, u.id);
-      if (success) 
-        emit(RegistrationSuccessState());
+      if (success)
+        emit(RegistrationSuccessState(e.eventName));
       else
-        emit(RegistrationFailedState());
+        emit(RegistrationFailedState(e.eventName));
       final events = await _repository.getEvents();
       emit(LoadedState(events));
     } catch (e) {
@@ -44,10 +44,10 @@ class EventCubit extends Cubit<EventState> {
     try {
       emit(LoadingState());
       final success = await _repository.deleteRegistration(e.id, u.id);
-      if (success) 
-        emit(UnregisterSuccessState());
+      if (success)
+        emit(UnregisterSuccessState(e.eventName));
       else
-        emit(UnregisterFailedState());
+        emit(UnregisterFailedState(e.eventName));
       final events = await _repository.getEvents();
       emit(LoadedState(events));
     } catch (e) {
