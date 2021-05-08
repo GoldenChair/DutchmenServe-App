@@ -36,65 +36,10 @@ class _ReportHoursState extends State<ReportHoursPage> {
   User user;
   _ReportHoursState(this.user);
 
-  final List<Color> colors = [
-    Colors.pink[600],
-    Colors.blueAccent[200],
-    Colors.orangeAccent[700],
-    Colors.lime,
-    Colors.redAccent,
-    Colors.greenAccent[700],
-    Colors.deepPurple[400],
-    Colors.teal[600],
-    Colors.purple[600],
-    Colors.blueGrey[600],
-  ];
-  final List<Color> fillColors = [
-    Colors.pink[100], //Color(0xfffccde5),
-    Colors.blue[100], //Color(0xff80b1d3),
-    Colors.orange[100], //Color(0xffffffb3),
-    Colors.lime[100], //Color(0xfffdb462),
-    Colors.red[100], //Color(0xfffb8072),
-    Colors.green[100], //Color(0xffb3de69),
-    Colors.deepPurple[100], //Color(0xffbebada),
-    Colors.teal[100], //Color(0xff8dd3c7),
-    Colors.purple[100], //Color(0xffbc80bd),
-    Colors.blueGrey[100], //Color(0xffd9d9d9),
-  ];
-
   final List<Color> camCom = [
-    const Color(0xffCCCCFF),
+    const Color(0xffCCCCFF), 
     const Color(0xff8D9EFA),
   ];
-
-  // final List<Report> all = [
-  //   Report.fromID(2, .5, 1),
-  //   Report.fromID(1, 3, 1),
-  //   Report.fromID(3, 1, 2),
-  //   Report.fromID(4, 1, 1),
-  //   Report.fromID(5, .5, 1),
-  //   Report.fromID(6, 1, 1),
-  //   Report.fromID(7, .5, 2),
-  //   Report.fromID(8, 3, 1),
-  //   Report.fromID(9, .5, 1),
-  //   Report.fromID(10, 1, 1),
-  // ];
-
-  // int index = 0;
-  // bool isComm = false;
-  // Event getRandEvent(int eid) {
-  //   if (index == 10) index = 0;
-  //   index++;
-  //   isComm = !isComm;
-  //   return Event(
-  //     'Poverty Simulation Training',
-  //     DateTime.now(),
-  //     'Virtual',
-  //     'Train to be facilitator for virtual Poverty Simulation',
-  //     [index, index + 1],
-  //     isComm,
-  //     id: eid,
-  //   );
-  // }
 
   // show breakdown by interest
   Widget interestDonut(List<double> counts, List<Interest> interests) {
@@ -104,7 +49,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
         interests[i - 1].interest,
         counts[i],
         (counts[i] / counts[11] * 100).round().toString() + '%',
-        colors[i - 1].withOpacity(0),
+        interests[i - 1].getColor().withOpacity(0),
       );
     }
     return SfCircularChart(
@@ -284,10 +229,8 @@ class _ReportHoursState extends State<ReportHoursPage> {
         },
       );
       if (e == null) continue;
-      // Event e = getRandEvent(r.eid);
       counts[0] += r.hours;
       for (int i in e.interests) {
-        // TODO: get interest based on id
         counts[i] += r.hours;
         counts[11] += r.hours;
         print(i.toString() + ": " + counts[i].toString());
@@ -382,7 +325,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
               (i) => Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: colors[i], //interests[i].color,
+                  color: interests[i].getColor(),
                 ),
                 padding: const EdgeInsets.all(5),
                 child: Icon(

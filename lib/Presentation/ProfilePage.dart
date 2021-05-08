@@ -21,16 +21,16 @@ class ProfilePageState extends State<ProfilePage> {
   ProfilePageState(this.user);
 
   final List<Interest> interests = [
-    Interest('Animals', 59662),
-    Interest('Disabilities', 58718),
-    Interest('Education', 59816),
-    Interest('Food', 59429),
-    Interest('Health\nWellness', 59308),
-    Interest('Housing', 59322),
-    Interest('Older Adults', 59162),
-    Interest('Service Trips', 59153),
-    Interest('Veterans', 61283),
-    Interest('Other', 59526),
+    Interest('Animals', 59662, '#d81b60', '#fccde5'),
+    Interest('Disabilities', 58718,'#448aff', '#80b1d3'),
+    Interest('Education', 59816, '#ff6d00', '#ffffb3'),
+    Interest('Food', 59429, '#cddc39', '#fdb462'),
+    Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
+    Interest('Housing', 59322, '#00c853', '#b3de69'),
+    Interest('Older Adults', 59162, '#7e57c2', '#bebada'),
+    Interest('Service Trips', 59153, '#00897b', '#8dd3c7'),
+    Interest('Veterans', 61283, '#8e24aa', '#bc80bd'),
+    Interest('Other', 59526, '#546e7a', '#d9d9d9'),
   ];
   List<IconData> icons = [
     Icons.pets,
