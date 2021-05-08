@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Opportunities Card with filter at top
 // add interests to cards?
 // build out event info page
-// link up registration to cubit
 class EventsList extends StatefulWidget {
   final User user;
   EventsList({Key key, this.user}) : super(key: key);
@@ -57,9 +56,12 @@ class EventsListState extends State<EventsList> {
 
   Widget createEventCard(BuildContext context, Event e) {
     // 0 registered, 1 ongoing, 2 upcoming
-    if (selected.every((element) => element == false) ||
-        (selected[0] && e.registered.contains(user.id)) ||
-        (selected[1] && e.isOngoing) ||
+    if ((selected.every((element) => element == false) &&
+            (e.dateCompare(DateTime.now()) >= 0)) ||
+        (selected[0] &&
+            e.registered.contains(user.id) &&
+            (e.dateCompare(DateTime.now()) >= 0)) ||
+        (selected[1] && e.isOngoing && (e.dateCompare(DateTime.now()) >= 0)) ||
         (selected[2] && (e.dateCompare(DateTime.now()) >= 0))) {
       return GestureDetector(
         onTap: () {
@@ -142,9 +144,6 @@ class EventsListState extends State<EventsList> {
                               // send request to delete registration
                               BlocProvider.of<EventCubit>(context)
                                   .unregisterUser(user, e);
-                              // setState(() {
-                              //   user.unregister(e);
-                              // });
                             }
                           });
                         } else {
@@ -167,14 +166,66 @@ class EventsListState extends State<EventsList> {
                               // send request to post registration
                               BlocProvider.of<EventCubit>(context)
                                   .registerUser(user, e);
-                              // setState(() {
-                              //   user.register(e);
-                              // });
                             }
                           });
                         }
                       },
                     ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else if (selected.every((element) => element == false) &&
+            (e.dateCompare(DateTime.now()) < 0) ||
+        (selected[0] &&
+            e.registered.contains(user.id) &&
+            (e.dateCompare(DateTime.now()) < 0))) {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EventInfo(e)),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+          child: Card(
+            color: Colors.grey[300],
+            elevation: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  title: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 2),
+                    child: Text(
+                      e.eventName,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    e.dateString(),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.grey[500]),
+                  ),
+                  trailing: IconButton(
+                    icon: e.registered.contains(user.id)
+                        ? Icon(Icons.pan_tool, size: 30)
+                        : Icon(Icons.pan_tool_outlined, size: 30),
+                    color: e.registered.contains(user.id)
+                        ? Colors.blueGrey[300]
+                        : Colors.blueGrey[200],
+                    onPressed: () {},
                   ),
                 ),
               ],
@@ -210,7 +261,6 @@ class EventsListState extends State<EventsList> {
 
   Future _refreshEventList() async {
     BlocProvider.of<EventCubit>(context).getEvents();
-    // setState(() {});
   }
 
   @override
@@ -306,16 +356,20 @@ class EventsListState extends State<EventsList> {
             ),
           );
         } else if (state is ErrorState) {
-          return Center(
-            child: Icon(Icons.close),
+          return RefreshIndicator(
+            color: Color(0xff206090), //Color(0xff002A4E),
+            onRefresh: _refreshEventList,
+            child: SingleChildScrollView(
+              child: Center(child: Icon(Icons.close)),
+            ),
           );
         } else if (state is LoadingState) {
           return Dialog(
-            child: new Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                new CircularProgressIndicator(),
-                new Text("Loading"),
+                CircularProgressIndicator(),
+                Text("Loading"),
               ],
             ),
           );

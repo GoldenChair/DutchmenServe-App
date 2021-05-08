@@ -18,7 +18,8 @@ class EventCubit extends Cubit<EventState> {
     try {
       emit(LoadingState());
       final events = await _repository.getEvents();
-      emit(LoadedState(events));
+      final interests = await _repository.getInterests();
+      emit(LoadedState(events, interests));
     } catch (e) {
       print(e);
       emit(ErrorState());
@@ -34,7 +35,8 @@ class EventCubit extends Cubit<EventState> {
       else
         emit(RegistrationFailedState(e.eventName));
       final events = await _repository.getEvents();
-      emit(LoadedState(events));
+      final interests = await _repository.getInterests();
+      emit(LoadedState(events, interests));
     } catch (e) {
       emit(ErrorState());
     }
@@ -49,9 +51,20 @@ class EventCubit extends Cubit<EventState> {
       else
         emit(UnregisterFailedState(e.eventName));
       final events = await _repository.getEvents();
-      emit(LoadedState(events));
+      final interests = await _repository.getInterests();
+      emit(LoadedState(events, interests));
     } catch (e) {
       emit(ErrorState());
+    }
+  }
+
+  void lookupEvent(int eid) async {
+    try {
+      emit(LookingUpEvent());
+      final event = await _repository.getEvent(eid);
+      emit(LookedUpEvent(event));
+    } catch (e) {
+      emit(LookupError());
     }
   }
 

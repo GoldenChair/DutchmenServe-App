@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
@@ -21,6 +22,22 @@ class HomePage extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<EventCubit>(
+          create: (BuildContext context) => EventCubit(),
+        ),
+        BlocProvider<ReportCubit>(
+          create: (BuildContext context) => ReportCubit(),
+        ),
+      ],
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          body: buildScrollable(context),
+        ),
+      ),
+    );
     return BlocProvider(
       create: (context) => EventCubit(),
       child: DefaultTabController(

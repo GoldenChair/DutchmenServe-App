@@ -6,18 +6,18 @@ class Constants {
   static const double padding = 10;
   static const double avatarRadius = 45;
 
-  List<Interest> interests = [
-    Interest('Animals', id: 1),
-    Interest('Disabilities', id: 2),
-    Interest('Education', id: 3),
-    Interest('Food', id: 4),
-    Interest('Health\nWellness', id: 5),
-    Interest('Housing', id: 6),
-    Interest('Older Adults', id: 7),
-    Interest('Service Trips', id: 8),
-    Interest('Veterans', id: 9),
-    Interest('Other', id: 10),
-  ];
+  // final List<Interest> interests = [
+  //   Interest('Animals', 59662),
+  //   Interest('Disabilities', 58718),
+  //   Interest('Education', 59816),
+  //   Interest('Food', 59429),
+  //   Interest('Health\nWellness', 59308),
+  //   Interest('Housing', 59322),
+  //   Interest('Older Adults', 59162),
+  //   Interest('Service Trips', 59153),
+  //   Interest('Veterans', 61283),
+  //   Interest('Other', 59526),
+  // ];
 
   // index colors by interest id
   List<Color> colors = [
@@ -45,16 +45,16 @@ class Constants {
     Colors.purple[100], //Color(0xffbc80bd),
     Colors.blueGrey[100], //Color(0xffd9d9d9),
   ];
-  List<IconData> icons = [
-    Icons.pets,
-    Icons.accessible,
-    Icons.school,
-    Icons.local_restaurant,
-    Icons.healing,
-    Icons.home,
-    Icons.face,
-    Icons.explore,
-    Icons.stars,
-    Icons.more_horiz,
-  ];
+  // List<IconData> icons = [
+  //   Icons.pets,
+  //   Icons.accessible,
+  //   Icons.school,
+  //   Icons.local_restaurant,
+  //   Icons.healing,
+  //   Icons.home,
+  //   Icons.face,
+  //   Icons.explore,
+  //   Icons.stars,
+  //   Icons.more_horiz,
+  // ];
 }

@@ -1,12 +1,9 @@
-
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';
 
 class Report {
-  // Event event;
   int eid;
   double hours;
-  // User user;
   int uid;
   int id;
   List<String> imagepaths;
@@ -56,7 +53,9 @@ class Report {
     // user = User.lookup(uid);
     this.uid = uid;
     id = json['id'];
-    additional = List<int>.from(json['additional']);
+    additional = json['additional'] != null
+        ? List<int>.from(json['additional'])
+        : <int>[];
     imagepaths = parseList(json['imagepaths']);
     deleted = json['deleted'];
   }
@@ -83,15 +82,10 @@ class Report {
     print(additional.toString());
   }
 
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is Report &&
-        // o.event == event &&
-        o.eid == eid &&
-        // o.user == user &&
-        o.uid == uid &&
-        o.hours == hours;
+  bool compare(Report other) {
+    return other is Report &&
+        this.eid == other.eid &&
+        this.uid == other.uid &&
+        this.hours == other.hours;
   }
 }

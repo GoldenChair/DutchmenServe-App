@@ -15,13 +15,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class ReportNewHours extends StatefulWidget {
-  ReportNewHours({Key key}) : super(key: key);
+  final User _user;
+  ReportNewHours(this._user, {Key key}) : super(key: key);
 
   @override
-  _RNHState createState() => _RNHState();
+  _RNHState createState() => _RNHState(_user);
 }
 
 class _RNHState extends State<ReportNewHours> {
+  _RNHState(this._user);
+  User _user;
+
   // data of report
   DateTime _dateTime;
   TextEditingController _hrsController = TextEditingController();
@@ -29,7 +33,6 @@ class _RNHState extends State<ReportNewHours> {
   double _partialHour = 0;
   Event _event;
   List<DropdownMenuItem<Event>> _dropdownMenuItems;
-  User _self;
   bool _showIndividual = false;
   TextEditingController _eventNameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -90,7 +93,8 @@ class _RNHState extends State<ReportNewHours> {
                               _hrs = (double.parse(_hrsController.text)) +
                                   _partialHour;
                               var b = context.watch<ReportCubit>();
-                              b.submitReport(Report(_event, _hrs, _self));
+                              b.submitReport(
+                                  Report(_event, _hrs, _user), _user.id);
                               // TODO: alert to confirm submitting report
                               // Navigate back to report hours page
                               Navigator.pop(context);
@@ -177,7 +181,10 @@ class _RNHState extends State<ReportNewHours> {
           onChanged: (Event newValue) {
             setState(() {
               _event = newValue;
-              if (newValue == Event.blank()) _showIndividual = true;
+              if (newValue == Event.blank())
+                _showIndividual = true;
+              else
+                _showIndividual = false;
             });
           },
           items: _dropdownMenuItems,
@@ -186,7 +193,7 @@ class _RNHState extends State<ReportNewHours> {
     }
     // else loading state or error state
     else {
-      return blank('Select date first');
+      return blank('Select date first before selecting event');
     }
   }
 

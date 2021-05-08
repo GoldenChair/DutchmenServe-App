@@ -26,16 +26,16 @@ class _SelectInterestsState extends State<SelectInterests> {
   _SelectInterestsState(this.user);
 
   final List<Interest> interests = [
-    Interest('Animals'),
-    Interest('Disabilities'),
-    Interest('Education'),
-    Interest('Food'),
-    Interest('Health\nWellness'),
-    Interest('Housing'),
-    Interest('Older Adults'),
-    Interest('Service Trips'),
-    Interest('Veterans'),
-    Interest('Other'),
+    Interest('Animals', 59662),
+    Interest('Disabilities', 58718),
+    Interest('Education', 59816),
+    Interest('Food', 59429),
+    Interest('Health\nWellness', 59308),
+    Interest('Housing', 59322),
+    Interest('Older Adults', 59162),
+    Interest('Service Trips', 59153),
+    Interest('Veterans', 61283),
+    Interest('Other', 59526),
   ];
 
   final List<IconData> icons = [
