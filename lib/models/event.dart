@@ -39,19 +39,29 @@ class Event {
     description = '';
     interests = [];
     isCommunity = false;
+    this.isResidential = false;
+    this.isOngoing = false;
+    registered = [];
     id = null;
+    imagepath = null;
+    deleted = false;
   }
 
-  Event.individual(String eventName, DateTime date, 
-      String description, bool isCommunity,
+  Event.individual(
+      String eventName, DateTime date, String description, bool isCommunity,
       {List<int> interests, int id}) {
     this.eventName = eventName;
     this.date = date;
-    this.location = ''; // not tracked 
+    this.location =
+        'blank'; // not tracked, Jen doesn't need, but cannot be blank
     this.description = description;
     this.isCommunity = isCommunity;
+    this.isResidential = false;
+    this.isOngoing = false;
     this.interests = []; // currently not built to input interests
     this.id = id;
+    imagepath = null;
+    deleted = false;
   }
 
   // convert Event to a json Map
@@ -101,7 +111,6 @@ class Event {
     final DateFormat formatter = DateFormat('EEE. M/d, h:mm a');
     return formatter.format(date);
   }
-
 
   int dateCompare(DateTime dt) {
     if (date.year == dt.year && date.month == dt.month && date.day == dt.day)

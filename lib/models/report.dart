@@ -10,7 +10,6 @@ class Report {
   List<int> additional;
   bool deleted;
 
-  // additional cannot be null
   Report(Event e, double hrs, User u,
       {int id, List<int> add, List<String> ips}) {
     eid = e.id;

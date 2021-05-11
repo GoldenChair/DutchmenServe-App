@@ -4,6 +4,7 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/models/event.dart';
@@ -60,50 +61,55 @@ class _RNHState extends State<ReportNewHours> {
           },
           child: SingleChildScrollView(
             child: BlocBuilder<EventCubit, EventState>(
-              builder: (context, state) {
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      createLTDate(),
-                      createLTEvent(state),
-                      createLTIndividual(currentFocus),
-                      createLTHours(currentFocus),
-                      createLTAddStudents(context),
-                      createLTPhotos(),
-                      Center(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 25),
-                          child: NormalButton(
-                            'Submit',
-                            () {
-                              // send report to repo
-                              if (_showIndividual) {
-                                _event = Event.individual(
-                                  _eventNameController.text,
-                                  _dateTime,
-                                  _descriptionController.text,
-                                  _isCommunity,
-                                  id: 9, // made up id for now
-                                );
-                                // TODO: send new event first and get id
-                              }
-                              _hrs = (double.parse(_hrsController.text)) +
-                                  _partialHour;
-                              var b = context.watch<ReportCubit>();
-                              b.submitReport(
-                                  Report(_event, _hrs, _user), _user.id);
-                              // TODO: alert to confirm submitting report
-                              // Navigate back to report hours page
-                              Navigator.pop(context);
-                            },
+              builder: (context, eventState) {
+                return BlocBuilder<ReportCubit, ReportState>(
+                  builder: (context, reportState) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          createLTDate(),
+                          createLTEvent(eventState),
+                          createLTIndividual(currentFocus),
+                          createLTHours(currentFocus),
+                          // createLTAddStudents(context),
+                          createLTPhotos(),
+                          Center(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 25),
+                              child: NormalButton(
+                                'Submit',
+                                () {
+                                  _hrs = (double.parse(_hrsController.text)) +
+                                      _partialHour;
+                                  if (_showIndividual) {
+                                    //if individual event
+                                    Event eventI = Event.individual(
+                                      _eventNameController.text,
+                                      _dateTime,
+                                      _descriptionController.text,
+                                      _isCommunity,
+                                    );
+                                    BlocProvider.of<ReportCubit>(context)
+                                        .submitIReport(eventI, _hrs, _user);
+                                  } else {
+                                    //otherwise already have event id
+                                    Report newReport =
+                                        Report(_event, _hrs, _user);
+                                    BlocProvider.of<ReportCubit>(context)
+                                        .submitReport(newReport);
+                                  }
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 );
               },
             ),

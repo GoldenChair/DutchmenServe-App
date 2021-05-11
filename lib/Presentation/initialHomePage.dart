@@ -47,7 +47,7 @@ class InitialLoginHome extends StatelessWidget {
             size: 30,
             color: Color(0xff206090),
           ),
-          margin: EdgeInsets.symmetric(horizontal: 8)),
+          margin: const EdgeInsets.symmetric(horizontal: 8)),
     ];
 
     return Scaffold(
@@ -76,7 +76,7 @@ class InitialLoginHome extends StatelessWidget {
               Spacer(),
               Container(
                 child: Image(image: AssetImage('images/lvc_blue.png')),
-                padding: EdgeInsets.symmetric(horizontal: 80),
+                padding: const EdgeInsets.symmetric(horizontal: 80),
               ),
               Container(
                 alignment: Alignment.center,
@@ -171,7 +171,7 @@ class InitialLoginHome extends StatelessWidget {
             Flexible(
               flex: 25,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 child: AutoSizeText(
                   s,
                   style: TextStyle(

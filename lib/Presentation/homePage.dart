@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
@@ -31,15 +32,6 @@ class HomePage extends StatelessWidget {
           create: (BuildContext context) => ReportCubit(),
         ),
       ],
-      child: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          body: buildScrollable(context),
-        ),
-      ),
-    );
-    return BlocProvider(
-      create: (context) => EventCubit(),
       child: DefaultTabController(
         length: 3,
         child: Scaffold(

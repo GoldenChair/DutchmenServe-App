@@ -2,7 +2,6 @@
 // shows user summary view of community service history
 // FAB brings user to report new hours
 
-import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Presentation/reportNewHours.dart';
@@ -37,7 +36,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
   _ReportHoursState(this.user);
 
   final List<Color> camCom = [
-    const Color(0xffCCCCFF), 
+    const Color(0xffCCCCFF),
     const Color(0xff8D9EFA),
   ];
 
@@ -131,7 +130,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
   // Silver:
   // Bronze:
   Widget radialBar(List<double> counts) {
-    double progress = counts[13];
+    double progress = counts[0];
     if (counts[14] > 0) progress += 150;
 
     String value = progress.toString();
@@ -224,16 +223,16 @@ class _ReportHoursState extends State<ReportHoursPage> {
       Event e = events.singleWhere(
         (element) => element.id == r.eid,
         orElse: () {
-          print(r.eid);
           return null;
         },
       );
-      if (e == null) continue;
+      if (e == null) {
+        continue;
+      }
       counts[0] += r.hours;
       for (int i in e.interests) {
         counts[i] += r.hours;
         counts[11] += r.hours;
-        print(i.toString() + ": " + counts[i].toString());
       }
       if (e.isCommunity)
         counts[13] += r.hours;
@@ -341,6 +340,11 @@ class _ReportHoursState extends State<ReportHoursPage> {
             padding: const EdgeInsets.only(top: 5, bottom: 10),
             child: Text('Tap outer ring to see interest labels!',
                 style: TextStyle(fontSize: 14)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Text('Note: Pull down to refresh.',
+                style: TextStyle(fontSize: 18)),
           ),
         ],
       ),

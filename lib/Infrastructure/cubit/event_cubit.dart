@@ -91,18 +91,16 @@ class EventCubit extends Cubit<EventState> {
   //   }
   // }
 
-  // // someone wants to add event(s)
-  // Future<void> addEvent(Event e) async {
-  //   try {
-  //     emit(LoadingState());
-  //     int id = await _repository.addEvent(e);
-  //     e.setID(id);
-  //     final events = await _repository.getEvents();
-  //     emit(LoadedState(events));
-  //   } catch (e) {
-  //     emit(ErrorState());
-  //   }
-  // }
+  // someone wants to add event
+  Future<void> addEvent(Event e) async {
+    try {
+      emit(PostingEvent());
+      Event newEvent = await _repository.addEvent(e);
+      emit(PostedEvent(newEvent));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
 
   // // someone wants to edit an event's info
   // Future<void> replaceEvent(Event olde,

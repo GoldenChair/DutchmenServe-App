@@ -1,7 +1,9 @@
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
+import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/report.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReportCubit extends Cubit<ReportState> {
@@ -25,7 +27,7 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   // someone wants to submit report
-  Future<void> submitReport(Report r, int uid) async {
+  Future<void> submitReport(Report r) async {
     try {
       emit(SendReportLoadingState());
       final success = await _repository.addReport(r);
@@ -34,7 +36,26 @@ class ReportCubit extends Cubit<ReportState> {
         emit(SendReportSuccessState(event.eventName));
       else
         emit(SendReportFailedState(event.eventName));
-      final reports = await _repository.getReports(uid);
+      final reports = await _repository.getReports(r.uid);
+      final events = await _repository.getEvents();
+      final interests = await _repository.getInterests();
+      emit(ReportLoadedState(reports, events, interests));
+    } catch (e) {
+      emit(ReportErrorState());
+    }
+  }
+
+  Future<void> submitIReport(Event e, double hrs, User u) async {
+    try {
+      emit(SendReportLoadingState());
+      final event = await _repository.addEvent(e);
+      Report r = new Report(event, hrs, u);
+      final success = await _repository.addReport(r);
+      if (success.compare(r))
+        emit(SendReportSuccessState(event.eventName));
+      else
+        emit(SendReportFailedState(event.eventName));
+      final reports = await _repository.getReports(r.uid);
       final events = await _repository.getEvents();
       final interests = await _repository.getInterests();
       emit(ReportLoadedState(reports, events, interests));

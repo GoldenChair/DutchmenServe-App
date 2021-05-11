@@ -76,3 +76,15 @@ class LookupError extends EventState {
   @override
   List<Object> get props => [];
 }
+
+class PostedEvent extends EventState {
+  final Event event;
+  PostedEvent(this.event);
+  @override
+  List<Object> get props => [event];
+}
+
+class PostingEvent extends EventState {
+  @override
+  List<Object> get props => [];
+}
