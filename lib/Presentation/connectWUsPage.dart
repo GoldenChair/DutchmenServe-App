@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/aboutPage.dart';
@@ -8,6 +7,15 @@ import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+/*
+This class builds the Connect pagetab that links to service orgs,
+shows the Service Coordinator's contact info,
+links to external DutchmenServe media,
+links to user Profile
+links to Settings, About pages,
+and Logout.
+*/
 
 class ConnectWUsPage extends StatelessWidget {
   final User user;

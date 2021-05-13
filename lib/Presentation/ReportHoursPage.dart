@@ -1,7 +1,3 @@
-// General page for reporting hours
-// shows user summary view of community service history
-// FAB brings user to report new hours
-
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Presentation/reportNewHours.dart';
@@ -13,6 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart' as gauges;
+
+/*
+This class builds a summary page of service hours:
+- total in the center
+- gradient progress ring: to bronze, silver, and gold awards
+- middle circle breaks down hours by community vs campus hours
+- outer circle breaks down hours by interest/need area
+scroll to see full legend
+
+FAB brings user to report new hours.  
+Navigation passes instance of ReportCubit so listener can track 
+whether new reports are received or fail.
+*/
 
 class _PieData {
   _PieData(this.xData, this.yData, [this.text, this.color]);

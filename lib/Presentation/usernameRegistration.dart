@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /*
-This class will prompt for a username and password and for password 
-confirmation for registration purposes
+This class will prompt for a username, password, and password confirmation 
+for registration.  The next pages will ask for further info.
 */
 
 class UserNameReg extends StatefulWidget {

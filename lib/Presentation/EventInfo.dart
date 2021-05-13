@@ -1,6 +1,11 @@
 import 'package:dutchmenserve/models/event.dart';
 import 'package:flutter/material.dart';
 
+/*
+This class builds the Event Info page for a specific event.
+User clicks on a specific event card from the EventsList pagetab to get here.
+*/
+
 class EventInfo extends StatelessWidget {
   final Event e;
   const EventInfo(this.e);

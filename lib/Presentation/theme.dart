@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 
-// ThemeData basicTheme() {
-//   TextTheme _basicTextTheme(TextTheme base) {
-//     return base.copyWith(
-//       headline5: base.headline5.copyWith(
-//         fontFamily: '',
-//         fontSize: 22,
-//         color: Colors.black,
-//       )
-//     );
-//   }
-// }
+/*
+This class defines the app theme.
+*/
 
 ThemeData basicTheme() {
   return ThemeData(

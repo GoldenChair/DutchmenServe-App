@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /*
-Page to select interests by having the user
-click on the interests.
+Page to select interests by having the user click on the interests.
  */
 
 class SelectInterests extends StatefulWidget {

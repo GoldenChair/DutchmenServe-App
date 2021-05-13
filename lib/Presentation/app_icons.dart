@@ -19,6 +19,11 @@
 ///
 import 'package:flutter/widgets.dart';
 
+/*
+This class includes custom icons from online, used in the about/homepage design
+and for social media external links.
+*/
+
 class AppIcons {
   AppIcons._();
 

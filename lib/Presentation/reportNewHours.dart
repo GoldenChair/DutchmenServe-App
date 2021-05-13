@@ -17,6 +17,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+/*
+This class builds a form for user to report new service hours.
+Select date first to autofill list of events 
+or submit an individual event,
+hours, and submit.
+
+Creates new EventCubit, but takes previous instance of ReportCubit
+to allow listener for report snackbars.
+*/
+
 class ReportNewHours extends StatefulWidget {
   final User _user;
   ReportNewHours(this._user, {Key key}) : super(key: key);

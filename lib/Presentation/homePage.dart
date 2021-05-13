@@ -10,6 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/*
+This class builds the homepage once user has logged in.
+Shows three tabs that are srollable (up-down) and swipable (left-right).
+Notifications at top right.
+*/
+
 class HomePage extends StatelessWidget {
   final User user;
   const HomePage(this.user);

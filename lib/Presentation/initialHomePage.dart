@@ -12,7 +12,6 @@ import 'package:flutter/services.dart';
 This class builds the initial page we launch that allows for users 
 to either register for the first time or log in if they have already 
 registered themselves on the app.
-
 */
 
 class InitialLoginHome extends StatelessWidget {

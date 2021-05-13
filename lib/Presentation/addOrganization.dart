@@ -5,6 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/*
+This class builds the page allowing anyone to add a new Service Organization
+to be in the database.
+*/
+
 class AddOrgPage extends StatefulWidget {
   AddOrgPage({Key key}) : super(key: key);
 

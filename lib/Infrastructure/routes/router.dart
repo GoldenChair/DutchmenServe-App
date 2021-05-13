@@ -4,7 +4,6 @@ import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
-import 'package:dutchmenserve/Presentation/VolunteerPage.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
 import 'package:dutchmenserve/Presentation/reportNewHours.dart';
@@ -20,7 +19,6 @@ import 'package:dutchmenserve/Presentation/organizationInfo.dart';
     MaterialRoute(page: OrganizationInfo),
     MaterialRoute(page: OrganizationsPage),
     MaterialRoute(page: ProfilePage),
-    MaterialRoute(page: VolunteerPage),
     MaterialRoute(page: ReportGroupAddStudents),
     MaterialRoute(page: ReportHoursPage),
     MaterialRoute(page: ReportNewHours),

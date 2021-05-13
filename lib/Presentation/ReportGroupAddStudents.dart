@@ -1,11 +1,17 @@
-// Additional page for when reporting new hours for a group
-// to allow user to check the students/organizations to include
-
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flappy_search_bar/flappy_search_bar.dart';
+
+/*
+This class builds the page for user to report hours for a group.
+Checklist of students (or service orgs) to include.
+
+Consider having a search bar to make it easier.
+
+Currently not implemented.
+*/
 
 class ReportGroupAddStudents extends StatelessWidget {
   @override

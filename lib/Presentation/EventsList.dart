@@ -8,9 +8,24 @@ import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Opportunities Card with filter at top
-// add interests to cards?
-// build out event info page
+/*
+This class builds the EventsList pagetab, 
+filtered by Registered/Ongoing/Upcoming,
+allows user to register for an event by clicking the hand,
+dialogue reminds students to be mindful of canceling registration/not showing up to event,
+snackbars show when registration succeeds/fails,
+click on a card to navigate to more detailed EventInfo page.
+
+The filtering: 
+1. registered shows ALL events that user registered (no time filter)
+2. ongoing events are undated
+3. upcoming events are filtered by date
+- click on current category to remove all filters, can only filter by one category at a time
+
+Need to add way to add new events?
+Need to show Event Interests on cards? Or on EventInfo page...
+*/
+
 class EventsList extends StatefulWidget {
   final User user;
   EventsList({Key key, this.user}) : super(key: key);

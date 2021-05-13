@@ -4,6 +4,15 @@ import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
+/*
+This class builds the profile page for the user,
+shows image (optional), name, email, interests, organizations followed.
+
+Other users can see this profile.
+
+TODO: does this have to be stateful??
+*/
+
 class ProfilePage extends StatefulWidget {
   final User user;
   ProfilePage({Key key, this.user}) : super(key: key);

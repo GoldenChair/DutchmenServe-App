@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/models/user.dart';
@@ -7,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /*
-Scrollable checklist to select the orgnizations a user is a part of
+Scrollable checklist for user to select the orgnizations they are interested in, 
+want to follow to see events that this service organization does.
+
+Offers option to set up later.
 */
 
 class SetUpOrgPage extends StatefulWidget {

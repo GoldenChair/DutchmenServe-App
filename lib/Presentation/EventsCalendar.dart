@@ -6,6 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 
+/*
+This class builds the Calendar View of all events by date
+and a link to list ongoing (undated) events.
+
+Currently unused.
+*/
+
 class EventsCalendar extends StatelessWidget {
   final User user;
   const EventsCalendar(this.user);

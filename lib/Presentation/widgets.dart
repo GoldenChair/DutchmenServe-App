@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 
+/*
+This class defines custom widgets to simplify code.
+*/
+
 // normal button
 class NormalButton extends StatelessWidget {
   final String s;

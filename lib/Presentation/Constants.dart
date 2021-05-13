@@ -1,13 +1,18 @@
 import 'package:dutchmenserve/models/interest.dart';
 
-//unused
+/*
+This class defines constants.
+Currently unused. 
+Consider use for future refactoring.
+*/
+
 class Constants {
   static const double padding = 10;
   static const double avatarRadius = 45;
 
   final List<Interest> interests = [
     Interest('Animals', 59662, '#d81b60', '#fccde5'),
-    Interest('Disabilities', 58718,'#448aff', '#80b1d3'),
+    Interest('Disabilities', 58718, '#448aff', '#80b1d3'),
     Interest('Education', 59816, '#ff6d00', '#ffffb3'),
     Interest('Food', 59429, '#cddc39', '#fdb462'),
     Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
