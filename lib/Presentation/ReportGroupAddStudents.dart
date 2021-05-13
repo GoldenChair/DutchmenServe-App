@@ -5,7 +5,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
+// import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 class ReportGroupAddStudents extends StatelessWidget {
   @override
@@ -147,7 +147,7 @@ List<Entry> generateData(List<User> users) {
 class EntryItemWidget extends StatefulWidget {
   EntryItemWidget(this.entry, this.users);
   final Entry entry;
-  List<User> users;
+  final List<User> users;
 
   @override
   EntryItemWidgetState createState() => EntryItemWidgetState(entry, users);

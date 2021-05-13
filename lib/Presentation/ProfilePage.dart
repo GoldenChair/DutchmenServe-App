@@ -3,12 +3,9 @@ import 'dart:ui';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'initialHomePage.dart';
 
 class ProfilePage extends StatefulWidget {
-  User user;
+  final User user;
   ProfilePage({Key key, this.user}) : super(key: key);
   @override
   ProfilePageState createState() {

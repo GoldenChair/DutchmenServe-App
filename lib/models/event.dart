@@ -130,10 +130,7 @@ class Event {
   //   dt = DateFormat('M/d/yy').add_jm().parse(newdate);
   // }
 
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
+  bool eventEquals(Event o) {
     return o is Event &&
         o.eventName == eventName &&
         o.date == date &&

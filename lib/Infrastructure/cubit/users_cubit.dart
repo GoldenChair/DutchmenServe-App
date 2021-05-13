@@ -3,7 +3,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
-import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:equatable/equatable.dart';
 

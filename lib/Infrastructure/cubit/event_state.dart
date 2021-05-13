@@ -1,6 +1,5 @@
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/interest.dart';
-import 'package:dutchmenserve/models/user.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class EventState extends Equatable {}
