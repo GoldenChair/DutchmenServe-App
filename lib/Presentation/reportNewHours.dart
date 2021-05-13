@@ -44,15 +44,8 @@ class _RNHState extends State<ReportNewHours> {
     final FocusScopeNode currentFocus = FocusScope.of(context);
     return Scaffold(
       appBar: AppBar(title: Text('New Report')),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<EventCubit>(
-            create: (BuildContext context) => EventCubit(),
-          ),
-          BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(),
-          ),
-        ],
+      body: BlocProvider<EventCubit>(
+        create: (BuildContext context) => EventCubit(),
         child: GestureDetector(
           onTap: () {
             if (!currentFocus.hasPrimaryFocus) {
@@ -62,7 +55,41 @@ class _RNHState extends State<ReportNewHours> {
           child: SingleChildScrollView(
             child: BlocBuilder<EventCubit, EventState>(
               builder: (context, eventState) {
-                return BlocBuilder<ReportCubit, ReportState>(
+                return BlocConsumer<ReportCubit, ReportState>(
+                  listener: (context, state) {
+                    if (state is SendReportFailedState) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              "Oops! Something went wrong submitting the report for " +
+                                  state.eventName +
+                                  ". Please refresh and resubmit."),
+                          action: SnackBarAction(
+                            textColor: Colors.blue,
+                            label: 'OK',
+                            onPressed: () {
+                              Scaffold.of(context).hideCurrentSnackBar();
+                            },
+                          ),
+                        ),
+                      );
+                    } else if (state is SendReportSuccessState) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Your report for " +
+                              state.eventName +
+                              " was received!"),
+                          action: SnackBarAction(
+                            textColor: Colors.blue,
+                            label: 'OK',
+                            onPressed: () {
+                              Scaffold.of(context).hideCurrentSnackBar();
+                            },
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   builder: (context, reportState) {
                     return Container(
                       margin: const EdgeInsets.symmetric(
@@ -117,6 +144,112 @@ class _RNHState extends State<ReportNewHours> {
         ),
       ),
     );
+    //   body: MultiBlocProvider(
+    //     providers: [
+    //       BlocProvider<EventCubit>(
+    //         create: (BuildContext context) => EventCubit(),
+    //       ),
+    //       BlocProvider<ReportCubit>(
+    //         create: (BuildContext context) => ReportCubit(),
+    //       ),
+    //     ],
+    //     child: GestureDetector(
+    //       onTap: () {
+    //         if (!currentFocus.hasPrimaryFocus) {
+    //           currentFocus.unfocus();
+    //         }
+    //       },
+    //       child: SingleChildScrollView(
+    //         child: BlocBuilder<EventCubit, EventState>(
+    //           builder: (context, eventState) {
+    //             return BlocConsumer<ReportCubit, ReportState>(
+    //               listener: (context, state) {
+    //     if (state is SendReportFailedState) {
+    //       Scaffold.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Text(
+    //               "Oops! Something went wrong submitting the report for " +
+    //                   state.eventName +
+    //                   ". Please refresh and resubmit."),
+    //           action: SnackBarAction(
+    //             textColor: Colors.blue,
+    //             label: 'OK',
+    //             onPressed: () {
+    //               Scaffold.of(context).hideCurrentSnackBar();
+    //             },
+    //           ),
+    //         ),
+    //       );
+    //     } else if (state is SendReportSuccessState) {
+    //       Scaffold.of(context).showSnackBar(
+    //         SnackBar(
+    //           content:
+    //               Text("Your report for " + state.eventName + " was received!"),
+    //           action: SnackBarAction(
+    //             textColor: Colors.blue,
+    //             label: 'OK',
+    //             onPressed: () {
+    //               Scaffold.of(context).hideCurrentSnackBar();
+    //             },
+    //           ),
+    //         ),
+    //       );
+    //     }
+    //   },
+    //   builder: (context, reportState) {
+    //                 return Container(
+    //                   margin: const EdgeInsets.symmetric(
+    //                       horizontal: 18, vertical: 10),
+    //                   child: Column(
+    //                     mainAxisAlignment: MainAxisAlignment.start,
+    //                     children: [
+    //                       createLTDate(),
+    //                       createLTEvent(eventState),
+    //                       createLTIndividual(currentFocus),
+    //                       createLTHours(currentFocus),
+    //                       // createLTAddStudents(context),
+    //                       createLTPhotos(),
+    //                       Center(
+    //                         child: Container(
+    //                           margin: const EdgeInsets.symmetric(vertical: 25),
+    //                           child: NormalButton(
+    //                             'Submit',
+    //                             () {
+    //                               _hrs = (double.parse(_hrsController.text)) +
+    //                                   _partialHour;
+    //                               if (_showIndividual) {
+    //                                 //if individual event
+    //                                 Event eventI = Event.individual(
+    //                                   _eventNameController.text,
+    //                                   _dateTime,
+    //                                   _descriptionController.text,
+    //                                   _isCommunity,
+    //                                 );
+    //                                 BlocProvider.of<ReportCubit>(context)
+    //                                     .submitIReport(eventI, _hrs, _user);
+    //                               } else {
+    //                                 //otherwise already have event id
+    //                                 Report newReport =
+    //                                     Report(_event, _hrs, _user);
+    //                                 BlocProvider.of<ReportCubit>(context)
+    //                                     .submitReport(newReport);
+    //                               }
+    //                               Navigator.pop(context);
+    //                             },
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 );
+    //               },
+    //             );
+    //           },
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   // below are methods for creating the List Tile widgets making up the report form

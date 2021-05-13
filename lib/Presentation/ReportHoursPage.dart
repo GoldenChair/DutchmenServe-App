@@ -357,7 +357,8 @@ class _ReportHoursState extends State<ReportHoursPage> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ReportCubit>(context).getReports(user.id);
+    final reportBloc = BlocProvider.of<ReportCubit>(context);
+    reportBloc.getReports(user.id);
     return BlocConsumer<ReportCubit, ReportState>(
       listener: (context, state) {
         if (state is SendReportFailedState) {
@@ -422,7 +423,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
                   ],
                 ),
               ),
-              floatingActionButton: fab(context),
+              floatingActionButton: fab(context, reportBloc),
               floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
             ),
           );
@@ -451,14 +452,22 @@ class _ReportHoursState extends State<ReportHoursPage> {
     );
   }
 
-  Widget fab(BuildContext context) {
+  Widget fab(BuildContext context, ReportCubit repBloc) {
     return FloatingActionButton(
       backgroundColor: const Color(0xffFFE400),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ReportNewHours(user)),
-        );
+        Navigator.of(context)
+            .push(MaterialPageRoute<ReportNewHours>(builder: (context) {
+          return BlocProvider.value(
+            value: repBloc,
+            child: ReportNewHours(user),
+          );
+        }));
+
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => ReportNewHours(user)),
+        // );
       },
       // mini: true,
       tooltip: 'Report Hours',
