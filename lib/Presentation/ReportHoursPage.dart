@@ -165,9 +165,10 @@ class _ReportHoursState extends State<ReportHoursPage> {
               pointerOffset: .05,
               sizeUnit: gauges.GaugeSizeUnit.factor,
               cornerStyle: gauges.CornerStyle.startCurve,
-              gradient: SweepGradient(colors: <Color>[
-                const Color(0xFF00a9b5),
-                const Color(0xFFa4edeb)
+              gradient: SweepGradient(
+                colors: const <Color>[
+                Color(0xFF00a9b5),
+                Color(0xFFa4edeb)
               ], stops: <double>[
                 0.25,
                 0.75

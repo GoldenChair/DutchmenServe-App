@@ -32,7 +32,8 @@ class AddStudentsStateful extends StatefulWidget {
   _AddStudentsState createState() => _AddStudentsState();
 }
 
-class _AddStudentsState extends State<AddStudentsStateful> with SingleTickerProviderStateMixin {
+class _AddStudentsState extends State<AddStudentsStateful>
+    with SingleTickerProviderStateMixin {
   List<User> users = [];
 
   AnimationController _animationController;
