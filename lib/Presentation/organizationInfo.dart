@@ -1,9 +1,15 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
-import 'package:dutchmenserve/Infrastructure/repository.dart';
-import 'package:dutchmenserve/Presentation/splash.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+/*
+This class builds the OrganizationInfo page with more detailed 
+view of a service organization.
+Show contact info and officers.
+
+TODO: allow officers/admin users to edit an organization's info
+*/
 
 class OrgInfo extends StatelessWidget {
   final Organization org;

@@ -1,11 +1,17 @@
 import 'dart:ui';
-
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+/*
+This class builds the page allowing users that have already 
+registered to login.
+
+Asks only for LVC username and password.
+*/
 
 class Login extends StatelessWidget {
   @override
@@ -140,7 +146,7 @@ class LoginFormState extends State<LoginForm> {
                           // TODO: and database verifies User
                           User user = User('first', 'last', unController.text,
                               pwController.text,
-                              id: 1);
+                              id: 2);
 
                           SystemChrome.setSystemUIOverlayStyle(
                               SystemUiOverlayStyle(
@@ -169,65 +175,3 @@ class LoginFormState extends State<LoginForm> {
     );
   }
 }
-
-//   SingleChildScrollView(
-//           child: Container(
-//             color: Colors.white,
-//             child: Column(
-//               children: [
-//                 SizedBox(
-//                   height: 70,
-//                 ),
-//                 Center(
-//                   child: Container(
-//                     alignment: Alignment.center,
-//                     height: 100,
-//                     width: 100,
-//                     child: Icon(
-//                       Icons.account_circle,
-//                       size: 120,
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 70,
-//                 ),
-//                 TextField(
-//                     //controller: myController1,
-//                     decoration: new InputDecoration(
-//                   border: new OutlineInputBorder(
-//                       borderSide: new BorderSide(color: Colors.black)),
-//                   hintText: 'U S E R N A M E',
-//                 )),
-//                 SizedBox(height: 30),
-//                 TextField(
-//                     decoration: new InputDecoration(
-//                   border: new OutlineInputBorder(
-//                       borderSide: new BorderSide(color: Colors.black)),
-//                   hintText: 'P A S S W O R D',
-//                 )),
-//                 SizedBox(height: 30),
-//                 Container(
-//                   child: Align(
-//                     alignment: Alignment.bottomCenter,
-//                     child: RaisedButton(
-//                       color: Colors.blue[800],
-//                       onPressed: () {
-//                         Navigator.push(
-//                             context,
-//                             new MaterialPageRoute(
-//                                 builder: (context) => HomePage()));
-//                       },
-//                       child: Text('Next ',
-//                           style: TextStyle(
-//                             fontSize: 20,
-//                           )),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ));
-//   }
-// }

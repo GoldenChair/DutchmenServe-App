@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/aboutPage.dart';
@@ -5,6 +6,16 @@ import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+/*
+This class builds the Connect pagetab that links to service orgs,
+shows the Service Coordinator's contact info,
+links to external DutchmenServe media,
+links to user Profile
+links to Settings, About pages,
+and Logout.
+*/
 
 class ConnectWUsPage extends StatelessWidget {
   final User user;
@@ -17,6 +28,28 @@ class ConnectWUsPage extends StatelessWidget {
       blurRadius: 5,
     )
   ];
+
+  void _launchFB() async {
+    final String fallbackUrl = 'https://www.facebook.com/DutchmenServe';
+    final String fbID = '338807726862081';
+
+    // Don't use canLaunch because of fbProtocolUrl (fb://)
+    String url = 'fb://page/' + fbID;
+    if (Platform.isIOS) url = 'fb://profile/' + fbID;
+    try {
+      bool launched =
+          await launch(url, forceSafariVC: false, forceWebView: false);
+      if (!launched) {
+        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+      }
+    } catch (e) {
+      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+    }
+  }
+
+  void _launchSocial(String url) async {
+    await launch(url, forceSafariVC: false, forceWebView: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +109,8 @@ class ConnectWUsPage extends StatelessWidget {
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
                     icon: Image(image: AssetImage('images/fb_icon.png')),
-                    onPressed: () {
-                      // TODO: link to FB
+                    onPressed: () async {
+                      _launchFB();
                     },
                   ),
                 ),
@@ -92,8 +125,8 @@ class ConnectWUsPage extends StatelessWidget {
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
                     icon: Image(image: AssetImage('images/ig_icon.png')),
-                    onPressed: () {
-                      // TODO: link to IG
+                    onPressed: () async {
+                      _launchSocial('https://www.instagram.com/DutchmenServe/');
                     },
                   ),
                 ),
@@ -107,8 +140,9 @@ class ConnectWUsPage extends StatelessWidget {
                     boxShadow: _boxShadow,
                   ),
                   child: IconButton(
-                    onPressed: () {
-                      //TODO: link to LVC website
+                    onPressed: () async {
+                      _launchSocial(
+                          'https://www.lvc.edu/life-at-lvc/community-service/');
                     },
                     padding: const EdgeInsets.all(0.0),
                     icon: Image(image: AssetImage('images/logo_circle.png')),

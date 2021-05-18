@@ -1,7 +1,6 @@
 import 'package:dutchmenserve/models/event.dart';
-import 'package:equatable/equatable.dart';
 
-class User extends Equatable {
+class User {
   String firstName;
   String lastName;
   String username;
@@ -73,22 +72,6 @@ class User extends Equatable {
     return json != null ? List<int>.from(json) : null;
   }
 
-  // List<Event> parseList(List<Map<String, dynamic>> json) {
-  //   List<Event> res = [];
-  //   for (int i = 0; i < json.length; i++) {
-  //     res.add(Event.fromJSON(json[i]));
-  //   }
-  //   return res;
-  // }
-
-  // List<Organization> parseListO(List<Map<String, dynamic>> json) {
-  //   List<Organization> res = [];
-  //   for (int i = 0; i < json.length; i++) {
-  //     res.add(Organization.fromJSON(json[i]));
-  //   }
-  //   return res;
-  // }
-
   bool isRegistered(Event e) {
     return events.contains(e.id);
   }
@@ -117,7 +100,5 @@ class User extends Equatable {
     print(events.toString());
   }
 
-  @override
-  // TODO: implement props
-  List<Object> get props => [id, username];
+
 }

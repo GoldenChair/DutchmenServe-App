@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
+/*
+This class builds a splash page with cute LVC gif.
+
+Currently unused :(
+*/
+
 class SplashPage extends StatelessWidget {
   // static Route route() {
   //   return MaterialPageRoute<void>(builder: (_) => SplashPage());

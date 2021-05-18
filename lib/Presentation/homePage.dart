@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/NotificationsPage.dart';
 import 'package:dutchmenserve/Presentation/ReportHoursPage.dart';
@@ -8,6 +9,12 @@ import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+/*
+This class builds the homepage once user has logged in.
+Shows three tabs that are srollable (up-down) and swipable (left-right).
+Notifications at top right.
+*/
 
 class HomePage extends StatelessWidget {
   final User user;
@@ -21,8 +28,15 @@ class HomePage extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return BlocProvider(
-      create: (context) => EventCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<EventCubit>(
+          create: (BuildContext context) => EventCubit(),
+        ),
+        BlocProvider<ReportCubit>(
+          create: (BuildContext context) => ReportCubit(),
+        ),
+      ],
       child: DefaultTabController(
         length: 3,
         child: Scaffold(

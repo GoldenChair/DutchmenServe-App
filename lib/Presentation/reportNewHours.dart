@@ -1,9 +1,12 @@
 // Page for reporting new hours
-// TODO: Switch between reporting for individual or group
+// TODO: Switch between reporting for individual or group?
+// TODO: Be able to report for additional students
+// TODO: Be able to submit images
 
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/models/event.dart';
@@ -14,14 +17,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+/*
+This class builds a form for user to report new service hours.
+Select date first to autofill list of events 
+or submit an individual event,
+hours, and submit.
+
+Creates new EventCubit, but takes previous instance of ReportCubit
+to allow listener for report snackbars.
+*/
+
 class ReportNewHours extends StatefulWidget {
-  ReportNewHours({Key key}) : super(key: key);
+  final User _user;
+  ReportNewHours(this._user, {Key key}) : super(key: key);
 
   @override
-  _RNHState createState() => _RNHState();
+  _RNHState createState() => _RNHState(_user);
 }
 
 class _RNHState extends State<ReportNewHours> {
+  _RNHState(this._user);
+  User _user;
+
   // data of report
   DateTime _dateTime;
   TextEditingController _hrsController = TextEditingController();
@@ -29,7 +46,6 @@ class _RNHState extends State<ReportNewHours> {
   double _partialHour = 0;
   Event _event;
   List<DropdownMenuItem<Event>> _dropdownMenuItems;
-  User _self;
   bool _showIndividual = false;
   TextEditingController _eventNameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -40,15 +56,8 @@ class _RNHState extends State<ReportNewHours> {
     final FocusScopeNode currentFocus = FocusScope.of(context);
     return Scaffold(
       appBar: AppBar(title: Text('New Report')),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<EventCubit>(
-            create: (BuildContext context) => EventCubit(),
-          ),
-          BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(),
-          ),
-        ],
+      body: BlocProvider<EventCubit>(
+        create: (BuildContext context) => EventCubit(),
         child: GestureDetector(
           onTap: () {
             if (!currentFocus.hasPrimaryFocus) {
@@ -57,49 +66,89 @@ class _RNHState extends State<ReportNewHours> {
           },
           child: SingleChildScrollView(
             child: BlocBuilder<EventCubit, EventState>(
-              builder: (context, state) {
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      createLTDate(),
-                      createLTEvent(state),
-                      createLTIndividual(currentFocus),
-                      createLTHours(currentFocus),
-                      createLTAddStudents(context),
-                      createLTPhotos(),
-                      Center(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 25),
-                          child: NormalButton(
-                            'Submit',
-                            () {
-                              // send report to repo
-                              if (_showIndividual) {
-                                _event = Event.individual(
-                                  _eventNameController.text,
-                                  _dateTime,
-                                  _descriptionController.text,
-                                  _isCommunity,
-                                  id: 9, // made up id for now
-                                );
-                                // TODO: send new event first and get id
-                              }
-                              _hrs = (double.parse(_hrsController.text)) +
-                                  _partialHour;
-                              var b = context.watch<ReportCubit>();
-                              b.submitReport(Report(_event, _hrs, _self));
-                              // TODO: alert to confirm submitting report
-                              // Navigate back to report hours page
-                              Navigator.pop(context);
+              builder: (context, eventState) {
+                return BlocConsumer<ReportCubit, ReportState>(
+                  listener: (context, state) {
+                    if (state is SendReportFailedState) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              "Oops! Something went wrong submitting the report for " +
+                                  state.eventName +
+                                  ". Please refresh and resubmit."),
+                          action: SnackBarAction(
+                            textColor: Colors.blue,
+                            label: 'OK',
+                            onPressed: () {
+                              Scaffold.of(context).hideCurrentSnackBar();
                             },
                           ),
                         ),
+                      );
+                    } else if (state is SendReportSuccessState) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Your report for " +
+                              state.eventName +
+                              " was received!"),
+                          action: SnackBarAction(
+                            textColor: Colors.blue,
+                            label: 'OK',
+                            onPressed: () {
+                              Scaffold.of(context).hideCurrentSnackBar();
+                            },
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, reportState) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          createLTDate(),
+                          createLTEvent(eventState),
+                          createLTIndividual(currentFocus),
+                          createLTHours(currentFocus),
+                          // createLTAddStudents(context),
+                          // createLTPhotos(),
+                          Center(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 25),
+                              child: NormalButton(
+                                'Submit',
+                                () {
+                                  _hrs = (double.parse(_hrsController.text)) +
+                                      _partialHour;
+                                  if (_showIndividual) {
+                                    //if individual event
+                                    Event eventI = Event.individual(
+                                      _eventNameController.text,
+                                      _dateTime,
+                                      _descriptionController.text,
+                                      _isCommunity,
+                                    );
+                                    BlocProvider.of<ReportCubit>(context)
+                                        .submitIReport(eventI, _hrs, _user);
+                                  } else {
+                                    //otherwise already have event id
+                                    Report newReport =
+                                        Report(_event, _hrs, _user);
+                                    BlocProvider.of<ReportCubit>(context)
+                                        .submitReport(newReport);
+                                  }
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 );
               },
             ),
@@ -177,7 +226,10 @@ class _RNHState extends State<ReportNewHours> {
           onChanged: (Event newValue) {
             setState(() {
               _event = newValue;
-              if (newValue == Event.blank()) _showIndividual = true;
+              if (newValue == Event.blank())
+                _showIndividual = true;
+              else
+                _showIndividual = false;
             });
           },
           items: _dropdownMenuItems,
@@ -186,7 +238,7 @@ class _RNHState extends State<ReportNewHours> {
     }
     // else loading state or error state
     else {
-      return blank('Select date first');
+      return blank('Select date first before selecting event');
     }
   }
 
@@ -332,7 +384,7 @@ class _RNHState extends State<ReportNewHours> {
             );
           },
         ),
-        subtitle: Text('None'), // TODO: update students added
+        subtitle: Text('None'), // TODO: list students added
       ),
     );
   }
@@ -346,7 +398,7 @@ class _RNHState extends State<ReportNewHours> {
         color: Colors.grey[200],
         child: Text('Upload'),
         onPressed: () {
-          //TODO: implement adding photos
+          //TODO: implement
         },
       ),
     );

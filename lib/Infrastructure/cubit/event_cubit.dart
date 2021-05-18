@@ -2,6 +2,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
 import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventCubit extends Cubit<EventState> {
@@ -17,10 +18,53 @@ class EventCubit extends Cubit<EventState> {
     try {
       emit(LoadingState());
       final events = await _repository.getEvents();
-      emit(LoadedState(events));
+      final interests = await _repository.getInterests();
+      emit(LoadedState(events, interests));
     } catch (e) {
       print(e);
       emit(ErrorState());
+    }
+  }
+
+  void registerUser(User u, Event e) async {
+    try {
+      emit(LoadingState());
+      final success = await _repository.postRegistration(e.id, u.id);
+      if (success)
+        emit(RegistrationSuccessState(e.eventName));
+      else
+        emit(RegistrationFailedState(e.eventName));
+      final events = await _repository.getEvents();
+      final interests = await _repository.getInterests();
+      emit(LoadedState(events, interests));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
+
+  void unregisterUser(User u, Event e) async {
+    try {
+      emit(LoadingState());
+      final success = await _repository.deleteRegistration(e.id, u.id);
+      if (success)
+        emit(UnregisterSuccessState(e.eventName));
+      else
+        emit(UnregisterFailedState(e.eventName));
+      final events = await _repository.getEvents();
+      final interests = await _repository.getInterests();
+      emit(LoadedState(events, interests));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
+
+  void lookupEvent(int eid) async {
+    try {
+      emit(LookingUpEvent());
+      final event = await _repository.getEvent(eid);
+      emit(LookedUpEvent(event));
+    } catch (e) {
+      emit(LookupError());
     }
   }
 
@@ -47,18 +91,16 @@ class EventCubit extends Cubit<EventState> {
   //   }
   // }
 
-  // // someone wants to add event(s)
-  // Future<void> addEvent(Event e) async {
-  //   try {
-  //     emit(LoadingState());
-  //     int id = await _repository.addEvent(e);
-  //     e.setID(id);
-  //     final events = await _repository.getEvents();
-  //     emit(LoadedState(events));
-  //   } catch (e) {
-  //     emit(ErrorState());
-  //   }
-  // }
+  // someone wants to add event
+  Future<void> addEvent(Event e) async {
+    try {
+      emit(PostingEvent());
+      Event newEvent = await _repository.addEvent(e);
+      emit(PostedEvent(newEvent));
+    } catch (e) {
+      emit(ErrorState());
+    }
+  }
 
   // // someone wants to edit an event's info
   // Future<void> replaceEvent(Event olde,

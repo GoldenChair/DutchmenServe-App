@@ -12,7 +12,7 @@ This class builds the About page that talks about LVC service values.
 */
 
 class AboutPage extends StatelessWidget {
-  bool _allow = true;
+  final bool _allow = true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class AboutPage extends StatelessWidget {
             size: 30,
             color: Color(0xff95C1DC),
           ),
-          margin: EdgeInsets.symmetric(horizontal: 8)),
+          margin: const EdgeInsets.symmetric(horizontal: 8)),
     ];
 
     return WillPopScope(

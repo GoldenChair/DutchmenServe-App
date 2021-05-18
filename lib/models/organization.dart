@@ -97,12 +97,10 @@ class Organization {
     print(members.toString());
   }
 
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
+  bool orgEquals(Organization o) {
     return o is Organization &&
         o.orgName == orgName &&
         o.description == description;
   }
+  
 }

@@ -3,12 +3,18 @@ import 'dart:ui';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'initialHomePage.dart';
+/*
+This class builds the profile page for the user,
+shows image (optional), name, email, interests, organizations followed.
+
+Other users can see this profile.
+
+TODO: does this have to be stateful??
+*/
 
 class ProfilePage extends StatefulWidget {
-  User user;
+  final User user;
   ProfilePage({Key key, this.user}) : super(key: key);
   @override
   ProfilePageState createState() {
@@ -20,17 +26,17 @@ class ProfilePageState extends State<ProfilePage> {
   User user;
   ProfilePageState(this.user);
 
-  List<Interest> interests = [
-    Interest('Animals'),
-    Interest('Disabilities'),
-    Interest('Education'),
-    Interest('Food'),
-    Interest('Health and Wellness'),
-    Interest('Housing'),
-    Interest('Older Adults'),
-    Interest('Service Trips'),
-    Interest('Veterans'),
-    Interest('Other'),
+  final List<Interest> interests = [
+    Interest('Animals', 59662, '#d81b60', '#fccde5'),
+    Interest('Disabilities', 58718,'#448aff', '#80b1d3'),
+    Interest('Education', 59816, '#ff6d00', '#ffffb3'),
+    Interest('Food', 59429, '#cddc39', '#fdb462'),
+    Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
+    Interest('Housing', 59322, '#00c853', '#b3de69'),
+    Interest('Older Adults', 59162, '#7e57c2', '#bebada'),
+    Interest('Service Trips', 59153, '#00897b', '#8dd3c7'),
+    Interest('Veterans', 61283, '#8e24aa', '#bc80bd'),
+    Interest('Other', 59526, '#546e7a', '#d9d9d9'),
   ];
   List<IconData> icons = [
     Icons.pets,

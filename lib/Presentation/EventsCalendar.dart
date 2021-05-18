@@ -1,13 +1,17 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
-import 'package:dutchmenserve/Presentation/EventsList.dart';
 import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
-import 'package:dutchmenserve/Presentation/widgets.dart';
-import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
+
+/*
+This class builds the Calendar View of all events by date
+and a link to list ongoing (undated) events.
+
+Currently unused.
+*/
 
 class EventsCalendar extends StatelessWidget {
   final User user;

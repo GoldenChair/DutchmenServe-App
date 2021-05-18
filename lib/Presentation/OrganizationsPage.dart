@@ -1,14 +1,19 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
-import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/Presentation/addOrganization.dart';
 import 'package:dutchmenserve/Presentation/organizationInfo.dart';
-import 'package:dutchmenserve/Presentation/splash.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// TODO: change to stateless?
+/*
+This class builds the page listing all organizations, 
+allows user to follow organizations they are interested in,
+click on any card to see more detailed info about the organization.
+
+TODO: does this have to be stateful??
+*/
+
 class OrganizationsPage extends StatefulWidget {
   final User user;
   OrganizationsPage({Key key, this.user}) : super(key: key);

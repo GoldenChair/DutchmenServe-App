@@ -8,10 +8,24 @@ import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Opportunities Card with filter at top
-// add interests to cards?
-// build out event info page
-// link up registration to cubit
+/*
+This class builds the EventsList pagetab, 
+filtered by Registered/Ongoing/Upcoming,
+allows user to register for an event by clicking the hand,
+dialogue reminds students to be mindful of canceling registration/not showing up to event,
+snackbars show when registration succeeds/fails,
+click on a card to navigate to more detailed EventInfo page.
+
+The filtering: 
+1. registered shows ALL events that user registered (no time filter)
+2. ongoing events are undated
+3. upcoming events are filtered by date
+- click on current category to remove all filters, can only filter by one category at a time
+
+Need to add way to add new events?
+Need to show Event Interests on cards? Or on EventInfo page...
+*/
+
 class EventsList extends StatefulWidget {
   final User user;
   EventsList({Key key, this.user}) : super(key: key);
@@ -57,9 +71,12 @@ class EventsListState extends State<EventsList> {
 
   Widget createEventCard(BuildContext context, Event e) {
     // 0 registered, 1 ongoing, 2 upcoming
-    if (selected.every((element) => element == false) ||
-        (selected[0] && user.events.contains(e.id)) ||
-        (selected[1] && e.isOngoing) ||
+    if ((selected.every((element) => element == false) &&
+            (e.dateCompare(DateTime.now()) >= 0)) ||
+        (selected[0] &&
+            e.registered.contains(user.id) &&
+            (e.dateCompare(DateTime.now()) >= 0)) ||
+        (selected[1] && e.isOngoing && (e.dateCompare(DateTime.now()) >= 0)) ||
         (selected[2] && (e.dateCompare(DateTime.now()) >= 0))) {
       return GestureDetector(
         onTap: () {
@@ -116,12 +133,14 @@ class EventsListState extends State<EventsList> {
                   padding: const EdgeInsets.all(10),
                   child: Center(
                     child: IconButton(
-                      icon: user.isRegistered(e)
+                      icon: e.registered.contains(user.id)
                           ? Icon(Icons.pan_tool, size: 30)
                           : Icon(Icons.pan_tool_outlined, size: 30),
-                      color: Colors.blueGrey[700], //Color(0xff206090),
+                      color: e.registered.contains(user.id)
+                          ? Color(0xff002A4E)
+                          : Color(0xff95C1DC), //Colors.blueGrey[700],
                       onPressed: () {
-                        if (user.isRegistered(e)) {
+                        if (e.registered.contains(user.id)) {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -137,9 +156,9 @@ class EventsListState extends State<EventsList> {
                               }).then((valueFromDialog) {
                             if (valueFromDialog == null) return;
                             if (valueFromDialog) {
-                              setState(() {
-                                user.unregister(e);
-                              });
+                              // send request to delete registration
+                              BlocProvider.of<EventCubit>(context)
+                                  .unregisterUser(user, e);
                             }
                           });
                         } else {
@@ -159,14 +178,69 @@ class EventsListState extends State<EventsList> {
                               }).then((valueFromDialog) {
                             if (valueFromDialog == null) return;
                             if (valueFromDialog) {
-                              setState(() {
-                                user.register(e);
-                              });
+                              // send request to post registration
+                              BlocProvider.of<EventCubit>(context)
+                                  .registerUser(user, e);
                             }
                           });
                         }
                       },
                     ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else if (selected.every((element) => element == false) &&
+            (e.dateCompare(DateTime.now()) < 0) ||
+        (selected[0] &&
+            e.registered.contains(user.id) &&
+            (e.dateCompare(DateTime.now()) < 0))) {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EventInfo(e)),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+          child: Card(
+            color: Colors.grey[300],
+            elevation: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  title: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 2),
+                    child: Text(
+                      e.eventName,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    e.dateString(),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.grey[500]),
+                  ),
+                  trailing: IconButton(
+                    icon: e.registered.contains(user.id)
+                        ? Icon(Icons.pan_tool, size: 30)
+                        : Icon(Icons.pan_tool_outlined, size: 30),
+                    color: e.registered.contains(user.id)
+                        ? Colors.blueGrey[300]
+                        : Colors.blueGrey[200],
+                    onPressed: () {},
                   ),
                 ),
               ],
@@ -200,44 +274,117 @@ class EventsListState extends State<EventsList> {
     );
   }
 
+  Future _refreshEventList() async {
+    BlocProvider.of<EventCubit>(context).getEvents();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventCubit, EventState>(
+    return BlocConsumer<EventCubit, EventState>(
+      listener: (context, state) {
+        if (state is RegistrationFailedState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Registration for " +
+                  state.eventName +
+                  " did not go through. Please refresh and try again."),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+        } else if (state is RegistrationSuccessState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("You are registered for " + state.eventName + "!"),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+        } else if (state is UnregisterFailedState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Deregistration for " +
+                  state.eventName +
+                  " failed-- please refresh and try again."),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+        } else if (state is UnregisterSuccessState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  "You are no longer registered for " + state.eventName + "!"),
+              action: SnackBarAction(
+                textColor: Colors.blue,
+                label: 'OK',
+                onPressed: () {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is LoadedState) {
           final evlist = state.events;
           evlist.sort((a, b) => a.date.compareTo(b.date));
 
-          return CustomScrollView(
-            slivers: [
-              // showCalendarView(context);
-              SliverPadding(
-                padding: const EdgeInsets.only(top: 20),
-                sliver: SliverToBoxAdapter(
-                  child: Row(
-                    children: generateChips(),
-                    mainAxisAlignment: MainAxisAlignment.center,
+          return RefreshIndicator(
+            color: Color(0xff206090), //Color(0xff002A4E),
+            onRefresh: _refreshEventList,
+            child: CustomScrollView(
+              slivers: [
+                // showCalendarView(context);
+                SliverPadding(
+                  padding: const EdgeInsets.only(top: 20),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      children: generateChips(),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (context, index) => createEventCard(context, evlist[index]),
-                    childCount: evlist.length),
-              ),
-            ],
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (context, index) =>
+                          createEventCard(context, evlist[index]),
+                      childCount: evlist.length),
+                ),
+              ],
+            ),
           );
         } else if (state is ErrorState) {
-          return Center(
-            child: Icon(Icons.close),
+          return RefreshIndicator(
+            color: Color(0xff206090), //Color(0xff002A4E),
+            onRefresh: _refreshEventList,
+            child: SingleChildScrollView(
+              child: Center(child: Icon(Icons.close)),
+            ),
           );
         } else if (state is LoadingState) {
           return Dialog(
-            child: new Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                new CircularProgressIndicator(),
-                new Text("Loading"),
+                CircularProgressIndicator(),
+                Text("Loading"),
               ],
             ),
           );
@@ -246,118 +393,5 @@ class EventsListState extends State<EventsList> {
         }
       },
     );
-
-    // return BlocProvider(
-    //   create: (context) => EventCubit(),
-    //   child: Scaffold(
-
-    // with bloc builder
-    // body: SingleChildScrollView(
-    //   child: BlocBuilder<EventCubit, EventState>(
-    //     builder: (context, state) {
-    //       if (state is LoadedState) {
-    //         return Column(
-    //             children: evlist //state.events
-    //                 .map((e) => createEventCard(context, e))
-    //                 .toList());
-    //       } else {
-    //         return Dialog(
-    //           child: new Row(
-    //             mainAxisSize: MainAxisSize.min,
-    //             children: [
-    //               new CircularProgressIndicator(),
-    //               new Text("Loading"),
-    //             ],
-    //           ),
-    //         );
-    //       }
-    //     },
-    //   ),
-    // ),
-    // ),
-    // );
   }
 }
-
-//Set<Event> eventSet = Set();
-// List<Event> showEvents = evlist; // default start with full list
-
-// void doFilter(int index, bool newSelect) {
-//     if (newSelect) {
-//       // add events
-//       switch (filterLabels[index]) {
-//         case 'Registered':
-//           {
-//             for (Event e in evlist) {
-//               if (user.isRegistered(e)) eventSet.add(e);
-//             }
-//           }
-//           break;
-
-//         case 'Ongoing':
-//           {
-//             for (Event e in evlist) {
-//               if (e.isOngoing) eventSet.add(e);
-//             }
-//           }
-//           break;
-
-//         case 'Upcoming':
-//           {
-//             for (Event e in evlist) {
-//               if (e.dateCompare(DateTime.now()) >= 0) eventSet.add(e);
-//             }
-//           }
-//           break;
-//       }
-//     } else {
-//       // remove events
-//       switch (filterLabels[index]) {
-//         case 'Registered':
-//           {
-//             for (Event e in evlist) {
-//               if (user.isRegistered(e)) eventSet.remove(e);
-//             }
-//           }
-//           break;
-
-//         case 'Ongoing':
-//           {
-//             for (Event e in evlist) {
-//               if (e.isOngoing) eventSet.remove(e);
-//             }
-//           }
-//           break;
-
-//         case 'Upcoming':
-//           {
-//             for (Event e in evlist) {
-//               if (e.dateCompare(DateTime.now()) >= 0) eventSet.remove(e);
-//             }
-//           }
-//           break;
-//       }
-//     }
-//   }
-
-// sliver example
-// body: CustomScrollView(
-//   slivers: [
-//     SliverGrid(
-//       gridDelegate:
-//           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-//       delegate:
-//           SliverChildBuilderDelegate((BuildContext context, int index) {
-//         return generateChip(index);
-//       }, childCount: 3),
-//     ),
-//     SliverPadding(
-//       padding: const EdgeInsets.symmetric(vertical: 10),
-//       sliver: SliverList(
-//         delegate: SliverChildBuilderDelegate(
-//             (context, index) => createEventCard(context, evlist[index]),
-//             childCount: evlist.length),
-//       ),
-//     ),
-//   ],
-// ),

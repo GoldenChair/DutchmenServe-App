@@ -1,3 +1,5 @@
+//Currently unused
+
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
