@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:table_calendar/table_calendar.dart';
+
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Presentation/EventsOngoing.dart';
 import 'package:dutchmenserve/models/user.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter/material.dart';
 
 /*
 This class builds the Calendar View of all events by date
@@ -116,8 +118,9 @@ class _OCalState extends State<OppsCalendarStateful> {
   Widget build(BuildContext context) {
     return BlocBuilder<EventCubit, EventState>(
       builder: (context, state) {
-        return TableCalendar(
-          calendarController: _calendarController,
+        return SfCalendar(
+           view: CalendarView.schedule,
+         controller: _calendarController,
         );
       },
     );

@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_gauges: ^19.3.44
   pie_chart: ^5.0.1
   url_launcher: ^6.0.12
+  syncfusion_flutter_calendar: ^19.3.45
 
 dev_dependencies:
   flutter_test:
