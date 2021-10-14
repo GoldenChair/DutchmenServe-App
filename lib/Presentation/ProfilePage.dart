@@ -4,6 +4,8 @@ import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 
+import 'interestSelection.dart';
+
 /*
 This class builds the profile page for the user,
 shows image (optional), name, email, interests, organizations followed.
@@ -28,7 +30,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   final List<Interest> interests = [
     Interest('Animals', 59662, '#d81b60', '#fccde5'),
-    Interest('Disabilities', 58718,'#448aff', '#80b1d3'),
+    Interest('Disabilities', 58718, '#448aff', '#80b1d3'),
     Interest('Education', 59816, '#ff6d00', '#ffffb3'),
     Interest('Food', 59429, '#cddc39', '#fdb462'),
     Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
@@ -103,17 +105,16 @@ class ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        actions: [
-          FlatButton(
-            onPressed: () {
-              //TODO: edit profile
-            },
-            child: Text(
-              'EDIT',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+        // actions: [
+        //   FlatButton(
+        //     onPressed: () {              //TODO: edit profile
+        //     },
+        //     child: Text(
+        //       'EDIT',
+        //       style: TextStyle(color: Colors.white),
+        //     ),
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -143,12 +144,24 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Divider(height: 8),
-                    ListTile(
-                      title: Text('Interests:'),
-                      leading: Icon(Icons.favorite),
-                      subtitle: Container(
-                          margin: EdgeInsets.only(top: 4),
-                          child: SizedBox(height: 36, child: showInterests())),
+                    InkWell(
+                      child: ListTile(
+                        title: Text('Interests:'),
+                        leading: Icon(Icons.favorite),
+                        trailing: Icon(Icons.edit),
+                        subtitle: Container(
+                            margin: EdgeInsets.only(top: 4),
+                            child:
+                                SizedBox(height: 36, child: showInterests())),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                //TODO Change with copy of SelectInterests
+                                    SelectInterests(user: this.user)));
+                      },
                     ),
                     Divider(
                       height: 0,
