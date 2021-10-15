@@ -22,12 +22,15 @@ class OrganizationsPage extends StatefulWidget {
   _OrganizationsPage createState() {
     return _OrganizationsPage(user);
   }
+
+  List<Organization> getOrgs() {
+    return _OrganizationsPage(user).orgs;
+  }
 }
 
 class _OrganizationsPage extends State<OrganizationsPage> {
   User user;
   _OrganizationsPage(this.user);
-
   final List<Organization> orgs = [
     Organization(
         'Lebanon Valley Educational Partnership', 'B there or B square',
