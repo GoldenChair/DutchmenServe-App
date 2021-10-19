@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/Constants.dart';
 import 'package:dutchmenserve/models/interest.dart';
+import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/src/provider.dart';
 
 import 'interestSelection.dart';
+import 'organizationInfo.dart';
 
 /*
 This class builds the profile page for the user,
@@ -148,10 +150,7 @@ class ProfilePage extends StatelessWidget {
                       leading: Icon(Icons.group_work),
                       title: Text('Organizations'),
                       children: [
-                        //TODO replace with user.orgs or something
-                        ListTile(
-                          title: Text('org1'),
-                        ),
+                        //TODO iterate through a list to build the expanded list
                       ],
                     ),
                   ],
@@ -164,75 +163,113 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
-  // Widget showInterests() {
-  //   List<Widget> widgets = List.generate(
-  //     10,
-  //     (index) => CircleAvatar(
-  //       backgroundColor: colors[index],
-  //       child: IconButton(
-  //         tooltip: interests[index].interest,
-  //         padding: EdgeInsets.zero,
-  //         icon: Icon(
-  //           icons[index],
-  //           color: Colors.white,
-  //           size: 16,
-  //         ),
-  //         onPressed: () {},
-  //       ),
-  //     ),
-  //   );
+  ListView buildOrgList(BuildContext context, List<Organization> orgs) {
+    return ListView.separated(
+      padding: EdgeInsets.all(20.0),
+      itemBuilder: (BuildContext context, int index) {
+        return createOrgCard(context, orgs[index]);
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+      itemCount: orgs.length,
+    );
+  }
 
-  //   return Scrollbar(
-  //       // isAlwaysShown: true,
-  //       thickness: 3,
-  //       radius: Radius.circular(90),
-  //       controller: _scrollController,
-  //       child: Container(
-  //         margin: EdgeInsets.only(bottom: 8),
-  //         child: ListView(
-  //             shrinkWrap: true,
-  //             controller: _scrollController,
-  //             scrollDirection: Axis.horizontal,
-  //             children: widgets),
-  //       ));
-  // }
-  Widget showInterests(BuildContext context) {
-    BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
-      if (state is LoadedState) {
-        List<Widget> widgets = List.generate(
-          10,
-          (index) => CircleAvatar(
-            backgroundColor: colors[index],
-            child: IconButton(
-              tooltip: interests[index].interest,
-              padding: EdgeInsets.zero,
-              icon: Icon(
-                icons[index],
-                color: Colors.white,
-                size: 16,
+  Widget createOrgCard(BuildContext context, Organization o1) {
+    return Card(
+      elevation: 5,
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrgInfo(
+                org: o1,
               ),
-              onPressed: () {},
+            ),
+          );
+        },
+        leading: o1.imagepath == null
+            ? CircleAvatar(
+                backgroundColor: Colors.white54,
+                radius: 25.0,
+                child: Icon(
+                  Icons.group_work,
+                  size: 40,
+                  color: Color(0xffDDDDDE),
+                ))
+            : CircleAvatar(
+                radius: 25,
+                backgroundImage: AssetImage(o1.imagepath),
+              ),
+        title: Container(
+          margin: EdgeInsets.only(top: 15, bottom: 2),
+          child: Text(
+            o1.orgName,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        );
-        return Scrollbar(
-            // isAlwaysShown: true,
-            thickness: 3,
-            radius: Radius.circular(90),
-            controller: _scrollController,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 8),
-              child: ListView(
-                  shrinkWrap: true,
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  children: widgets),
-            ));
-      } else {
-        //TODO needs loading state and return to home state if no user is found
-        return Text("test");
-      }
-    });
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              o1.email,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.left,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              child: Text(
+                o1.description,
+                style: TextStyle(fontSize: 14),
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            // TODO Possibly implement the unfollow button
+            // ButtonBar(
+            //   alignment: MainAxisAlignment.end,
+            //   children: [
+            //     user.organizations.contains(o1.id)
+            //         ? FlatButton(
+            //             child: Text('Unfollow'),
+            //             onPressed: () {
+            //               setState(() {
+            //                 user.organizations.remove(o1.id);
+            //                 o1.members.remove(user.id);
+            //               });
+            //             },
+            //           )
+            //         : FlatButton(
+            //             child: Text('Follow'),
+            //             onPressed: () {
+            //               setState(() {
+            //                 user.organizations.add(o1.id);
+            //                 o1.members.add(user.id);
+            //               });
+            //             },
+            //           ),
+            //     FlatButton(
+            //       child: Text('Learn More'),
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) => OrgInfo(
+            //               org: o1,
+            //             ),
+            //           ),
+            //         );
+            //       },
+            //     ),
+            //   ],
+            // ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
