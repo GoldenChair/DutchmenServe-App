@@ -1,8 +1,12 @@
 import 'dart:ui';
 
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
+import 'package:dutchmenserve/Presentation/Constants.dart';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/src/provider.dart';
 
 import 'interestSelection.dart';
 
@@ -15,105 +19,19 @@ Other users can see this profile.
 TODO: does this have to be stateful??
 */
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   final User user;
   ProfilePage({Key key, this.user}) : super(key: key);
-  @override
-  ProfilePageState createState() {
-    return ProfilePageState(user);
-  }
-}
-
-class ProfilePageState extends State<ProfilePage> {
-  User user;
-  ProfilePageState(this.user);
-
-  final List<Interest> interests = [
-    Interest('Animals', 59662, '#d81b60', '#fccde5'),
-    Interest('Disabilities', 58718, '#448aff', '#80b1d3'),
-    Interest('Education', 59816, '#ff6d00', '#ffffb3'),
-    Interest('Food', 59429, '#cddc39', '#fdb462'),
-    Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
-    Interest('Housing', 59322, '#00c853', '#b3de69'),
-    Interest('Older Adults', 59162, '#7e57c2', '#bebada'),
-    Interest('Service Trips', 59153, '#00897b', '#8dd3c7'),
-    Interest('Veterans', 61283, '#8e24aa', '#bc80bd'),
-    Interest('Other', 59526, '#546e7a', '#d9d9d9'),
-  ];
-  List<IconData> icons = [
-    Icons.pets,
-    Icons.accessible,
-    Icons.school,
-    Icons.local_restaurant,
-    Icons.healing,
-    Icons.home,
-    Icons.face,
-    Icons.explore,
-    Icons.stars,
-    Icons.more_horiz,
-  ];
-  List<Color> colors = [
-    Colors.pink[600],
-    Colors.blueAccent[200],
-    Colors.orangeAccent[700],
-    Colors.lime,
-    Colors.redAccent,
-    Colors.greenAccent[700],
-    Colors.deepPurple[400],
-    Colors.teal[600],
-    Colors.purple[600],
-    Colors.blueGrey[600],
-  ];
 
   final ScrollController _scrollController = ScrollController();
-
-  Widget showInterests() {
-    List<Widget> widgets = List.generate(
-      10,
-      (index) => CircleAvatar(
-        backgroundColor: colors[index],
-        child: IconButton(
-          tooltip: interests[index].interest,
-          padding: EdgeInsets.zero,
-          icon: Icon(
-            icons[index],
-            color: Colors.white,
-            size: 16,
-          ),
-          onPressed: () {},
-        ),
-      ),
-    );
-
-    return Scrollbar(
-        // isAlwaysShown: true,
-        thickness: 3,
-        radius: Radius.circular(90),
-        controller: _scrollController,
-        child: Container(
-          margin: EdgeInsets.only(bottom: 8),
-          child: ListView(
-              shrinkWrap: true,
-              controller: _scrollController,
-              scrollDirection: Axis.horizontal,
-              children: widgets),
-        ));
-  }
-
+  final colors = Constants().colors;
+  final interests = Constants().interests;
+  final icons = Constants().icons;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        // actions: [
-        //   FlatButton(
-        //     onPressed: () {              //TODO: edit profile
-        //     },
-        //     child: Text(
-        //       'EDIT',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //   ),
         // ],
       ),
       body: SingleChildScrollView(
@@ -122,13 +40,21 @@ class ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               Center(child: Icon(Icons.account_circle, size: 120)),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                  user.firstName + ' ' + user.lastName,
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
+              BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
+                if (state is LoadedState) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      state.users[0].firstName + ' ' + state.users[0].lastName,
+                      // user.firstName + ' ' + user.lastName,
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  );
+                } else {
+                  //TODO needs loading state and return to home state if no user is found
+                  return Container();
+                }
+              }),
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
@@ -136,13 +62,21 @@ class ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Column(
                   children: [
-                    ListTile(
-                      leading: Icon(Icons.email),
-                      title: Text(
-                        user.emailAddress,
-                        // style: TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    BlocBuilder<UsersCubit, UsersState>(
+                        builder: (context, state) {
+                      if (state is LoadedState) {
+                        return ListTile(
+                          leading: Icon(Icons.email),
+                          title: Text(
+                            state.users[0].emailAddress,
+                            // style: TextStyle(fontSize: 16),
+                          ),
+                        );
+                      } else {
+                        //TODO needs loading state and return to home state if no user is found
+                        return Container();
+                      }
+                    }),
                     Divider(height: 8),
                     InkWell(
                       child: ListTile(
@@ -151,16 +85,60 @@ class ProfilePageState extends State<ProfilePage> {
                         trailing: Icon(Icons.edit),
                         subtitle: Container(
                             margin: EdgeInsets.only(top: 4),
-                            child:
-                                SizedBox(height: 36, child: showInterests())),
+                            child: SizedBox(
+                                height: 36,
+                                child: BlocBuilder<UsersCubit, UsersState>(
+                                    builder: (context, state) {
+                                  if (state is LoadedState) {
+                                    List<Widget> widgets = List.generate(
+                                      state.users[0].interests.length,
+                                      (index) => CircleAvatar(
+                                        backgroundColor: colors[
+                                            state.users[0].interests[index]],
+                                        child: IconButton(
+                                          tooltip: interests[state
+                                                  .users[0].interests[index]]
+                                              .interest,
+                                          padding: EdgeInsets.zero,
+                                          icon: Icon(
+                                            icons[state
+                                                .users[0].interests[index]],
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    );
+                                    return Scrollbar(
+                                        // isAlwaysShown: true,
+                                        thickness: 3,
+                                        radius: Radius.circular(90),
+                                        controller: _scrollController,
+                                        child: Container(
+                                          margin: EdgeInsets.only(bottom: 8),
+                                          child: ListView(
+                                              shrinkWrap: true,
+                                              controller: _scrollController,
+                                              scrollDirection: Axis.horizontal,
+                                              children: widgets),
+                                        ));
+                                  } else {
+                                    //TODO needs loading state and return to home state if no user is found
+                                    return Text("test");
+                                  }
+                                }))),
                       ),
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                //TODO Change with copy of SelectInterests
-                                    SelectInterests(user: this.user)));
+                          context,
+                          MaterialPageRoute(
+                              builder: (contextInterests) => BlocProvider.value(
+                                    value: context.read<UsersCubit>(),
+                                    //TODO change selectinterests so that it is passed nothing and gets user from context
+                                    child: SelectInterests(user: user),
+                                  )),
+                        );
                       },
                     ),
                     Divider(
@@ -170,6 +148,7 @@ class ProfilePageState extends State<ProfilePage> {
                       leading: Icon(Icons.group_work),
                       title: Text('Organizations'),
                       children: [
+                        //TODO replace with user.orgs or something
                         ListTile(
                           title: Text('org1'),
                         ),
@@ -184,6 +163,76 @@ class ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+  // Widget showInterests() {
+  //   List<Widget> widgets = List.generate(
+  //     10,
+  //     (index) => CircleAvatar(
+  //       backgroundColor: colors[index],
+  //       child: IconButton(
+  //         tooltip: interests[index].interest,
+  //         padding: EdgeInsets.zero,
+  //         icon: Icon(
+  //           icons[index],
+  //           color: Colors.white,
+  //           size: 16,
+  //         ),
+  //         onPressed: () {},
+  //       ),
+  //     ),
+  //   );
+
+  //   return Scrollbar(
+  //       // isAlwaysShown: true,
+  //       thickness: 3,
+  //       radius: Radius.circular(90),
+  //       controller: _scrollController,
+  //       child: Container(
+  //         margin: EdgeInsets.only(bottom: 8),
+  //         child: ListView(
+  //             shrinkWrap: true,
+  //             controller: _scrollController,
+  //             scrollDirection: Axis.horizontal,
+  //             children: widgets),
+  //       ));
+  // }
+  Widget showInterests(BuildContext context) {
+    BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
+      if (state is LoadedState) {
+        List<Widget> widgets = List.generate(
+          10,
+          (index) => CircleAvatar(
+            backgroundColor: colors[index],
+            child: IconButton(
+              tooltip: interests[index].interest,
+              padding: EdgeInsets.zero,
+              icon: Icon(
+                icons[index],
+                color: Colors.white,
+                size: 16,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        );
+        return Scrollbar(
+            // isAlwaysShown: true,
+            thickness: 3,
+            radius: Radius.circular(90),
+            controller: _scrollController,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: ListView(
+                  shrinkWrap: true,
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  children: widgets),
+            ));
+      } else {
+        //TODO needs loading state and return to home state if no user is found
+        return Text("test");
+      }
+    });
   }
 }
 

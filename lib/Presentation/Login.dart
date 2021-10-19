@@ -154,6 +154,11 @@ class LoginFormState extends State<LoginForm> {
                             systemNavigationBarColor: const Color(0xfff9f9f9),
                             systemNavigationBarIconBrightness: Brightness.dark,
                           ));
+                          // user cubit{
+                          // if (state is LoadingState){
+                          //  return loadingwidget;}
+                          // if (state is loadedState)
+                          //  return HomePage(state.users[0])} We would get actual user later
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

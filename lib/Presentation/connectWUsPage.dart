@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/aboutPage.dart';
@@ -6,6 +7,7 @@ import 'package:dutchmenserve/Presentation/initialHomePage.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /*
@@ -162,7 +164,10 @@ class ConnectWUsPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ProfilePage(user: user)),
+                          builder: (contextProfilePage) => BlocProvider.value(
+                            value: context.read<UsersCubit>(),
+                            child: ProfilePage(user: user),
+                          )),
                     );
                   }),
             ),

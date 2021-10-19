@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:dutchmenserve/models/interest.dart';
+import 'package:flutter/material.dart';
 
 /*
 This class defines constants.
@@ -24,42 +27,42 @@ class Constants {
   ];
 
   // index colors by interest id
-  // final List<Color> colors = [
-  //   Colors.pink[600], //#d81b60
-  //   Colors.blueAccent[200], //#448aff
-  //   Colors.orangeAccent[700], //#ff6d00
-  //   Colors.lime, //#cddc39
-  //   Colors.redAccent, //#ff5252
-  //   Colors.greenAccent[700], //#00c853
-  //   Colors.deepPurple[400], //#7e57c2
-  //   Colors.teal[600], //#00897b
-  //   Colors.purple[600], //#8e24aa
-  //   Colors.blueGrey[600], //#546e7a
-  // ];
+  final List<Color> colors = [
+    Colors.pink[600], //#d81b60
+    Colors.blueAccent[200], //#448aff
+    Colors.orangeAccent[700], //#ff6d00
+    Colors.lime, //#cddc39
+    Colors.redAccent, //#ff5252
+    Colors.greenAccent[700], //#00c853
+    Colors.deepPurple[400], //#7e57c2
+    Colors.teal[600], //#00897b
+    Colors.purple[600], //#8e24aa
+    Colors.blueGrey[600], //#546e7a
+  ];
 
-  // final List<Color> fillColors = [
-  //   Colors.pink[100], //Color(0xfffccde5), //#fccde5
-  //   Colors.blue[100], //Color(0xff80b1d3), //#80b1d3
-  //   Colors.orange[100], //Color(0xffffffb3), //#ffffb3
-  //   Colors.lime[100], //Color(0xfffdb462), //#fdb462
-  //   Colors.red[100], //Color(0xfffb8072), //#fb8072
-  //   Colors.green[100], //Color(0xffb3de69), //#b3de69
-  //   Colors.deepPurple[100], //Color(0xffbebada), //#bebada
-  //   Colors.teal[100], //Color(0xff8dd3c7), //#8dd3c7
-  //   Colors.purple[100], //Color(0xffbc80bd), //#bc80bd
-  //   Colors.blueGrey[100], //Color(0xffd9d9d9), //#d9d9d9
-  // ];
+  final List<Color> fillColors = [
+    Colors.pink[100], //Color(0xfffccde5), //#fccde5
+    Colors.blue[100], //Color(0xff80b1d3), //#80b1d3
+    Colors.orange[100], //Color(0xffffffb3), //#ffffb3
+    Colors.lime[100], //Color(0xfffdb462), //#fdb462
+    Colors.red[100], //Color(0xfffb8072), //#fb8072
+    Colors.green[100], //Color(0xffb3de69), //#b3de69
+    Colors.deepPurple[100], //Color(0xffbebada), //#bebada
+    Colors.teal[100], //Color(0xff8dd3c7), //#8dd3c7
+    Colors.purple[100], //Color(0xffbc80bd), //#bc80bd
+    Colors.blueGrey[100], //Color(0xffd9d9d9), //#d9d9d9
+  ];
 
-  // List<IconData> icons = [
-  //   Icons.pets,
-  //   Icons.accessible,
-  //   Icons.school,
-  //   Icons.local_restaurant,
-  //   Icons.healing,
-  //   Icons.home,
-  //   Icons.face,
-  //   Icons.explore,
-  //   Icons.stars,
-  //   Icons.more_horiz,
-  // ];
+  List<IconData> icons = [
+    Icons.pets,
+    Icons.accessible,
+    Icons.school,
+    Icons.local_restaurant,
+    Icons.healing,
+    Icons.home,
+    Icons.face,
+    Icons.explore,
+    Icons.stars,
+    Icons.more_horiz,
+  ];
 }
