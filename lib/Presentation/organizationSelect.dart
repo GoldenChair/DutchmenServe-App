@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/homePage.dart';
 import 'package:dutchmenserve/models/user.dart';
+import 'package:dutchmenserve/models/organization.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,27 +22,39 @@ class SetUpOrgPage extends StatefulWidget {
   SetUpOrgState createState() {
     return SetUpOrgState(user);
   }
+
+  static List<String> getOrgNames() {
+    // TODO void method, not sure how to return the list of orgs
+    List<Organization> orgs = OrganizationCubit.getOrgs();
+    List<String> entries = [];
+    for (var i = 0; i < orgs.length; i++) {
+      String name = orgs[i].getOrgName();
+      entries.add(name);
+    }
+    return entries;
+  }
 }
 
 class SetUpOrgState extends State<SetUpOrgPage> {
   User user;
   SetUpOrgState(this.user);
 
-  final List<String> entries = <String>[
-    'Alpha Phi Omega',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M'
-  ];
+  // final List<String> entries = <String>[
+  //   'Alpha Phi Omega',
+  //   'B',
+  //   'C',
+  //   'D',
+  //   'E',
+  //   'F',
+  //   'G',
+  //   'H',
+  //   'I',
+  //   'J',
+  //   'K',
+  //   'L',
+  //   'M'
+  // ];
+  List<String> entries = SetUpOrgPage.getOrgNames();
 
   List<bool> _isChecked = List.generate(13, (index) => false);
 

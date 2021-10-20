@@ -1,4 +1,3 @@
-
 class Organization {
   int id;
   String orgName;
@@ -47,6 +46,10 @@ class Organization {
     members = parseList(json['users']);
     officers = parseList(json['officers']);
     deleted = json['deleted'];
+  }
+
+  String getOrgName() {
+    return this.orgName;
   }
 
   List<int> parseList(List<dynamic> json) {
@@ -102,5 +105,4 @@ class Organization {
         o.orgName == orgName &&
         o.description == description;
   }
-  
 }
