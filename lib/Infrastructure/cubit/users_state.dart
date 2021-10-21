@@ -17,8 +17,8 @@ class LoadingState extends UsersState {
 }
 
 class LoadedState extends UsersState {
-  LoadedState(this.users);
-
+  LoadedState(this.users, this.curUser);
+  final User curUser;
   final List<User> users;
 
   @override

@@ -47,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
-                      state.users[0].firstName + ' ' + state.users[0].lastName,
+                      state.curUser.firstName + ' ' + state.curUser.lastName,
                       // user.firstName + ' ' + user.lastName,
                       style: TextStyle(fontSize: 24),
                     ),
@@ -70,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                         return ListTile(
                           leading: Icon(Icons.email),
                           title: Text(
-                            state.users[0].emailAddress,
+                            state.curUser.emailAddress,
                             // style: TextStyle(fontSize: 16),
                           ),
                         );
@@ -93,18 +93,18 @@ class ProfilePage extends StatelessWidget {
                                     builder: (context, state) {
                                   if (state is LoadedState) {
                                     List<Widget> widgets = List.generate(
-                                      state.users[0].interests.length,
+                                      state.curUser.interests.length,
                                       (index) => CircleAvatar(
                                         backgroundColor: colors[
-                                            state.users[0].interests[index]],
+                                            state.curUser.interests[index]],
                                         child: IconButton(
                                           tooltip: interests[state
-                                                  .users[0].interests[index]]
+                                                  .curUser.interests[index]]
                                               .interest,
                                           padding: EdgeInsets.zero,
                                           icon: Icon(
                                             icons[state
-                                                .users[0].interests[index]],
+                                                .curUser.interests[index]],
                                             color: Colors.white,
                                             size: 16,
                                           ),
