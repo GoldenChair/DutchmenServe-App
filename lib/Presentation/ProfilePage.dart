@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/Constants.dart';
 import 'package:dutchmenserve/models/interest.dart';
+import 'package:dutchmenserve/models/interestEdit.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
@@ -103,8 +104,8 @@ class ProfilePage extends StatelessWidget {
                                               .interest,
                                           padding: EdgeInsets.zero,
                                           icon: Icon(
-                                            icons[state
-                                                .curUser.interests[index]],
+                                            icons[
+                                                state.curUser.interests[index]],
                                             color: Colors.white,
                                             size: 16,
                                           ),
@@ -138,7 +139,7 @@ class ProfilePage extends StatelessWidget {
                               builder: (contextInterests) => BlocProvider.value(
                                     value: context.read<UsersCubit>(),
                                     //TODO change selectinterests so that it is passed nothing and gets user from context
-                                    child: SelectInterests(user: user),
+                                    child: InterestEdit(user: user),
                                   )),
                         );
                       },
@@ -163,6 +164,7 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+
   ListView buildOrgList(BuildContext context, List<Organization> orgs) {
     return ListView.separated(
       padding: EdgeInsets.all(20.0),
