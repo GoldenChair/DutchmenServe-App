@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
-import 'package:dutchmenserve/Presentation/Constants.dart';
+import 'package:dutchmenserve/models/Constants.dart';
 import 'package:dutchmenserve/models/interest.dart';
-import 'package:dutchmenserve/models/interestEdit.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/src/provider.dart';
 
+import 'interestEdit.dart';
 import 'interestSelection.dart';
 import 'organizationInfo.dart';
 

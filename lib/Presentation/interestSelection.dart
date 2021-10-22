@@ -6,7 +6,7 @@ import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'Constants.dart';
+import '../models/Constants.dart';
 
 /*
 Page to select interests by having the user click on the interests.
