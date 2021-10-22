@@ -1,8 +1,14 @@
 import 'dart:ui';
 
+import 'package:dutchmenserve/Presentation/interestEdit.dart';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
+import 'package:dutchmenserve/Presentation/organizationInfo.dart';
+import 'package:dutchmenserve/models/organization.dart';
+
+import 'interestSelection.dart';
 
 /*
 This class builds the profile page for the user,
@@ -20,6 +26,8 @@ class ProfilePage extends StatefulWidget {
   ProfilePageState createState() {
     return ProfilePageState(user);
   }
+
+  List<Organization> orgs = OrganizationsPage().getOrgs();
 }
 
 class ProfilePageState extends State<ProfilePage> {
@@ -28,7 +36,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   final List<Interest> interests = [
     Interest('Animals', 59662, '#d81b60', '#fccde5'),
-    Interest('Disabilities', 58718,'#448aff', '#80b1d3'),
+    Interest('Disabilities', 58718, '#448aff', '#80b1d3'),
     Interest('Education', 59816, '#ff6d00', '#ffffb3'),
     Interest('Food', 59429, '#cddc39', '#fdb462'),
     Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
@@ -98,22 +106,130 @@ class ProfilePageState extends State<ProfilePage> {
         ));
   }
 
+  ListView buildOrgList(BuildContext context, List<Organization> orgs) {
+    return ListView.separated(
+      padding: EdgeInsets.all(20.0),
+      itemBuilder: (BuildContext context, int index) {
+        return createOrgCard(context, orgs[index]);
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+      itemCount: orgs.length,
+    );
+  }
+
+  Widget createOrgCard(BuildContext context, Organization o1) {
+    return Card(
+      elevation: 5,
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrgInfo(
+                org: o1,
+              ),
+            ),
+          );
+        },
+        leading: o1.imagepath == null
+            ? CircleAvatar(
+                backgroundColor: Colors.white54,
+                radius: 25.0,
+                child: Icon(
+                  Icons.group_work,
+                  size: 40,
+                  color: Color(0xffDDDDDE),
+                ))
+            : CircleAvatar(
+                radius: 25,
+                backgroundImage: AssetImage(o1.imagepath),
+              ),
+        title: Container(
+          margin: EdgeInsets.only(top: 15, bottom: 2),
+          child: Text(
+            o1.orgName,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              o1.email,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.left,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              child: Text(
+                o1.description,
+                style: TextStyle(fontSize: 14),
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            // TODO Possibly implement the unfollow button
+            // ButtonBar(
+            //   alignment: MainAxisAlignment.end,
+            //   children: [
+            //     user.organizations.contains(o1.id)
+            //         ? FlatButton(
+            //             child: Text('Unfollow'),
+            //             onPressed: () {
+            //               setState(() {
+            //                 user.organizations.remove(o1.id);
+            //                 o1.members.remove(user.id);
+            //               });
+            //             },
+            //           )
+            //         : FlatButton(
+            //             child: Text('Follow'),
+            //             onPressed: () {
+            //               setState(() {
+            //                 user.organizations.add(o1.id);
+            //                 o1.members.add(user.id);
+            //               });
+            //             },
+            //           ),
+            //     FlatButton(
+            //       child: Text('Learn More'),
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) => OrgInfo(
+            //               org: o1,
+            //             ),
+            //           ),
+            //         );
+            //       },
+            //     ),
+            //   ],
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        actions: [
-          FlatButton(
-            onPressed: () {
-              //TODO: edit profile
-            },
-            child: Text(
-              'EDIT',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+        // actions: [
+        //   FlatButton(
+        //     onPressed: () {              //TODO: edit profile
+        //     },
+        //     child: Text(
+        //       'EDIT',
+        //       style: TextStyle(color: Colors.white),
+        //     ),
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -143,12 +259,24 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Divider(height: 8),
-                    ListTile(
-                      title: Text('Interests:'),
-                      leading: Icon(Icons.favorite),
-                      subtitle: Container(
-                          margin: EdgeInsets.only(top: 4),
-                          child: SizedBox(height: 36, child: showInterests())),
+                    InkWell(
+                      child: ListTile(
+                        title: Text('Interests:'),
+                        leading: Icon(Icons.favorite),
+                        trailing: Icon(Icons.edit),
+                        subtitle: Container(
+                            margin: EdgeInsets.only(top: 4),
+                            child:
+                                SizedBox(height: 36, child: showInterests())),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    //TODO Change with copy of SelectInterests
+                                    InterestEdit(user: this.user)));
+                      },
                     ),
                     Divider(
                       height: 0,
@@ -157,9 +285,7 @@ class ProfilePageState extends State<ProfilePage> {
                       leading: Icon(Icons.group_work),
                       title: Text('Organizations'),
                       children: [
-                        ListTile(
-                          title: Text('org1'),
-                        ),
+                        //TODO iterate through a list to build the expanded list
                       ],
                     ),
                   ],
