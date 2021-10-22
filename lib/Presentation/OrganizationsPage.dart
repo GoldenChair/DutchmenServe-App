@@ -23,11 +23,11 @@ class OrganizationsPage extends StatefulWidget {
     return _OrganizationsPage(user);
   }
 
-  static List<Organization> getOrgs() {
-    // TODO void method, not sure how to return the list of orgs
-    List<Organization> orgs = OrganizationCubit.getOrgs();
-    return orgs;
-  }
+  // static List<Organization> getOrgs() {
+  //   // TODO void method, not sure how to return the list of orgs
+  //   List<Organization> orgs = OrganizationCubit.getOrgs();
+  //   return orgs;
+  // }
 }
 
 class _OrganizationsPage extends State<OrganizationsPage> {
@@ -53,7 +53,7 @@ class _OrganizationsPage extends State<OrganizationsPage> {
   //       id: 5, email: 'gs@lvc.edu', officers: [], members: [11, 12]),
   // ];
 
-  final List<Organization> orgs = OrganizationsPage.getOrgs();
+  //final List<Organization> orgs = OrganizationsPage.getOrgs();
 
   ListView buildOrgList(BuildContext context, List<Organization> orgs) {
     return ListView.separated(
@@ -169,21 +169,22 @@ class _OrganizationsPage extends State<OrganizationsPage> {
       create: (context) => OrganizationCubit(),
       child: Scaffold(
         appBar: AppBar(title: Text("Service Organizations")),
-        body: buildOrgList(context, orgs),
-        // body: BlocBuilder<OrganizationCubit, OrganizationState>(
-        //   builder: (context, state) {
-        //     if (state is LoadedState) {
-        //       final orgs = state.orgs;
-        //       return buildOrgList(context, orgs);
-        //     } else if (state is LoadingState) {
-        //       return Center(
-        //   child: CircularProgressIndicator(),
-        // );
-        //     } else {
-        //       return SplashPage();
-        //     }
-        //   },
-        // ),
+        //body: buildOrgList(context, orgs),
+        body: BlocBuilder<OrganizationCubit, OrganizationState>(
+          builder: (context, state) {
+            if (state is LoadedState) {
+              final orgs = state.orgs;
+              return buildOrgList(context, orgs);
+            } else if (state is LoadingState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              //TODO return to homepage
+              return Text("return to homepage");
+            }
+          },
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
         floatingActionButton: Padding(
           padding: EdgeInsets.only(right: 5, bottom: 15),

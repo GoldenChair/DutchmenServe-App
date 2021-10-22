@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/OrganizationsPage.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /*
 This class builds the Connect pagetab that links to service orgs,
@@ -74,10 +76,12 @@ class ConnectWUsPage extends StatelessWidget {
                   title: Text('Service Organizations'),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OrganizationsPage(user: user)),
-                    );
+                        context,
+                        MaterialPageRoute(
+                          builder: (contextOrgPage) => BlocProvider.value(
+                              value: context.read<OrganizationCubit>(),
+                              child: OrganizationsPage(user: user)),
+                        ));
                   }),
             ),
             Card(
@@ -165,9 +169,9 @@ class ConnectWUsPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (contextProfilePage) => BlocProvider.value(
-                            value: context.read<UsersCubit>(),
-                            child: ProfilePage(user: user),
-                          )),
+                                value: context.read<UsersCubit>(),
+                                child: ProfilePage(user: user),
+                              )),
                     );
                   }),
             ),

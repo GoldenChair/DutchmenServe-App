@@ -5,6 +5,8 @@ import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /*
 Page to select interests by having the user click on the interests.
@@ -26,7 +28,7 @@ class _SelectInterestsState extends State<SelectInterests> {
 
   final List<Interest> interests = [
     Interest('Animals', 59662, '#d81b60', '#fccde5'),
-    Interest('Disabilities', 58718,'#448aff', '#80b1d3'),
+    Interest('Disabilities', 58718, '#448aff', '#80b1d3'),
     Interest('Education', 59816, '#ff6d00', '#ffffb3'),
     Interest('Food', 59429, '#cddc39', '#fdb462'),
     Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
@@ -194,7 +196,9 @@ class _SelectInterestsState extends State<SelectInterests> {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => SetUpOrgPage(user: user)));
+                          builder: (contextOrgSelect) => BlocProvider.value(
+                              value: context.read<OrganizationCubit>(),
+                              child: SetUpOrgPage(user: user))));
                 },
               ),
             ),

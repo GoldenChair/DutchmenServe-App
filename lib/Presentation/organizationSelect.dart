@@ -6,6 +6,7 @@ import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /*
 Scrollable checklist for user to select the orgnizations they are interested in, 
@@ -21,17 +22,6 @@ class SetUpOrgPage extends StatefulWidget {
   @override
   SetUpOrgState createState() {
     return SetUpOrgState(user);
-  }
-
-  static List<String> getOrgNames() {
-    // TODO void method, not sure how to return the list of orgs
-    List<Organization> orgs = OrganizationCubit.getOrgs();
-    List<String> entries = [];
-    for (var i = 0; i < orgs.length; i++) {
-      String name = orgs[i].getOrgName();
-      entries.add(name);
-    }
-    return entries;
   }
 }
 
@@ -54,8 +44,16 @@ class SetUpOrgState extends State<SetUpOrgPage> {
   //   'L',
   //   'M'
   // ];
-  List<String> entries = SetUpOrgPage.getOrgNames();
+  List<String> getEntries(List<Organization> orgs) {
+    List<String> entries = [];
+    for (var i = 0; i < orgs.length; i++) {
+      String name = orgs[i].getOrgName();
+      entries.add(name);
+    }
+    return entries;
+  }
 
+  // 13 is a hardcoded number
   List<bool> _isChecked = List.generate(13, (index) => false);
 
   void sendToCubit(User user) {
@@ -85,46 +83,60 @@ class SetUpOrgState extends State<SetUpOrgPage> {
         body: Column(
           children: [
             new Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(20.0),
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      // border: Border.all(color: Colors.black),
-                      color: Colors.white,
-                    ),
-                    child: CheckboxListTile(
-                      title: Text('${entries[index]}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w300,
-                          )),
-                      activeColor: Color(0xff006ecc),
-                      value: _isChecked[index],
-                      onChanged: (value) {
-                        setState(() {
-                          _isChecked[index] = !_isChecked[index];
-                        });
-                      },
-                    ),
+              child: BlocBuilder<OrganizationCubit, OrganizationState>(
+                  builder: (context, state) {
+                if (state is LoadedState) {
+                  List<String> entries = getEntries(state.orgs);
+                  return ListView.separated(
+                    padding: const EdgeInsets.all(20.0),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                          decoration: BoxDecoration(
+                            // border: Border.all(color: Colors.black),
+                            color: Colors.white,
+                          ),
+                          child: CheckboxListTile(
+                              title: Text('${entries[index]}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w300,
+                                  )),
+                              activeColor: Color(0xff006ecc),
+                              value: _isChecked[index],
+                              onChanged: (value) {
+                                setState(() {
+                                  _isChecked[index] = !_isChecked[index];
+                                });
+                              }));
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(color: Colors.blueGrey),
+                    itemCount: entries.length,
                   );
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(color: Colors.blueGrey),
-                itemCount: entries.length,
-              ),
+                } else {
+                  return Text("test");
+                }
+              }),
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
-              child: NormalButton(
-                'Next',
-                () {
-                  for (int i = 0; i < entries.length; i++) {
-                    if (_isChecked[i]) user.organizations.add(i);
-                  }
-                  next();
-                },
-              ),
+              child: BlocBuilder<OrganizationCubit, OrganizationState>(
+                  builder: (context, state) {
+                if (state is LoadedState) {
+                  List<String> entries = getEntries(state.orgs);
+                  return NormalButton(
+                    'Next',
+                    () {
+                      for (int i = 0; i < entries.length; i++) {
+                        if (_isChecked[i]) user.organizations.add(i);
+                      }
+                      next();
+                    },
+                  );
+                } else {
+                  return Text("test");
+                }
+              }),
             ),
             TextButton(
               child: Text(
