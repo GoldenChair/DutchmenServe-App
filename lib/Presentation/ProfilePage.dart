@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
-import 'package:dutchmenserve/Presentation/Constants.dart';
+import 'package:dutchmenserve/models/Constants.dart';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/user.dart';
@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/src/provider.dart';
 
+import 'interestEdit.dart';
 import 'interestSelection.dart';
 import 'organizationInfo.dart';
 
@@ -47,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
-                      state.users[0].firstName + ' ' + state.users[0].lastName,
+                      state.curUser.firstName + ' ' + state.curUser.lastName,
                       // user.firstName + ' ' + user.lastName,
                       style: TextStyle(fontSize: 24),
                     ),
@@ -70,7 +71,7 @@ class ProfilePage extends StatelessWidget {
                         return ListTile(
                           leading: Icon(Icons.email),
                           title: Text(
-                            state.users[0].emailAddress,
+                            state.curUser.emailAddress,
                             // style: TextStyle(fontSize: 16),
                           ),
                         );
@@ -93,18 +94,18 @@ class ProfilePage extends StatelessWidget {
                                     builder: (context, state) {
                                   if (state is LoadedState) {
                                     List<Widget> widgets = List.generate(
-                                      state.users[0].interests.length,
+                                      state.curUser.interests.length,
                                       (index) => CircleAvatar(
                                         backgroundColor: colors[
-                                            state.users[0].interests[index]],
+                                            state.curUser.interests[index]],
                                         child: IconButton(
                                           tooltip: interests[state
-                                                  .users[0].interests[index]]
+                                                  .curUser.interests[index]]
                                               .interest,
                                           padding: EdgeInsets.zero,
                                           icon: Icon(
-                                            icons[state
-                                                .users[0].interests[index]],
+                                            icons[
+                                                state.curUser.interests[index]],
                                             color: Colors.white,
                                             size: 16,
                                           ),
@@ -138,7 +139,7 @@ class ProfilePage extends StatelessWidget {
                               builder: (contextInterests) => BlocProvider.value(
                                     value: context.read<UsersCubit>(),
                                     //TODO change selectinterests so that it is passed nothing and gets user from context
-                                    child: SelectInterests(user: user),
+                                    child: InterestEdit(user: user),
                                   )),
                         );
                       },
@@ -163,6 +164,7 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+
   ListView buildOrgList(BuildContext context, List<Organization> orgs) {
     return ListView.separated(
       padding: EdgeInsets.all(20.0),
