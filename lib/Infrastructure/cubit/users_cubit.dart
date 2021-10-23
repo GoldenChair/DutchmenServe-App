@@ -10,7 +10,7 @@ part 'users_state.dart';
 
 class UsersCubit extends Cubit<UsersState> {
   Repository _repository;
-
+  
   UsersCubit() : super(UsersInitial()) {
     _repository = getIt<Repository>();
     getUsers();
@@ -21,7 +21,8 @@ class UsersCubit extends Cubit<UsersState> {
       emit(LoadingState());
       // final users = await _repository.getUsers();
 
-      emit(LoadedState(await _repository.getUsers(), await _repository.getCurrentUser()));
+      emit(LoadedState(
+          await _repository.getUsers(), await _repository.getCurrentUser()));
     } catch (e) {
       emit(ErrorState());
     }

@@ -128,7 +128,7 @@ class ProfilePage extends StatelessWidget {
                                         ));
                                   } else {
                                     //TODO needs loading state and return to home state if no user is found
-                                    return Text("test");
+                                    return Text(state.toString());
                                   }
                                 }))),
                       ),
