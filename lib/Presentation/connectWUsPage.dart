@@ -170,7 +170,7 @@ class ConnectWUsPage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (contextProfilePage) => BlocProvider.value(
                                 value: context.read<UsersCubit>(),
-                                child: ProfilePage(user: user),
+                                child: ProfilePage(),
                               )),
                     );
                   }),

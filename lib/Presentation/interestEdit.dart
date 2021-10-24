@@ -152,7 +152,7 @@ class _InterestEdit extends State<InterestEdit> {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => ProfilePage(user: user)));
+                          builder: (context) => ProfilePage()));
                 },
               ),
             ),
