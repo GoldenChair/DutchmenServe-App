@@ -20,7 +20,7 @@ class OrganizationCubit extends Cubit<OrganizationState> {
       final organizations = await _repository.getOrganizations();
       //TODO research what this line does
       final activeOrgs = organizations.where((f) => f.deleted).toList();
-      emit(LoadedState(activeOrgs));
+      emit(LoadedState(organizations));
     } catch (e) {
       emit(ErrorState());
     }
