@@ -175,10 +175,14 @@ class RegisterFormState extends State<UserNameReg> {
                                     Brightness.dark,
                               ));
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SelectInterests(user: u)));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (contextProfilePage) =>
+                                        BlocProvider.value(
+                                          value: context.read<UsersCubit>(),
+                                          child: SelectInterests(user: u),
+                                        )),
+                              );
                             }
                           },
                         ),

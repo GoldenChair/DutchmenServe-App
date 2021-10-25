@@ -23,8 +23,7 @@ TODO: does this have to be stateful??
 */
 
 class ProfilePage extends StatelessWidget {
-  final User user;
-  ProfilePage({Key key, this.user}) : super(key: key);
+  ProfilePage({Key key}) : super(key: key);
 
   final ScrollController _scrollController = ScrollController();
   final colors = Constants().colors;
@@ -128,7 +127,7 @@ class ProfilePage extends StatelessWidget {
                                         ));
                                   } else {
                                     //TODO needs loading state and return to home state if no user is found
-                                    return Text("test");
+                                    return Text(state.toString());
                                   }
                                 }))),
                       ),
@@ -139,7 +138,15 @@ class ProfilePage extends StatelessWidget {
                               builder: (contextInterests) => BlocProvider.value(
                                     value: context.read<UsersCubit>(),
                                     //TODO change selectinterests so that it is passed nothing and gets user from context
-                                    child: InterestEdit(user: user),
+                                    child: InterestEdit(
+                                        user: User(
+                                      'Josh',
+                                      'Miller',
+                                      'cc01',
+                                      'pw',
+                                      id: 1,
+                                      interests: [1, 2],
+                                    )),
                                   )),
                         );
                       },
