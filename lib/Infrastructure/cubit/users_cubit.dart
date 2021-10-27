@@ -10,7 +10,7 @@ part 'users_state.dart';
 
 class UsersCubit extends Cubit<UsersState> {
   Repository _repository;
-  
+
   UsersCubit() : super(UsersInitial()) {
     _repository = getIt<Repository>();
     getUsers();
