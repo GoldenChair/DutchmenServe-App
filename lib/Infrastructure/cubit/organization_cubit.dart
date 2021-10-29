@@ -16,36 +16,36 @@ class OrganizationCubit extends Cubit<OrganizationState> {
 
   void getOrgs() async {
     try {
-      emit(LoadingState());
+      emit(OrgLoadingState());
       final organizations = await _repository.getOrganizations();
       //TODO research what this line does
       final activeOrgs = organizations.where((f) => f.deleted).toList();
-      emit(LoadedState(organizations));
+      emit(OrgLoadedState(organizations));
     } catch (e) {
-      emit(ErrorState());
+      emit(OrgErrorState());
     }
   }
 
   void addOrg(Organization o1) async {
     try {
-      //emit(LoadingState());
+      //emit(OrgLoadingState());
       await _repository.addOrganization(o1);
       //final organizations = await orgRepo.getOrganization();
       //emit(LoadedState(organizations));
     } catch (e) {
-      // emit(ErrorState());
+      // emit(OrgErrorState());
     }
   }
 
   void removeOrg(Organization o) async {
     try {
-      //emit(LoadingState());
+      //emit(OrgLoadingState());
       o.deleted = true;
       // await _repository.deleteOrganization(o);
       //final organizations = await orgRepo.getOrganization();
       //emit(LoadedState(organizations));
     } catch (e) {
-      // emit(ErrorState());
+      // emit(OrgErrorState());
     }
   }
 
@@ -57,12 +57,12 @@ class OrganizationCubit extends Cubit<OrganizationState> {
   //     String email,
   //     String imagepath}) async {
   //   try {
-  //     //emit(LoadingState());
+  //     //emit(OrgLoadingState());
   //     await _repository.updateOrganization(o1);
   //     //final organizations = await orgRepo.getOrganization();
   //     //emit(LoadedState(organizations));
   //   } catch (e) {
-  //     // emit(ErrorState());
+  //     // emit(OrgErrorState());
   //   }
   // }
 }

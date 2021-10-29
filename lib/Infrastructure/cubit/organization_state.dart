@@ -12,13 +12,13 @@ class OrganizationInitial extends OrganizationState {
   List<Object> get props => [];
 }
 
-class LoadingState extends OrganizationState {
+class OrgLoadingState extends OrganizationState {
   @override
   List<Object> get props => [];
 }
 
-class LoadedState extends OrganizationState {
-  LoadedState(this.orgs);
+class OrgLoadedState extends OrganizationState {
+  OrgLoadedState(this.orgs);
 
   final List<Organization> orgs;
 
@@ -26,7 +26,7 @@ class LoadedState extends OrganizationState {
   List<Object> get props => [orgs];
 }
 
-class ErrorState extends OrganizationState {
+class OrgErrorState extends OrganizationState {
   @override
   List<Object> get props => [];
 }

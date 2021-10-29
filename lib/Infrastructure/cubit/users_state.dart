@@ -11,13 +11,13 @@ class UsersInitial extends UsersState {
   List<Object> get props => [];
 }
 
-class LoadingState extends UsersState {
+class UsersLoadingState extends UsersState {
   @override
   List<Object> get props => [];
 }
 
-class LoadedState extends UsersState {
-  LoadedState(this.users, this.curUser);
+class UsersLoadedState extends UsersState {
+  UsersLoadedState(this.users, this.curUser);
   final User curUser;
   final List<User> users;
 
@@ -25,7 +25,7 @@ class LoadedState extends UsersState {
   List<Object> get props => [users];
 }
 
-class ErrorState extends UsersState {
+class UsersErrorState extends UsersState {
   @override
   List<Object> get props => [];
 }
