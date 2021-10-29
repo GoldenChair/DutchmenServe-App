@@ -1,4 +1,5 @@
 import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/addOrganization.dart';
 import 'package:dutchmenserve/Presentation/organizationInfo.dart';
 import 'package:dutchmenserve/models/organization.dart';
@@ -15,12 +16,11 @@ TODO: does this have to be stateful??
 */
 
 class OrganizationsPage extends StatefulWidget {
-  final User user;
-  OrganizationsPage({Key key, this.user}) : super(key: key);
+  OrganizationsPage({Key key}) : super(key: key);
 
   @override
   _OrganizationsPage createState() {
-    return _OrganizationsPage(user);
+    return _OrganizationsPage();
   }
 
   // static List<Organization> getOrgs() {
@@ -31,8 +31,7 @@ class OrganizationsPage extends StatefulWidget {
 }
 
 class _OrganizationsPage extends State<OrganizationsPage> {
-  User user;
-  _OrganizationsPage(this.user);
+  _OrganizationsPage();
   // final List<Organization> orgs = [
   //   Organization(
   //       'Lebanon Valley Educational Partnership', 'B there or B square',
@@ -120,43 +119,55 @@ class _OrganizationsPage extends State<OrganizationsPage> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
-              children: [
-                user.organizations.contains(o1.id)
-                    ? FlatButton(
-                        child: Text('Unfollow'),
+            BlocBuilder<UsersCubit, UsersState>(
+              builder: (context, state) {
+                if (state is UsersLoadedState) {
+                  return ButtonBar(
+                    alignment: MainAxisAlignment.end,
+                    children: [
+                      state.curUser.organizations.contains(o1.id)
+                          ? FlatButton(
+                              child: Text('Unfollow'),
+                              onPressed: () {
+                                setState(() {
+                                  state.curUser.organizations.remove(o1.id);
+                                  editUser(context, state.curUser);
+                                  o1.members.remove(state.curUser.id);
+                                  editOrgs(context, o1);
+                                });
+                              },
+                            )
+                          : FlatButton(
+                              child: Text('Follow'),
+                              onPressed: () {
+                                setState(() {
+                                  state.curUser.organizations.add(o1.id);
+                                  editUser(context, state.curUser);
+                                  o1.members.add(state.curUser.id);
+                                  editOrgs(context, o1);
+                                });
+                              },
+                            ),
+                      FlatButton(
+                        child: Text('Learn More'),
                         onPressed: () {
-                          setState(() {
-                            user.organizations.remove(o1.id);
-                            o1.members.remove(user.id);
-                          });
-                        },
-                      )
-                    : FlatButton(
-                        child: Text('Follow'),
-                        onPressed: () {
-                          setState(() {
-                            user.organizations.add(o1.id);
-                            o1.members.add(user.id);
-                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OrgInfo(
+                                org: o1,
+                              ),
+                            ),
+                          );
                         },
                       ),
-                FlatButton(
-                  child: Text('Learn More'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OrgInfo(
-                          org: o1,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                    ],
+                  );
+                } else {
+                  return Text("error");
+                }
+              },
+            )
           ],
         ),
       ),
@@ -172,10 +183,10 @@ class _OrganizationsPage extends State<OrganizationsPage> {
         //body: buildOrgList(context, orgs),
         body: BlocBuilder<OrganizationCubit, OrganizationState>(
           builder: (context, state) {
-            if (state is LoadedState) {
+            if (state is OrgLoadedState) {
               final orgs = state.orgs;
               return buildOrgList(context, orgs);
-            } else if (state is LoadingState) {
+            } else if (state is OrgLoadingState) {
               return Center(
                 child: CircularProgressIndicator(),
               );
@@ -201,5 +212,15 @@ class _OrganizationsPage extends State<OrganizationsPage> {
         ),
       ),
     );
+  }
+
+  void editUser(BuildContext context, User user) {
+    final usersCubit = context.read<UsersCubit>();
+    usersCubit.editUser(user);
+  }
+
+  void editOrgs(BuildContext context, Organization org) {
+    final orgsCubit = context.read<OrganizationCubit>();
+    orgsCubit.updateOrg(org);
   }
 }

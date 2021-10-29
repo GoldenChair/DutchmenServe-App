@@ -180,7 +180,7 @@ class RegisterFormState extends State<UserNameReg> {
                                     builder: (contextProfilePage) =>
                                         BlocProvider.value(
                                           value: context.read<UsersCubit>(),
-                                          child: SelectInterests(user: u),
+                                          child: SelectInterests(),
                                         )),
                               );
                             }

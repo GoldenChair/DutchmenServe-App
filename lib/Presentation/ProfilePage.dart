@@ -162,6 +162,7 @@ class ProfilePage extends StatelessWidget {
                                     return ListView.separated(
                                       shrinkWrap: true,
                                         itemBuilder: (_, index) =>
+                                        //TODO order/sort list so that the orgs are always in the same spot heirachly
                                             Text(state.orgs[UserState
                                             .curUser.organizations[index]].orgName),
                                         separatorBuilder: (_, __) => Divider(),

@@ -82,7 +82,7 @@ class _AddStudentsState extends State<AddStudentsStateful>
       ),
       body: BlocBuilder<UsersCubit, UsersState>(
         builder: (context, state) {
-          if (state is LoadedState) {
+          if (state is UsersLoadedState) {
             List<Entry> data = generateData(state.users);
             return ListView.builder(
               itemCount: data.length,

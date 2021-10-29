@@ -80,7 +80,7 @@ class ConnectWUsPage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (contextOrgPage) => BlocProvider.value(
                               value: context.read<OrganizationCubit>(),
-                              child: OrganizationsPage(user: user)),
+                              child: OrganizationsPage()),
                         ));
                   }),
             ),

@@ -49,6 +49,17 @@ class OrganizationCubit extends Cubit<OrganizationState> {
     }
   }
 
+  void updateOrg(Organization o) async {
+    try {
+      emit(OrgLoadingState());
+      await _repository.updateOrganization(o);
+      final organizations = await _repository.getOrganizations();
+      emit(OrgLoadedState(organizations));
+    } catch (e) {
+      emit(OrgErrorState());
+    }
+  }
+
   // void editOrg(Organization o1,
   //     {String orgName,
   //     List users,

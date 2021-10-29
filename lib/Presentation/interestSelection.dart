@@ -141,7 +141,7 @@ class _SelectInterestsState extends State<SelectInterests> {
                 'Next',
                 () {
                   for (int i = 0; i < 11; i++) {
-                    if (_s[i]) user.interests.add(i);
+                    // if (_s[i]) user.interests.add(i);
                   }
                   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
                     statusBarColor: Color(0xff002A4E),
@@ -153,7 +153,7 @@ class _SelectInterestsState extends State<SelectInterests> {
                       new MaterialPageRoute(
                           builder: (contextOrgSelect) => BlocProvider.value(
                               value: context.read<OrganizationCubit>(),
-                              child: SetUpOrgPage(user: user))));
+                              child: SetUpOrgPage())));
                 },
               ),
             ),
