@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dutchmenserve/Infrastructure/cubit/organization_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/models/Constants.dart';
 import 'package:dutchmenserve/models/interest.dart';
@@ -43,7 +44,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               Center(child: Icon(Icons.account_circle, size: 120)),
               BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
-                if (state is LoadedState) {
+                if (state is UsersLoadedState) {
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
@@ -66,7 +67,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     BlocBuilder<UsersCubit, UsersState>(
                         builder: (context, state) {
-                      if (state is LoadedState) {
+                      if (state is UsersLoadedState) {
                         return ListTile(
                           leading: Icon(Icons.email),
                           title: Text(
@@ -91,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                                 height: 36,
                                 child: BlocBuilder<UsersCubit, UsersState>(
                                     builder: (context, state) {
-                                  if (state is LoadedState) {
+                                  if (state is UsersLoadedState) {
                                     List<Widget> widgets = List.generate(
                                       state.curUser.interests.length,
                                       (index) => CircleAvatar(
@@ -138,15 +139,7 @@ class ProfilePage extends StatelessWidget {
                               builder: (contextInterests) => BlocProvider.value(
                                     value: context.read<UsersCubit>(),
                                     //TODO change selectinterests so that it is passed nothing and gets user from context
-                                    child: InterestEdit(
-                                        user: User(
-                                      'Josh',
-                                      'Miller',
-                                      'cc01',
-                                      'pw',
-                                      id: 1,
-                                      interests: [1, 2],
-                                    )),
+                                    child: InterestEdit(),
                                   )),
                         );
                       },
@@ -158,6 +151,30 @@ class ProfilePage extends StatelessWidget {
                       leading: Icon(Icons.group_work),
                       title: Text('Organizations'),
                       children: [
+                        Container(
+                          child: BlocBuilder<UsersCubit, UsersState>(
+                          builder: (context, UserState) {
+                            if (UserState is UsersLoadedState) {
+                              return BlocBuilder<OrganizationCubit,
+                                  OrganizationState>(
+                                builder: (context, state) {
+                                  if (state is OrgLoadedState) {
+                                    return ListView.separated(
+                                      shrinkWrap: true,
+                                        itemBuilder: (_, index) =>
+                                            Text(state.orgs[UserState
+                                            .curUser.organizations[index]].orgName),
+                                        separatorBuilder: (_, __) => Divider(),
+                                        itemCount: UserState
+                                            .curUser.organizations.length);
+                                  }
+                                  return Container();
+                                },
+                              );
+                            }
+                            return Container();
+                          },
+                        ))
                         //TODO iterate through a list to build the expanded list
                       ],
                     ),
