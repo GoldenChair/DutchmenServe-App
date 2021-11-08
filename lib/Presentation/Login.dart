@@ -162,7 +162,7 @@ class LoginFormState extends State<LoginForm> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(user),
+                              builder: (context) => HomePage(),
                             ),
                             (Route<dynamic> route) => false,
                           );

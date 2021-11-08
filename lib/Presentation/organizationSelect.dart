@@ -27,21 +27,6 @@ class SetUpOrgPage extends StatefulWidget {
 class SetUpOrgState extends State<SetUpOrgPage> {
   SetUpOrgState();
 
-  // final List<String> entries = <String>[
-  //   'Alpha Phi Omega',
-  //   'B',
-  //   'C',
-  //   'D',
-  //   'E',
-  //   'F',
-  //   'G',
-  //   'H',
-  //   'I',
-  //   'J',
-  //   'K',
-  //   'L',
-  //   'M'
-  // ];
   List<String> getEntries(List<Organization> orgs) {
     List<String> entries = [];
     for (var i = 0; i < orgs.length; i++) {
@@ -69,7 +54,7 @@ class SetUpOrgState extends State<SetUpOrgPage> {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(user),
+        builder: (context) => HomePage(),
       ),
       (Route<dynamic> route) => false,
     );

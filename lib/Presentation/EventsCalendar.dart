@@ -16,8 +16,7 @@ Currently unused.
 */
 
 class EventsCalendar extends StatelessWidget {
-  final User user;
-  const EventsCalendar(this.user);
+  const EventsCalendar();
 
   @override
   Widget build(BuildContext ctxt) {
@@ -55,7 +54,7 @@ class EventsCalendar extends StatelessWidget {
                   Navigator.push(
                     ctxt,
                     MaterialPageRoute(
-                        builder: (context) => EventsOngoing(user)),
+                        builder: (context) => EventsOngoing()),
                   );
                 },
                 child: Container(

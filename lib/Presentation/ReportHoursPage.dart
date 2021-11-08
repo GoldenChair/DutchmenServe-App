@@ -1,5 +1,7 @@
+import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/reportNewHours.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/interest.dart';
@@ -33,16 +35,14 @@ class _PieData {
 
 // does this really need to be stateful?????? no, change to stateless once bloc hooked up
 class ReportHoursPage extends StatefulWidget {
-  final User user;
-  ReportHoursPage(this.user, {Key key}) : super(key: key);
+  ReportHoursPage({Key key}) : super(key: key);
 
   @override
-  _ReportHoursState createState() => _ReportHoursState(user);
+  _ReportHoursState createState() => _ReportHoursState();
 }
 
 class _ReportHoursState extends State<ReportHoursPage> {
-  User user;
-  _ReportHoursState(this.user);
+  _ReportHoursState();
 
   final List<Color> camCom = [
     const Color(0xffCCCCFF),
@@ -166,13 +166,8 @@ class _ReportHoursState extends State<ReportHoursPage> {
               sizeUnit: gauges.GaugeSizeUnit.factor,
               cornerStyle: gauges.CornerStyle.startCurve,
               gradient: SweepGradient(
-                colors: const <Color>[
-                Color(0xFF00a9b5),
-                Color(0xFFa4edeb)
-              ], stops: <double>[
-                0.25,
-                0.75
-              ]),
+                  colors: const <Color>[Color(0xFF00a9b5), Color(0xFFa4edeb)],
+                  stops: <double>[0.25, 0.75]),
             ),
             gauges.MarkerPointer(
               value: progress,
@@ -361,108 +356,210 @@ class _ReportHoursState extends State<ReportHoursPage> {
     );
   }
 
-  Future _refreshReportsList() async {
+  Future _refreshReportsList(User user) async {
     BlocProvider.of<ReportCubit>(context).getReports(user.id);
   }
 
   @override
   Widget build(BuildContext context) {
     final reportBloc = BlocProvider.of<ReportCubit>(context);
-    reportBloc.getReports(user.id);
-    return BlocConsumer<ReportCubit, ReportState>(
-      listener: (context, state) {
-        if (state is SendReportFailedState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  "Oops! Something went wrong submitting the report for " +
-                      state.eventName +
-                      ". Please refresh and resubmit."),
-              action: SnackBarAction(
-                textColor: Colors.blue,
-                label: 'OK',
-                onPressed: () {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                },
-              ),
-            ),
-          );
-        } else if (state is SendReportSuccessState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content:
-                  Text("Your report for " + state.eventName + " was received!"),
-              action: SnackBarAction(
-                textColor: Colors.blue,
-                label: 'OK',
-                onPressed: () {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                },
-              ),
-            ),
-          );
-        }
-      },
+    return BlocBuilder<UsersCubit, UsersState>(
       builder: (context, state) {
-        if (state is ReportLoadedState) {
-          List<double> res =
-              countHours(state.reports, state.events, state.interests);
-          return RefreshIndicator(
-            color: Color(0xff206090), //Color(0xff002A4E),
-            onRefresh: _refreshReportsList,
-            child: Scaffold(
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Stack(
-                      alignment: Alignment.center,
+      if (state is UsersLoadedState) {
+        User user = state.curUser;
+        reportBloc.getReports(user.id);
+        return BlocConsumer<ReportCubit, ReportState>(
+          listener: (context, state) {
+            if (state is SendReportFailedState) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                      "Oops! Something went wrong submitting the report for " +
+                          state.eventName +
+                          ". Please refresh and resubmit."),
+                  action: SnackBarAction(
+                    textColor: Colors.blue,
+                    label: 'OK',
+                    onPressed: () {
+                      Scaffold.of(context).hideCurrentSnackBar();
+                    },
+                  ),
+                ),
+              );
+            } else if (state is SendReportSuccessState) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                      "Your report for " + state.eventName + " was received!"),
+                  action: SnackBarAction(
+                    textColor: Colors.blue,
+                    label: 'OK',
+                    onPressed: () {
+                      Scaffold.of(context).hideCurrentSnackBar();
+                    },
+                  ),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is ReportLoadedState) {
+              List<double> res =
+                  countHours(state.reports, state.events, state.interests);
+              return RefreshIndicator(
+                color: Color(0xff206090), //Color(0xff002A4E),
+                onRefresh: () => _refreshReportsList(user),
+                child: Scaffold(
+                  body: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        Container(
-                            child: radialBar(res), height: 200, width: 200),
-                        Container(
-                          child: serviceTypeDonut(res),
-                          height: 300,
-                          width: 300,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                                child: radialBar(res), height: 200, width: 200),
+                            Container(
+                              child: serviceTypeDonut(res),
+                              height: 300,
+                              width: 300,
+                            ),
+                            Container(
+                                child: interestDonut(res, state.interests),
+                                height: 380),
+                          ],
                         ),
-                        Container(
-                            child: interestDonut(res, state.interests),
-                            height: 380),
+                        legend(state.interests),
                       ],
                     ),
-                    legend(state.interests),
+                  ),
+                  floatingActionButton: fab(context, reportBloc, user),
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.endTop,
+                ),
+              );
+            } else if (state is ReportLoadingState) {
+              return Dialog(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text("Loading"),
                   ],
                 ),
-              ),
-              floatingActionButton: fab(context, reportBloc),
-              floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-            ),
-          );
-        } else if (state is ReportLoadingState) {
-          return Dialog(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text("Loading"),
-              ],
-            ),
-          );
-        } else if (state is ReportErrorState) {
-          return RefreshIndicator(
-            color: Color(0xff206090), //Color(0xff002A4E),
-            onRefresh: _refreshReportsList,
-            child: SingleChildScrollView(
-              child: Center(child: Icon(Icons.close)),
-            ),
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
+              );
+            } else if (state is ReportErrorState) {
+              return RefreshIndicator(
+                color: Color(0xff206090), //Color(0xff002A4E),
+                onRefresh: () => _refreshReportsList(user),
+                child: SingleChildScrollView(
+                  child: Center(child: Icon(Icons.close)),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        );
+      } else {
+        //TODO fix error handling
+        return Text("error");
+      }
+    });
+    // reportBloc.getReports(user.id);
+    // return BlocConsumer<ReportCubit, ReportState>(
+    //   listener: (context, state) {
+    //     if (state is SendReportFailedState) {
+    //       Scaffold.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Text(
+    //               "Oops! Something went wrong submitting the report for " +
+    //                   state.eventName +
+    //                   ". Please refresh and resubmit."),
+    //           action: SnackBarAction(
+    //             textColor: Colors.blue,
+    //             label: 'OK',
+    //             onPressed: () {
+    //               Scaffold.of(context).hideCurrentSnackBar();
+    //             },
+    //           ),
+    //         ),
+    //       );
+    //     } else if (state is SendReportSuccessState) {
+    //       Scaffold.of(context).showSnackBar(
+    //         SnackBar(
+    //           content:
+    //               Text("Your report for " + state.eventName + " was received!"),
+    //           action: SnackBarAction(
+    //             textColor: Colors.blue,
+    //             label: 'OK',
+    //             onPressed: () {
+    //               Scaffold.of(context).hideCurrentSnackBar();
+    //             },
+    //           ),
+    //         ),
+    //       );
+    //     }
+    //   },
+    //   builder: (context, state) {
+    //     if (state is ReportLoadedState) {
+    //       List<double> res =
+    //           countHours(state.reports, state.events, state.interests);
+    //       return RefreshIndicator(
+    //         color: Color(0xff206090), //Color(0xff002A4E),
+    //         onRefresh: _refreshReportsList,
+    //         child: Scaffold(
+    //           body: SingleChildScrollView(
+    //             child: Column(
+    //               children: [
+    //                 Stack(
+    //                   alignment: Alignment.center,
+    //                   children: [
+    //                     Container(
+    //                         child: radialBar(res), height: 200, width: 200),
+    //                     Container(
+    //                       child: serviceTypeDonut(res),
+    //                       height: 300,
+    //                       width: 300,
+    //                     ),
+    //                     Container(
+    //                         child: interestDonut(res, state.interests),
+    //                         height: 380),
+    //                   ],
+    //                 ),
+    //                 legend(state.interests),
+    //               ],
+    //             ),
+    //           ),
+    //           floatingActionButton: fab(context, reportBloc),
+    //           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+    //         ),
+    //       );
+    //     } else if (state is ReportLoadingState) {
+    //       return Dialog(
+    //         child: Row(
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             CircularProgressIndicator(),
+    //             Text("Loading"),
+    //           ],
+    //         ),
+    //       );
+    //     } else if (state is ReportErrorState) {
+    //       return RefreshIndicator(
+    //         color: Color(0xff206090), //Color(0xff002A4E),
+    //         onRefresh: _refreshReportsList,
+    //         child: SingleChildScrollView(
+    //           child: Center(child: Icon(Icons.close)),
+    //         ),
+    //       );
+    //     } else {
+    //       return Container();
+    //     }
+    //   },
+    // );
   }
 
-  Widget fab(BuildContext context, ReportCubit repBloc) {
+  Widget fab(BuildContext context, ReportCubit repBloc, User user) {
     return FloatingActionButton(
       backgroundColor: const Color(0xffFFE400),
       onPressed: () {

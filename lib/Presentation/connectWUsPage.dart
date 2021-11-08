@@ -22,8 +22,7 @@ and Logout.
 */
 
 class ConnectWUsPage extends StatelessWidget {
-  final User user;
-  ConnectWUsPage(this.user);
+  ConnectWUsPage();
 
   final List<BoxShadow> _boxShadow = [
     BoxShadow(
