@@ -174,23 +174,24 @@ class ConnectWUsPage extends StatelessWidget {
                     );
                   }),
             ),
-            Card(
-              margin: const EdgeInsets.only(bottom: 1),
-              elevation: 3,
-              child: ListTile(
-                  tileColor: Colors.white,
-                  leading:
-                      Icon(Icons.settings, size: 30, color: Colors.grey[400]),
-                  title: Text('Settings'),
-                  onTap: () {
-                    //TODO: Settings page?
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => EditSettings()),
-                    // );
-                  }),
-            ),
+            // TODO settings page
+            // Card(
+            //   margin: const EdgeInsets.only(bottom: 1),
+            //   elevation: 3,
+            //   child: ListTile(
+            //       tileColor: Colors.white,
+            //       leading:
+            //           Icon(Icons.settings, size: 30, color: Colors.grey[400]),
+            //       title: Text('Settings'),
+            //       onTap: () {
+            //         //TODO: Settings page?
+            //         // Navigator.push(
+            //         //   context,
+            //         //   MaterialPageRoute(
+            //         //       builder: (context) => EditSettings()),
+            //         // );
+            //       }),
+            // ),
             Card(
               margin: const EdgeInsets.only(bottom: 1),
               elevation: 3,
