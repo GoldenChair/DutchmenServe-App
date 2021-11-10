@@ -137,4 +137,10 @@ class Event {
         o.location == location &&
         o.description == description;
   }
+
+  bool operator ==(dynamic other) =>
+      other != null && other is Event && eventEquals(other);
+
+  @override
+  int get hashCode => super.hashCode;
 }
