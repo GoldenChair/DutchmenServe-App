@@ -8,44 +8,84 @@ class Organization {
   List officers;
   bool deleted;
 
-  Organization(String orgName, String description,
-      {int id,
-      String email,
-      String imagepath,
-      List<int> members,
-      List<int> officers}) {
+  //new
+  String groupType;
+  bool active;
+  String subGroup;
+  DateTime createdDate;
+
+  // Organization(String orgName, String description,
+  //     {int id,
+  //     String email,
+  //     String imagepath,
+  //     List<int> members,
+  //     List<int> officers}) {
+  //   this.orgName = orgName;
+  //   this.description = description;
+  //   this.id = id;
+  //   this.email = email;
+  //   this.imagepath = imagepath;
+  //   this.members = members ?? <int>[];
+  //   this.officers = officers ?? <int>[];
+  //   deleted = false;
+  // }
+
+  //new
+  Organization(String orgName, String groupType, bool active, String subGroup,
+      DateTime createdDate) {
     this.orgName = orgName;
-    this.description = description;
-    this.id = id;
-    this.email = email;
-    this.imagepath = imagepath;
-    this.members = members ?? <int>[];
-    this.officers = officers ?? <int>[];
-    deleted = false;
+    this.groupType = groupType;
+    this.active = active;
+    this.subGroup = subGroup;
+    this.deleted = false;
+    this.createdDate = createdDate;
   }
 
   // convert Organization to a json Map
+  // Map<String, dynamic> toJson() => {
+  //       'orgName': orgName,
+  //       'description': description,
+  //       'id': id, // may be blank
+  //       'email': email, // may be blank
+  //       'imagePath': imagepath, // may be blank
+  //       'users': members,
+  //       'officers': officers,
+  //       'deleted': deleted,
+  //     };
+
+  //new
   Map<String, dynamic> toJson() => {
-        'orgName': orgName,
-        'description': description,
-        'id': id, // may be blank
-        'email': email, // may be blank
-        'imagePath': imagepath, // may be blank
-        'users': members,
-        'officers': officers,
-        'deleted': deleted,
+        'groupID': id,
+        'groupName': orgName,
+        'groupType': groupType,
+        'active': active,
+        //This might need more formatting
+        'createdDate': createdDate.toIso8601String(),
+        'subGroup': subGroup,
+        'approved': null,
+        "reviewDate": null,
       };
 
   // another constructor given a json Map
+  // Organization.fromJson(Map<String, dynamic> json) {
+  //   orgName = json['orgName'];
+  //   description = json['description'];
+  //   id = json['id'];
+  //   email = json['email'];
+  //   imagepath = json['imagepath'];
+  //   members = parseList(json['users']);
+  //   officers = parseList(json['officers']);
+  //   deleted = json['deleted'];
+  // }
+
+  //new
   Organization.fromJson(Map<String, dynamic> json) {
-    orgName = json['orgName'];
-    description = json['description'];
-    id = json['id'];
-    email = json['email'];
-    imagepath = json['imagepath'];
-    members = parseList(json['users']);
-    officers = parseList(json['officers']);
-    deleted = json['deleted'];
+    id = json['groupID'];
+    orgName = json['groupName'];
+    groupType = json['groupType'];
+    active = json['active'];
+    createdDate = json['createdDate'];
+    subGroup = json['subGroup'];
   }
 
   String getOrgName() {

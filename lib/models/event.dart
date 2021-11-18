@@ -8,28 +8,40 @@ class Event {
   List<int> interests;
   bool isCommunity;
   bool isResidential;
-  bool isOngoing;
+  bool isOngoing; //TODO is this the same as active???
   int id;
   String imagepath;
   List<int> registered;
   bool deleted;
 
+  //new
+  DateTime createdDate;
+  bool active;
+
   // constructor
-  Event(String eventName, DateTime date, String location, String description,
-      List<int> interests, bool isCommunity,
-      {int id, String imagepath, bool isResidential, bool isOngoing}) {
-    this.eventName = eventName;
-    this.date = date; // can be set to null for ongoing event
-    this.location = location;
-    this.description = description;
-    this.interests = interests;
-    this.isCommunity = isCommunity;
-    this.isResidential = isResidential ?? false;
-    this.isOngoing = isOngoing ?? false;
+  // Event(String eventName, DateTime date, String location, String description,
+  //     List<int> interests, bool isCommunity,
+  //     {int id, String imagepath, bool isResidential, bool isOngoing}) {
+  //   this.eventName = eventName;
+  //   this.date = date; // can be set to null for ongoing event
+  //   this.location = location;
+  //   this.description = description;
+  //   this.interests = interests;
+  //   this.isCommunity = isCommunity;
+  //   this.isResidential = isResidential ?? false;
+  //   this.isOngoing = isOngoing ?? false;
+  //   this.id = id;
+  //   this.imagepath = imagepath;
+  //   registered = [];
+  //   deleted = false;
+  // }
+
+  //new
+  Event(int id, String eventName, DateTime createdDate, bool active) {
     this.id = id;
-    this.imagepath = imagepath;
-    registered = [];
-    deleted = false;
+    this.eventName = eventName;
+    this.createdDate = createdDate;
+    this.active = active;
   }
 
   Event.blank() {
@@ -45,8 +57,11 @@ class Event {
     id = null;
     imagepath = null;
     deleted = false;
+    createdDate = null;
+    active = null;
   }
 
+//whats this for?
   Event.individual(
       String eventName, DateTime date, String description, bool isCommunity,
       {List<int> interests, int id}) {
@@ -65,36 +80,53 @@ class Event {
   }
 
   // convert Event to a json Map
+  // Map<String, dynamic> toJson() => {
+  //       'eventName': eventName,
+  //       'date': date.toIso8601String(),
+  //       'location': location,
+  //       'description': description,
+  //       'interests': interests,
+  //       'isCommunity': isCommunity,
+  //       'isResidential': isResidential,
+  //       'isOngoing': isOngoing,
+  //       'id': id, // may be null
+  //       'imagepath': imagepath, // may be null
+  //       'registered': registered, // may be empty
+  //       'deleted': deleted,
+  //     };
+
+  //new
   Map<String, dynamic> toJson() => {
-        'eventName': eventName,
-        'date': date.toIso8601String(),
-        'location': location,
-        'description': description,
-        'interests': interests,
-        'isCommunity': isCommunity,
-        'isResidential': isResidential,
-        'isOngoing': isOngoing,
-        'id': id, // may be null
-        'imagepath': imagepath, // may be null
-        'registered': registered, // may be empty
-        'deleted': deleted,
+        'projectName': eventName,
+        'createdDate': date.toIso8601String(),
+        'active': active,
+        'approved': null,
+        'reviewDate': null,
       };
 
   // another constructor given a json Map
+  // Event.fromJson(Map<String, dynamic> json) {
+  //   id = json['id']; // will be filled in by database
+  //   eventName = json['eventName'];
+  //   date = DateTime.parse(json['date']);
+  //   location = json['location'];
+  //   description = json['description'];
+  //   isCommunity = json['isCommunity'];
+  //   isResidential = json['isResidential'];
+  //   isOngoing = json['isOngoing'];
+  //   imagepath = json['imagepath'];
+  //   interests = parseList(json['interests']);
+  //   // a.removeWhere((value) => value == null);
+  //   registered = parseList(json['registered']);
+  //   deleted = json['deleted'];
+  // }
+
+  //new
   Event.fromJson(Map<String, dynamic> json) {
-    id = json['id']; // will be filled in by database
-    eventName = json['eventName'];
-    date = DateTime.parse(json['date']);
-    location = json['location'];
-    description = json['description'];
-    isCommunity = json['isCommunity'];
-    isResidential = json['isResidential'];
-    isOngoing = json['isOngoing'];
-    imagepath = json['imagepath'];
-    interests = parseList(json['interests']);
-    // a.removeWhere((value) => value == null);
-    registered = parseList(json['registered']);
-    deleted = json['deleted'];
+    id = json['projectID'];
+    eventName = json['projectName'];
+    createdDate = json['createdDate'];
+    active = json['active'];
   }
 
   List<int> parseList(List<dynamic> json) {
