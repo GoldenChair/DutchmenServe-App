@@ -21,8 +21,7 @@ final List<Event> events = [
 ];
 
 class EventsOngoing extends StatelessWidget {
-  final User user;
-  const EventsOngoing(this.user);
+  const EventsOngoing();
 
   @override
   Widget build(BuildContext ctxt) {
@@ -36,7 +35,7 @@ class EventsOngoing extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               ctxt,
-              MaterialPageRoute(builder: (context) => HomePage(user)),
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
           },
         ),
@@ -46,7 +45,7 @@ class EventsOngoing extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 ctxt,
-                MaterialPageRoute(builder: (context) => EventsCalendar(user)),
+                MaterialPageRoute(builder: (context) => EventsCalendar()),
               );
             },
           )

@@ -19,8 +19,7 @@ Notifications at top right.
 */
 
 class HomePage extends StatelessWidget {
-  final User user;
-  const HomePage(this.user);
+  const HomePage();
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +110,9 @@ class HomePage extends StatelessWidget {
       },
       body: TabBarView(
         children: [
-          EventsList(user: user),
-          ReportHoursPage(user),
-          ConnectWUsPage(user),
+          EventsList(),
+          ReportHoursPage(),
+          ConnectWUsPage(),
         ],
       ),
     );
@@ -180,9 +179,9 @@ class HomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            EventsList(user: user),
-            ReportHoursPage(user),
-            ConnectWUsPage(user),
+            EventsList(),
+            ReportHoursPage(),
+            ConnectWUsPage(),
           ],
         ),
       ),

@@ -15,18 +15,16 @@ Page to select interests by having the user click on the interests.
  */
 
 class SelectInterests extends StatefulWidget {
-  final User user;
-  SelectInterests({Key key, @required this.user}) : super(key: key);
+  SelectInterests({Key key}) : super(key: key);
 
   @override
   _SelectInterestsState createState() {
-    return _SelectInterestsState(user);
+    return _SelectInterestsState();
   }
 }
 
 class _SelectInterestsState extends State<SelectInterests> {
-  User user;
-  _SelectInterestsState(this.user);
+  _SelectInterestsState();
 
   final colors = Constants().colors;
   final interests = Constants().interests;

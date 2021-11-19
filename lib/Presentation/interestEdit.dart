@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/ProfilePage.dart';
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/Presentation/organizationSelect.dart';
@@ -6,6 +7,7 @@ import 'package:dutchmenserve/models/interest.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/Constants.dart';
 
@@ -16,18 +18,16 @@ Page to edit interests for profile page
 //TODO: Highlight interests user is already in
 
 class InterestEdit extends StatefulWidget {
-  final User user;
-  InterestEdit({Key key, @required this.user}) : super(key: key);
+  InterestEdit({Key key}) : super(key: key);
 
   @override
   _InterestEdit createState() {
-    return _InterestEdit(user);
+    return _InterestEdit();
   }
 }
 
 class _InterestEdit extends State<InterestEdit> {
-  User user;
-  _InterestEdit(this.user);
+  _InterestEdit();
 
   final colors = Constants().colors;
   final interests = Constants().interests;
@@ -138,21 +138,24 @@ class _InterestEdit extends State<InterestEdit> {
             ),
             Container(
               margin: EdgeInsets.only(top: 10, bottom: 5),
-              child: NormalButton(
-                'Save',
-                () {
+              child: BlocBuilder<UsersCubit, UsersState>(
+                builder: (context, state) {
+                  if(state is UsersLoadedState){
+                    User cUser = state.curUser;
+                    return NormalButton("Save", () {
                   for (int i = 0; i < 11; i++) {
-                    if (_s[i]) user.interests.add(i);
+                    if (_s[i]) cUser.interests.add(i);
                   }
+                  editUser(context, cUser);
                   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
                     statusBarColor: Color(0xff002A4E),
                     systemNavigationBarColor: Color(0xfff9f9f9),
                     systemNavigationBarIconBrightness: Brightness.dark,
                   ));
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => ProfilePage()));
+                  Navigator.pop(context);
+                });
+                  }
+                  return Container();
                 },
               ),
             ),
@@ -162,3 +165,7 @@ class _InterestEdit extends State<InterestEdit> {
     );
   }
 }
+  void editUser(BuildContext context, User user) {
+    final usersCubit = context.read<UsersCubit>();
+    usersCubit.editUser(user);
+  }

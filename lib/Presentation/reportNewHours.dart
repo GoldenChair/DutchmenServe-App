@@ -27,6 +27,7 @@ Creates new EventCubit, but takes previous instance of ReportCubit
 to allow listener for report snackbars.
 */
 
+// Gets user from cubit in reportHoursPage so it should be fine
 class ReportNewHours extends StatefulWidget {
   final User _user;
   ReportNewHours(this._user, {Key key}) : super(key: key);

@@ -1,5 +1,6 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_cubit.dart';
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
+import 'package:dutchmenserve/Infrastructure/cubit/users_cubit.dart';
 import 'package:dutchmenserve/Presentation/EventInfo.dart';
 import 'package:dutchmenserve/Presentation/EventsCalendar.dart';
 import 'package:dutchmenserve/Presentation/widgets.dart';
@@ -27,15 +28,13 @@ Need to show Event Interests on cards? Or on EventInfo page...
 */
 
 class EventsList extends StatefulWidget {
-  final User user;
-  EventsList({Key key, this.user}) : super(key: key);
+  EventsList({Key key}) : super(key: key);
   @override
-  EventsListState createState() => EventsListState(user);
+  EventsListState createState() => EventsListState();
 }
 
 class EventsListState extends State<EventsList> {
-  User user;
-  EventsListState(this.user);
+  EventsListState();
 
   final List<String> filterLabels = ['Registered', 'Ongoing', 'Upcoming'];
   List<bool> selected = [false, false, true]; // default upcoming
@@ -69,7 +68,7 @@ class EventsListState extends State<EventsList> {
     return List.generate(filterLabels.length, (index) => generateChip(index));
   }
 
-  Widget createEventCard(BuildContext context, Event e) {
+  Widget createEventCard(BuildContext context, Event e, User user) {
     // 0 registered, 1 ongoing, 2 upcoming
     if ((selected.every((element) => element == false) &&
             (e.dateCompare(DateTime.now()) >= 0)) ||
@@ -252,27 +251,28 @@ class EventsListState extends State<EventsList> {
       return Row();
   }
 
-  Widget showCalendarView(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.only(top: 20),
-      sliver: SliverToBoxAdapter(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FlatButton(
-                child: Text('Calendar View'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EventsCalendar(user)),
-                  );
-                })
-          ],
-        ),
-      ),
-    );
-  }
+  // Not Currently used? Only use case was commented out?
+  // Widget showCalendarView(BuildContext context) {
+  //   return SliverPadding(
+  //     padding: const EdgeInsets.only(top: 20),
+  //     sliver: SliverToBoxAdapter(
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           FlatButton(
+  //               child: Text('Calendar View'),
+  //               onPressed: () {
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                       builder: (context) => EventsCalendar(user)),
+  //                 );
+  //               })
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future _refreshEventList() async {
     BlocProvider.of<EventCubit>(context).getEvents();
@@ -280,7 +280,11 @@ class EventsListState extends State<EventsList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventCubit, EventState>(
+    return BlocBuilder<UsersCubit, UsersState>(
+      builder: (context, state) {
+        if (state is UsersLoadedState) {
+          User user = state.curUser;
+          return BlocConsumer<EventCubit, EventState>(
       listener: (context, state) {
         if (state is RegistrationFailedState) {
           Scaffold.of(context).showSnackBar(
@@ -364,7 +368,7 @@ class EventsListState extends State<EventsList> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                       (context, index) =>
-                          createEventCard(context, evlist[index]),
+                          createEventCard(context, evlist[index], user),
                       childCount: evlist.length),
                 ),
               ],
@@ -390,6 +394,12 @@ class EventsListState extends State<EventsList> {
           );
         } else {
           return Container();
+        }
+      },
+    );
+        } else {
+          //TODO error handling
+          return Text("Error");
         }
       },
     );
