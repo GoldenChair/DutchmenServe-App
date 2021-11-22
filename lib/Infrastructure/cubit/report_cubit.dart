@@ -2,6 +2,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
 import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,11 +46,16 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  Future<void> submitIReport(Event e, double hrs, User u) async {
+  Future<void> submitIReport(
+      Event e, double hrs, User u, Organization o) async {
     try {
       emit(SendReportLoadingState());
       final event = await _repository.addEvent(e);
-      Report r = new Report(event, hrs, u);
+      DateTime now = new DateTime.now();
+      DateTime date = new DateTime(now.year, now.month, now.day);
+      //TODO changing the description to something that is grabbed from
+      // user input might be prefered
+      Report r = new Report(event, hrs, u, o, e.date, date, e.description);
       final success = await _repository.addReport(r);
       if (success.compare(r))
         emit(SendReportSuccessState(event.eventName));
