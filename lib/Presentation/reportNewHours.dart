@@ -10,6 +10,7 @@ import 'package:dutchmenserve/Infrastructure/cubit/report_state.dart';
 import 'package:dutchmenserve/Presentation/ReportGroupAddStudents.dart';
 import 'package:dutchmenserve/Presentation/widgets.dart';
 import 'package:dutchmenserve/models/event.dart';
+import 'package:dutchmenserve/models/organization.dart';
 import 'package:dutchmenserve/models/report.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,12 @@ class _RNHState extends State<ReportNewHours> {
   @override
   Widget build(BuildContext context) {
     final FocusScopeNode currentFocus = FocusScope.of(context);
+    Organization tempOrg = new Organization(
+                                        "Christmas Cards#193",
+                                        'P',
+                                        true,
+                                        "None",
+                                        DateTime(2021, 11, 9, 9, 56));
     return Scaffold(
       appBar: AppBar(title: Text('New Report')),
       body: BlocProvider<EventCubit>(
@@ -133,11 +140,12 @@ class _RNHState extends State<ReportNewHours> {
                                       _isCommunity,
                                     );
                                     BlocProvider.of<ReportCubit>(context)
-                                        .submitIReport(eventI, _hrs, _user);
+                                        .submitIReport(eventI, _hrs, _user,
+                                            tempOrg);
                                   } else {
                                     //otherwise already have event id
                                     Report newReport =
-                                        Report(_event, _hrs, _user);
+                                        Report(_event, _hrs, _user, tempOrg, _dateTime, _dateTime, "Service Test");
                                     BlocProvider.of<ReportCubit>(context)
                                         .submitReport(newReport);
                                   }

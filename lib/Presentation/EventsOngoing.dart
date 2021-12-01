@@ -8,17 +8,25 @@ import 'EventInfo.dart';
 import 'EventsCalendar.dart';
 import 'homePage.dart';
 
+
+// testing new event models
 final List<Event> events = [
-  Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
-      'pack medical supplies', <int>[5], true,
-      id: 1, imagepath: 'images/afca.JPG'),
-  Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
-      'Log online to help fill in gaps in maps', <int>[5], true,
-      id: 2, imagepath: 'images/mapathon.jpg'),
-  Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
-      'Spend time with Compeer buddy', <int>[5], true,
-      id: 3, imagepath: 'images/compeer.png'),
+  Event(1, 'AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), true,
+      ),
+  Event(2, 'Mapathon', DateTime.parse('2021-04-05T12:00:00Z'),true,),
+  Event(3, 'Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), true,),
 ];
+// final List<Event> events = [
+//   Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
+//       'pack medical supplies', <int>[5], true,
+//       id: 1, imagepath: 'images/afca.JPG'),
+//   Event('Mapathon', DateTime.parse('2021-04-05T12:00:00Z'), 'LVC',
+//       'Log online to help fill in gaps in maps', <int>[5], true,
+//       id: 2, imagepath: 'images/mapathon.jpg'),
+//   Event('Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), 'LVC',
+//       'Spend time with Compeer buddy', <int>[5], true,
+//       id: 3, imagepath: 'images/compeer.png'),
+// ];
 
 class EventsOngoing extends StatelessWidget {
   const EventsOngoing();

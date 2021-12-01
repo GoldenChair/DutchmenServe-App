@@ -150,11 +150,11 @@ class _AddOrgState extends State<AddOrgPage> {
                           'Submit',
                           () {
                             if (_newOrgFormKey.currentState.validate()) {
-                              // TODO: save new Org in DB
-                              Organization newOrg = Organization(
-                                orgName.text, orgDescription.text,
-                                email: orgEmail.text, //TODO: image path
-                              );
+                              // TODO: save new Org in DB UPDATE Do we want to ad a org now?
+                              // Organization newOrg = Organization(
+                              //   orgName.text, orgDescription.text,
+                              //   email: orgEmail.text, //TODO: image path
+                              // );
 
                               currentFocus.unfocus();
                               Navigator.pop(context);
