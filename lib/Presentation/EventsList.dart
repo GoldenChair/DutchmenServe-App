@@ -285,118 +285,123 @@ class EventsListState extends State<EventsList> {
         if (state is UsersLoadedState) {
           User user = state.curUser;
           return BlocConsumer<EventCubit, EventState>(
-      listener: (context, state) {
-        if (state is RegistrationFailedState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Registration for " +
-                  state.eventName +
-                  " did not go through. Please refresh and try again."),
-              action: SnackBarAction(
-                textColor: Colors.blue,
-                label: 'OK',
-                onPressed: () {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                },
-              ),
-            ),
-          );
-        } else if (state is RegistrationSuccessState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text("You are registered for " + state.eventName + "!"),
-              action: SnackBarAction(
-                textColor: Colors.blue,
-                label: 'OK',
-                onPressed: () {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                },
-              ),
-            ),
-          );
-        } else if (state is UnregisterFailedState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Deregistration for " +
-                  state.eventName +
-                  " failed-- please refresh and try again."),
-              action: SnackBarAction(
-                textColor: Colors.blue,
-                label: 'OK',
-                onPressed: () {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                },
-              ),
-            ),
-          );
-        } else if (state is UnregisterSuccessState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  "You are no longer registered for " + state.eventName + "!"),
-              action: SnackBarAction(
-                textColor: Colors.blue,
-                label: 'OK',
-                onPressed: () {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                },
-              ),
-            ),
-          );
-        }
-      },
-      builder: (context, state) {
-        if (state is LoadedState) {
-          final evlist = state.events;
-          evlist.sort((a, b) => a.date.compareTo(b.date));
-
-          return RefreshIndicator(
-            color: Color(0xff206090), //Color(0xff002A4E),
-            onRefresh: _refreshEventList,
-            child: CustomScrollView(
-              slivers: [
-                // showCalendarView(context);
-                SliverPadding(
-                  padding: const EdgeInsets.only(top: 20),
-                  sliver: SliverToBoxAdapter(
-                    child: Row(
-                      children: generateChips(),
-                      mainAxisAlignment: MainAxisAlignment.center,
+            listener: (context, state) {
+              if (state is RegistrationFailedState) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Registration for " +
+                        state.eventName +
+                        " did not go through. Please refresh and try again."),
+                    action: SnackBarAction(
+                      textColor: Colors.blue,
+                      label: 'OK',
+                      onPressed: () {
+                        Scaffold.of(context).hideCurrentSnackBar();
+                      },
                     ),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (context, index) =>
-                          createEventCard(context, evlist[index], user),
-                      childCount: evlist.length),
-                ),
-              ],
-            ),
+                );
+              } else if (state is RegistrationSuccessState) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content:
+                        Text("You are registered for " + state.eventName + "!"),
+                    action: SnackBarAction(
+                      textColor: Colors.blue,
+                      label: 'OK',
+                      onPressed: () {
+                        Scaffold.of(context).hideCurrentSnackBar();
+                      },
+                    ),
+                  ),
+                );
+              } else if (state is UnregisterFailedState) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Deregistration for " +
+                        state.eventName +
+                        " failed-- please refresh and try again."),
+                    action: SnackBarAction(
+                      textColor: Colors.blue,
+                      label: 'OK',
+                      onPressed: () {
+                        Scaffold.of(context).hideCurrentSnackBar();
+                      },
+                    ),
+                  ),
+                );
+              } else if (state is UnregisterSuccessState) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("You are no longer registered for " +
+                        state.eventName +
+                        "!"),
+                    action: SnackBarAction(
+                      textColor: Colors.blue,
+                      label: 'OK',
+                      onPressed: () {
+                        Scaffold.of(context).hideCurrentSnackBar();
+                      },
+                    ),
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is LoadedState) {
+                final evlist = state.events;
+
+                // TODO:  temporay fix to make it easier to find null errors.
+                evlist.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+                // evlist.sort((a, b) => a.date.compareTo(b.date));
+
+                return RefreshIndicator(
+                  color: Color(0xff206090), //Color(0xff002A4E),
+                  onRefresh: _refreshEventList,
+                  child: CustomScrollView(
+                    slivers: [
+                      // showCalendarView(context);
+                      SliverPadding(
+                        padding: const EdgeInsets.only(top: 20),
+                        sliver: SliverToBoxAdapter(
+                          child: Row(
+                            children: generateChips(),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (context, index) =>
+                                createEventCard(context, evlist[index], user),
+                            childCount: evlist.length),
+                      ),
+                    ],
+                  ),
+                );
+              } else if (state is ErrorState) {
+                return RefreshIndicator(
+                  color: Color(0xff206090), //Color(0xff002A4E),
+                  onRefresh: _refreshEventList,
+                  child: SingleChildScrollView(
+                    child: Center(child: Icon(Icons.close)),
+                  ),
+                );
+              } else if (state is LoadingState) {
+                return Dialog(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(),
+                      Text("Loading"),
+                    ],
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
           );
-        } else if (state is ErrorState) {
-          return RefreshIndicator(
-            color: Color(0xff206090), //Color(0xff002A4E),
-            onRefresh: _refreshEventList,
-            child: SingleChildScrollView(
-              child: Center(child: Icon(Icons.close)),
-            ),
-          );
-        } else if (state is LoadingState) {
-          return Dialog(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text("Loading"),
-              ],
-            ),
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
         } else {
           //TODO error handling
           return Text("Error");

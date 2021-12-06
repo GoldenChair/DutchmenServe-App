@@ -123,9 +123,9 @@ class Event {
 
   //new
   Event.fromJson(Map<String, dynamic> json) {
-    id = json['projectID'];
-    eventName = json['projectName'];
-    createdDate = json['createdDate'];
+    id = json['projectid'];
+    eventName = json['projectname'];
+    createdDate = DateTime.parse(json['createddate']);
     active = json['active'];
   }
 
