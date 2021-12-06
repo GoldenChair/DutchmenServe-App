@@ -20,10 +20,12 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> getReports(int uid) async {
     try {
       emit(ReportLoadingState());
-      final reports = await _repository.getReports(uid);
+      final reports = await _repository.getReports(1);
       final events = await _repository.getEvents();
-      final interests = await _repository.getInterests();
-      emit(ReportLoadedState(reports, events, interests));
+      // TODO: Temporay fix for interests
+      // final interests = await _repository.getInterests();
+      final interestsT = Constants().interests;
+      emit(ReportLoadedState(reports, events, interestsT));
     } catch (e) {
       emit(ReportErrorState());
     }

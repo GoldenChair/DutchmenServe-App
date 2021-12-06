@@ -1,6 +1,7 @@
 import 'package:dutchmenserve/Infrastructure/cubit/event_state.dart';
 import 'package:dutchmenserve/Infrastructure/repository.dart';
 import 'package:dutchmenserve/main.dart';
+import 'package:dutchmenserve/models/Constants.dart';
 import 'package:dutchmenserve/models/event.dart';
 import 'package:dutchmenserve/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,8 +19,10 @@ class EventCubit extends Cubit<EventState> {
     try {
       emit(LoadingState());
       final events = await _repository.getEvents();
-      final interests = await _repository.getInterests();
-      emit(LoadedState(events, interests));
+      // TODO: Temporay fix for interests
+      // final interests = await _repository.getInterests();
+      final interestsT = Constants().interests;
+      emit(LoadedState(events, interestsT));
     } catch (e) {
       print(e);
       emit(ErrorState());
