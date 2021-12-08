@@ -7,7 +7,7 @@ class User {
   String password;
   String emailAddress;
   int id;
-  List<int> interests;
+  List<String> interests;
   List<int> organizations;
   List<int> officer;
   String imagepath;
@@ -16,7 +16,7 @@ class User {
   User(String firstName, String lastName, String username, String password,
       {String emailAddress,
       int id,
-      List<int> interests,
+      List<String> interests,
       List<int> organizations,
       List<int> officer,
       String imagepath,
@@ -61,7 +61,7 @@ class User {
     password = json['password'];
     emailAddress = json['emailAddress'];
     id = json['id'];
-    interests = parseList(json['interests']);
+    interests = json['interests'];
     organizations = parseList(json['org']);
     officer = parseList(json['officer']);
     imagepath = json['imagepath'];
