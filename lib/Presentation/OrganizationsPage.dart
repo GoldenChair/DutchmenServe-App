@@ -169,20 +169,22 @@ class _OrganizationsPage extends State<OrganizationsPage> {
             }
           },
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(right: 5, bottom: 15),
-          child: FloatingActionButton(
-            backgroundColor: Color(0xffFFE400),
-            tooltip: 'Add a new organization',
-            mini: true,
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddOrgPage()));
-            },
-            child: Icon(Icons.add, color: Colors.black),
-          ),
-        ),
+        // Option for adding Orgs, possible use for admin at some point.
+        //
+        // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+        // floatingActionButton: Padding(
+        //   padding: EdgeInsets.only(right: 5, bottom: 15),
+        //   child: FloatingActionButton(
+        //     backgroundColor: Color(0xffFFE400),
+        //     tooltip: 'Add a new organization',
+        //     mini: true,
+        //     onPressed: () {
+        //       Navigator.push(context,
+        //           MaterialPageRoute(builder: (context) => AddOrgPage()));
+        //     },
+        //     child: Icon(Icons.add, color: Colors.black),
+        //   ),
+        // ),
       ),
     );
   }

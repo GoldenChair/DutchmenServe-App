@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:collection';
 import 'package:dutchmenserve/models/interest.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +12,18 @@ Consider use for future refactoring.
 class Constants {
   static const double padding = 10;
   static const double avatarRadius = 45;
+
+  final interestsMap = {"Animals": Interest('Animals', 59662, '#d81b60', '#fccde5'),
+                'Disabilities': Interest('Disabilities', 58718, '#448aff', '#80b1d3'),
+                'Education': Interest('Education', 59816, '#ff6d00', '#ffffb3'),
+                'Food': Interest('Food', 59429, '#cddc39', '#fdb462'),
+                'Health\nWellness': Interest('Health\nWellness', 59308, '#ff5252', '#fb8072'),
+                'Housing' : Interest('Housing', 59322, '#00c853', '#b3de69'),
+                'Older Adults' : Interest('Older Adults', 59162, '#7e57c2', '#bebada'),
+                'Service Trips' : Interest('Service Trips', 59153, '#00897b', '#8dd3c7'),
+                'Veterans' : Interest('Veterans', 61283, '#8e24aa', '#bc80bd'),
+                'Other' : Interest('Other', 59526, '#546e7a', '#d9d9d9'),
+                };
 
   final List<Interest> interests = [
     Interest('Animals', 59662, '#d81b60', '#fccde5'),
