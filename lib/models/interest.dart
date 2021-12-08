@@ -1,17 +1,19 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class Interest {
   int id;
   String interest;
-  int iconDataConstant;
-  String color;
-  String fillColor;
+  IconData icon;
+  Color color;
+  Color fillColor;
 
-  Interest(String interest, int iconConst, String color, String fillColor,
+  Interest(String interest, IconData icon, Color color, Color fillColor,
       {int id}) {
     this.interest = interest;
     this.id = id;
-    iconDataConstant = iconConst;
+    this.icon = icon;
     this.color = color;
     this.fillColor = fillColor;
   }
@@ -19,7 +21,7 @@ class Interest {
   Map<String, dynamic> toJson() => {
         'interest': interest,
         'id': id,
-        'iconDataConstant': iconDataConstant,
+        'icon': icon,
         'color': color,
         'fillColor': fillColor,
       };
@@ -27,21 +29,21 @@ class Interest {
   Interest.fromJson(Map<String, dynamic> json) {
     id = json['id']; // will be filled in by database
     interest = json['interest'];
-    iconDataConstant = json['iconDataConstant'];
+    icon = json['icon'];
     color = json['color'];
     fillColor = json['fillColor'];
   }
 
   void printInterest() {
-    print(id.toString() + ': ' + interest + ', ' + iconDataConstant.toString());
+    print(id.toString() + ': ' + interest + ', ' + icon.toString());
   }
 
   Color getColor() {
-    return color.toColor();
+    return color;
   }
 
   Color getFillColor() {
-    return fillColor.toColor();
+    return fillColor;
   }
 }
 
