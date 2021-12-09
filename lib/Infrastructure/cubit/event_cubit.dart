@@ -21,7 +21,7 @@ class EventCubit extends Cubit<EventState> {
       final events = await _repository.getEvents();
       // TODO: Temporay fix for interests
       // final interests = await _repository.getInterests();
-      final interestsT = Constants().interests;
+      final interestsT = Constants().interestsMap;
       emit(LoadedState(events, interestsT));
     } catch (e) {
       print(e);
@@ -38,7 +38,9 @@ class EventCubit extends Cubit<EventState> {
       else
         emit(RegistrationFailedState(e.eventName));
       final events = await _repository.getEvents();
-      final interests = await _repository.getInterests();
+            // TODO: Temporay fix for interests
+      // final interests = await _repository.getInterests();
+      final interests = Constants().interestsMap;
       emit(LoadedState(events, interests));
     } catch (e) {
       emit(ErrorState());
@@ -54,7 +56,9 @@ class EventCubit extends Cubit<EventState> {
       else
         emit(UnregisterFailedState(e.eventName));
       final events = await _repository.getEvents();
-      final interests = await _repository.getInterests();
+      // TODO: Temporay fix for interests
+      // final interests = await _repository.getInterests();
+      final interests = Constants().interestsMap;
       emit(LoadedState(events, interests));
     } catch (e) {
       emit(ErrorState());

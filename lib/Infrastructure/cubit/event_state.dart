@@ -18,7 +18,7 @@ class LoadedState extends EventState {
   LoadedState(this.events, this.interests);
 
   final List<Event> events;
-  final List<Interest> interests;
+  final Map interests;
 
   @override
   List<Object> get props => [events, interests];
