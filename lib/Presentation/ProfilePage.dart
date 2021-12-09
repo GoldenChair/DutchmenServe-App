@@ -27,9 +27,9 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({Key key}) : super(key: key);
 
   final ScrollController _scrollController = ScrollController();
-  final colors = Constants().colors;
-  final interests = Constants().interests;
-  final icons = Constants().icons;
+  //final colors = Constants().colors;
+  final interests = Constants().interestsMap;
+  //final icons = Constants().icons;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,16 +96,20 @@ class ProfilePage extends StatelessWidget {
                                     List<Widget> widgets = List.generate(
                                       state.curUser.interests.length,
                                       (index) => CircleAvatar(
-                                        backgroundColor: colors[
-                                            state.curUser.interests[index]],
+                                        backgroundColor: Constants()
+                                            .interestsMap[
+                                                state.curUser.interests[index]]
+                                            .color,
                                         child: IconButton(
                                           tooltip: interests[state
                                                   .curUser.interests[index]]
                                               .interest,
                                           padding: EdgeInsets.zero,
                                           icon: Icon(
-                                            icons[
-                                                state.curUser.interests[index]],
+                                            Constants()
+                                                .interestsMap[state
+                                                    .curUser.interests[index]]
+                                                .icon,
                                             color: Colors.white,
                                             size: 16,
                                           ),
@@ -151,8 +155,7 @@ class ProfilePage extends StatelessWidget {
                       leading: Icon(Icons.group_work),
                       title: Text('Organizations'),
                       children: [
-                        Container(
-                          child: BlocBuilder<UsersCubit, UsersState>(
+                        Container(child: BlocBuilder<UsersCubit, UsersState>(
                           builder: (context, UserState) {
                             if (UserState is UsersLoadedState) {
                               return BlocBuilder<OrganizationCubit,
@@ -160,11 +163,13 @@ class ProfilePage extends StatelessWidget {
                                 builder: (context, state) {
                                   if (state is OrgLoadedState) {
                                     return ListView.separated(
-                                      shrinkWrap: true,
+                                        shrinkWrap: true,
                                         itemBuilder: (_, index) =>
-                                        //TODO order/sort list so that the orgs are always in the same spot heirachly
-                                            Text(state.orgs[UserState
-                                            .curUser.organizations[index]].orgName),
+                                            //TODO order/sort list so that the orgs are always in the same spot heirachly
+                                            Text(state
+                                                .orgs[UserState.curUser
+                                                    .organizations[index]]
+                                                .orgName),
                                         separatorBuilder: (_, __) => Divider(),
                                         itemCount: UserState
                                             .curUser.organizations.length);

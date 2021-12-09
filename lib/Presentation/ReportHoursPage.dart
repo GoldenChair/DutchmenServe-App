@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart' as gauges;
+import 'package:dutchmenserve/models/Constants.dart';
 
 /*
 This class builds a summary page of service hours:
@@ -363,8 +364,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
   @override
   Widget build(BuildContext context) {
     final reportBloc = BlocProvider.of<ReportCubit>(context);
-    return BlocBuilder<UsersCubit, UsersState>(
-      builder: (context, state) {
+    return BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
       if (state is UsersLoadedState) {
         User user = state.curUser;
         reportBloc.getReports(user.id);
