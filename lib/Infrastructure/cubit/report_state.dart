@@ -37,7 +37,7 @@ class ReportLoadingState extends ReportState {
 class ReportLoadedState extends ReportState {
   final List<Report> reports;
   final List<Event> events;
-  final List<Interest> interests;
+  final Map interests;
 
   ReportLoadedState(this.reports, this.events, this.interests);
 

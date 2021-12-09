@@ -24,7 +24,7 @@ class ReportCubit extends Cubit<ReportState> {
       final events = await _repository.getEvents();
       // TODO: Temporay fix for interests
       // final interests = await _repository.getInterests();
-      final interestsT = Constants().interests;
+      final interestsT = Constants().interestsMap;
       emit(ReportLoadedState(reports, events, interestsT));
     } catch (e) {
       emit(ReportErrorState());
@@ -43,8 +43,10 @@ class ReportCubit extends Cubit<ReportState> {
         emit(SendReportFailedState(event.eventName));
       final reports = await _repository.getReports(r.uid);
       final events = await _repository.getEvents();
-      final interests = await _repository.getInterests();
-      emit(ReportLoadedState(reports, events, interests));
+            // TODO: Temporay fix for interests
+      // final interests = await _repository.getInterests();
+      final interestsT = Constants().interestsMap;
+      emit(ReportLoadedState(reports, events, interestsT));
     } catch (e) {
       emit(ReportErrorState());
     }
@@ -67,8 +69,10 @@ class ReportCubit extends Cubit<ReportState> {
         emit(SendReportFailedState(event.eventName));
       final reports = await _repository.getReports(r.uid);
       final events = await _repository.getEvents();
-      final interests = await _repository.getInterests();
-      emit(ReportLoadedState(reports, events, interests));
+            // TODO: Temporay fix for interests
+      // final interests = await _repository.getInterests();
+      final interestsT = Constants().interestsMap;
+      emit(ReportLoadedState(reports, events, interestsT));
     } catch (e) {
       emit(ReportErrorState());
     }
