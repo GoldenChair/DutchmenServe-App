@@ -17,6 +17,13 @@ Page to edit interests for profile page
 
 //TODO: Highlight interests user is already in
 
+class Pair<T1, T2> {
+  final T1 interest;
+  final T2 widget;
+
+  Pair(this.interest, this.widget);
+}
+
 class InterestEdit extends StatefulWidget {
   InterestEdit({Key key}) : super(key: key);
 
@@ -34,52 +41,56 @@ class _InterestEdit extends State<InterestEdit> {
   //final icons = Constants().icons;
   //final fillColors = Constants().fillColors;
 
-  List<bool> _s = List.generate(12, (index) => false);
+  // List<bool> _s = List.generate(12, (index) => false);
+  var _selected = Map<String, bool>.fromIterable(
+      Constants().interestsMap.keys.toList(),
+      key: (item) => item,
+      value: (item) => false);
 
-  Color changeColor(int i) {
-    if (_s[i])
-      return interests[i].color;
+  Color changeColor(String interest) {
+    if (_selected[interest])
+      return interests[interest].color;
     else
       return Color(0xff002A4E);
   }
 
-  List<Column> generateWidgets() {
-    return List.generate(
-      10,
-      (index) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 5),
-            child: Icon(
-              interests[index].icon,
-              size: 40,
-              semanticLabel: interests[index].interest,
-              color: changeColor(index),
-            ),
-          ),
-          Flexible(
-            child: Text(
-              interests[index].interest,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w300,
+  List<Pair<String, Column>> generateWidgets() {
+    return interests.entries.map((entry) => Pair<String, Column>(
+          entry.key,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 5),
+                child: Icon(
+                  entry.value.icon,
+                  size: 40,
+                  semanticLabel: entry.value.interest,
+                  color: changeColor(entry.value.interest),
+                ),
               ),
-            ),
+              Flexible(
+                child: Text(
+                  entry.value.interest,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 
-  Flexible createGridView(List<Column> widgets) {
+  Flexible createGridView(List<Pair<String, Column>> widgets) {
     return Flexible(
       child: GridView.count(
           crossAxisCount: 2,
-          crossAxisSpacing: 5,
+          crossAxisSpacing: (interests.length + 1) / 2,
           children: widgets.asMap().entries.map(
-            (widget) {
+            (pair) {
               return Container(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -88,20 +99,21 @@ class _InterestEdit extends State<InterestEdit> {
                       color: Color(0xffDDDDDE),
                       child: ToggleButtons(
                         selectedColor: Colors.black,
-                        fillColor: interests[widget.key].fillColor,
+                        fillColor: interests[pair.value.interest].fillColor,
                         splashColor: Colors.transparent,
                         renderBorder: false,
                         constraints: BoxConstraints.expand(
                           width: constraints.maxWidth - 20,
                         ),
-                        isSelected: [_s[widget.key]],
+                        isSelected: [_selected[pair.value.interest]],
                         onPressed: (int key) {
                           // note: key stays 0 and never changes, don't use; use widget.key
                           setState(() {
-                            _s[widget.key] = !_s[widget.key];
+                            _selected[pair.value.interest] =
+                                !_selected[pair.value.interest];
                           });
                         },
-                        children: [widget.value],
+                        children: [pair.value.widget],
                       ),
                     );
                   },
@@ -114,7 +126,7 @@ class _InterestEdit extends State<InterestEdit> {
 
   @override
   Widget build(BuildContext context) {
-    List<Column> w = generateWidgets();
+    List<Pair<String, Column>> w = generateWidgets();
     return Scaffold(
       appBar: AppBar(title: Text('Select your interests')),
       body: SafeArea(
@@ -143,8 +155,11 @@ class _InterestEdit extends State<InterestEdit> {
                   if (state is UsersLoadedState) {
                     User cUser = state.curUser;
                     return NormalButton("Save", () {
-                      for (int i = 0; i < 11; i++) {
-                        if (_s[i]) cUser.interests.add(i);
+                      cUser.interests = [];
+                      for (var item in _selected.entries) {
+                        if (item.value) {
+                          cUser.interests.add(item.key);
+                        }
                       }
                       editUser(context, cUser);
                       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
