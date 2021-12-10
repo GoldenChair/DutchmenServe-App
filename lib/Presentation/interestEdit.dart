@@ -29,16 +29,16 @@ class InterestEdit extends StatefulWidget {
 class _InterestEdit extends State<InterestEdit> {
   _InterestEdit();
 
-  final colors = Constants().colors;
-  final interests = Constants().interests;
-  final icons = Constants().icons;
-  final fillColors = Constants().fillColors;
+  //final colors = Constants().colors;
+  final interests = Constants().interestsMap;
+  //final icons = Constants().icons;
+  //final fillColors = Constants().fillColors;
 
   List<bool> _s = List.generate(12, (index) => false);
 
   Color changeColor(int i) {
     if (_s[i])
-      return colors[i];
+      return interests[i].color;
     else
       return Color(0xff002A4E);
   }
@@ -52,7 +52,7 @@ class _InterestEdit extends State<InterestEdit> {
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: Icon(
-              icons[index],
+              interests[index].icon,
               size: 40,
               semanticLabel: interests[index].interest,
               color: changeColor(index),
@@ -88,7 +88,7 @@ class _InterestEdit extends State<InterestEdit> {
                       color: Color(0xffDDDDDE),
                       child: ToggleButtons(
                         selectedColor: Colors.black,
-                        fillColor: fillColors[widget.key],
+                        fillColor: interests[widget.key].fillColor,
                         splashColor: Colors.transparent,
                         renderBorder: false,
                         constraints: BoxConstraints.expand(
@@ -140,20 +140,20 @@ class _InterestEdit extends State<InterestEdit> {
               margin: EdgeInsets.only(top: 10, bottom: 5),
               child: BlocBuilder<UsersCubit, UsersState>(
                 builder: (context, state) {
-                  if(state is UsersLoadedState){
+                  if (state is UsersLoadedState) {
                     User cUser = state.curUser;
                     return NormalButton("Save", () {
-                  for (int i = 0; i < 11; i++) {
-                    if (_s[i]) cUser.interests.add(i);
-                  }
-                  editUser(context, cUser);
-                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                    statusBarColor: Color(0xff002A4E),
-                    systemNavigationBarColor: Color(0xfff9f9f9),
-                    systemNavigationBarIconBrightness: Brightness.dark,
-                  ));
-                  Navigator.pop(context);
-                });
+                      for (int i = 0; i < 11; i++) {
+                        if (_s[i]) cUser.interests.add(i);
+                      }
+                      editUser(context, cUser);
+                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                        statusBarColor: Color(0xff002A4E),
+                        systemNavigationBarColor: Color(0xfff9f9f9),
+                        systemNavigationBarIconBrightness: Brightness.dark,
+                      ));
+                      Navigator.pop(context);
+                    });
                   }
                   return Container();
                 },
@@ -165,7 +165,8 @@ class _InterestEdit extends State<InterestEdit> {
     );
   }
 }
-  void editUser(BuildContext context, User user) {
-    final usersCubit = context.read<UsersCubit>();
-    usersCubit.editUser(user);
-  }
+
+void editUser(BuildContext context, User user) {
+  final usersCubit = context.read<UsersCubit>();
+  usersCubit.editUser(user);
+}

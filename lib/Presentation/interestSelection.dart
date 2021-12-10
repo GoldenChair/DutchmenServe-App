@@ -26,16 +26,16 @@ class SelectInterests extends StatefulWidget {
 class _SelectInterestsState extends State<SelectInterests> {
   _SelectInterestsState();
 
-  final colors = Constants().colors;
-  final interests = Constants().interests;
-  final icons = Constants().icons;
-  final fillColors = Constants().fillColors;
+  //final colors = Constants().colors;
+  final interests = Constants().interestsMap;
+  //final icons = Constants().icons;
+  //final fillColors = Constants().fillColors;
 
   List<bool> _s = List.generate(12, (index) => false);
 
   Color changeColor(int i) {
     if (_s[i])
-      return colors[i];
+      return Constants().interestsMap[i].color;
     else
       return Color(0xff002A4E);
   }
@@ -49,7 +49,7 @@ class _SelectInterestsState extends State<SelectInterests> {
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: Icon(
-              icons[index],
+              Constants().interestsMap[index].icon,
               size: 40,
               semanticLabel: interests[index].interest,
               color: changeColor(index),
@@ -85,7 +85,8 @@ class _SelectInterestsState extends State<SelectInterests> {
                       color: Color(0xffDDDDDE),
                       child: ToggleButtons(
                         selectedColor: Colors.black,
-                        fillColor: fillColors[widget.key],
+                        fillColor:
+                            Constants().interestsMap[widget.key].fillColor,
                         splashColor: Colors.transparent,
                         renderBorder: false,
                         constraints: BoxConstraints.expand(
