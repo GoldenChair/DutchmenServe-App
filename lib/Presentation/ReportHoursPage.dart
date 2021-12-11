@@ -51,7 +51,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
   ];
 
   // show breakdown by interest
-  Widget interestDonut(List<double> counts, List<Interest> interests) {
+  Widget interestDonut(List<double> counts, Map<String, Interest> interests) {
     List<_PieData> pieData = List<_PieData>.filled(10, null, growable: false);
     for (int i = 1; i < 11; i++) {
       pieData[i - 1] = _PieData(
@@ -222,8 +222,8 @@ class _ReportHoursState extends State<ReportHoursPage> {
   // 1-10 be for each interest; 11 be adjusted total for interests;
   // 12-13 be for campus/community
   // 14 be for residential
-  List<double> countHours(
-      List<Report> reports, List<Event> events, List<Interest> interests) {
+  List<double> countHours(List<Report> reports, List<Event> events,
+      Map<String, Interest> interests) {
     List<double> counts = List<double>.filled(15, 0, growable: false);
     for (Report r in reports) {
       Event e = events.singleWhere(
@@ -284,7 +284,7 @@ class _ReportHoursState extends State<ReportHoursPage> {
     );
   }
 
-  Widget legend(List<Interest> interests) {
+  Widget legend(Map<String, dynamic> interests) {
     return Container(
       color: Colors.grey[200],
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
