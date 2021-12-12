@@ -22,8 +22,9 @@ class UsersCubit extends Cubit<UsersState> {
       // final users = await _repository.getUsers();
 
       emit(UsersLoadedState(
-          await _repository.getUsers(), await _repository.getCurrentUser()));
+          await _repository.getUsers(), await _repository.getUser(1)));
     } catch (e) {
+      print("here1");
       emit(UsersErrorState());
     }
   }
@@ -34,6 +35,7 @@ class UsersCubit extends Cubit<UsersState> {
       await _repository.addUser(u);
       // emit()
     } catch (e) {
+      print("here2");
       emit(UsersErrorState());
     }
   }
@@ -41,8 +43,10 @@ class UsersCubit extends Cubit<UsersState> {
   void findCurrentUser() async {
     try {
       emit(UsersLoadingState());
-      await _repository.getCurrentUser();
+      emit(UsersLoadedState(
+          await _repository.getUsers(), await _repository.getUser(1)));
     } catch (e) {
+      print("here3");
       emit(UsersErrorState());
     }
   }
@@ -52,7 +56,8 @@ class UsersCubit extends Cubit<UsersState> {
     try {
       emit(UsersLoadingState());
       await _repository.updateUser(user);
-      emit(UsersLoadedState(await _repository.getUsers(), await _repository.getCurrentUser()));
+      emit(UsersLoadedState(
+          await _repository.getUsers(), await _repository.getUser(1)));
     } catch (e) {
       emit(UsersErrorState());
     }

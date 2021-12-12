@@ -45,6 +45,7 @@ class ProfilePage extends StatelessWidget {
               Center(child: Icon(Icons.account_circle, size: 120)),
               BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
                 if (state is UsersLoadedState) {
+                  print(state.curUser);
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
