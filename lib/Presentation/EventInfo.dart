@@ -42,28 +42,12 @@ class EventInfo extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 5),
-              Row(
-                children: [
-                  Icon(Icons.location_on),
-                  SizedBox(width: 10),
-                  Text(
-                    e.location,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(height: 20),
               Text(
                 e.description,
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 20),
-              e.imagepath == null
-                  ? Container()
-                  : Image(image: AssetImage(e.imagepath)),
               SizedBox(height: 20),
               e.dateCompare(DateTime.now()) >= 0
                   ? ListTile(
