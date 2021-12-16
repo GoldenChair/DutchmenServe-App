@@ -8,13 +8,26 @@ import 'EventInfo.dart';
 import 'EventsCalendar.dart';
 import 'homePage.dart';
 
-
 // testing new event models
 final List<Event> events = [
-  Event(1, 'AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), true,
-      ),
-  Event(2, 'Mapathon', DateTime.parse('2021-04-05T12:00:00Z'),true,),
-  Event(3, 'Compeer Virtual Buddy', DateTime.parse('2021-03-08T12:00:00Z'), true,),
+  Event(
+    1,
+    'AFCA Warehouse',
+    DateTime.parse('2020-12-08T12:00:00Z'),
+    true,
+  ),
+  Event(
+    2,
+    'Mapathon',
+    DateTime.parse('2021-04-05T12:00:00Z'),
+    true,
+  ),
+  Event(
+    3,
+    'Compeer Virtual Buddy',
+    DateTime.parse('2021-03-08T12:00:00Z'),
+    true,
+  ),
 ];
 // final List<Event> events = [
 //   Event('AFCA Warehouse', DateTime.parse('2020-12-08T12:00:00Z'), 'Lebanon',
@@ -94,13 +107,13 @@ GestureDetector createEventCard(BuildContext context, Event e) {
               ),
               title: Text(e.eventName),
               subtitle: Text(
-                e.dateString() + ' | ' + e.location,
+                e.dateString(),
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
-            Image(
-              image: AssetImage(e.imagepath),
-            ),
+            // Image(
+            //   image: AssetImage(e.imagepath),
+            // ),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(

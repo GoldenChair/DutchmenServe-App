@@ -63,7 +63,8 @@ class User {
     lastName = "Doe"; // Hardcoded, needs to get data from server
     username = json['username'];
     token = json['token'];
-    emailAddress = json['username'] + "@lvc.edu"; // Hardcoded, Maybe its fine? Need to look into if username will ever be different from email
+    emailAddress = json['username'] +
+        "@lvc.edu"; // Hardcoded, Maybe its fine? Need to look into if username will ever be different from email
     id = json['id'];
     interests = parseListString(json['interests']);
     organizations = parseList(json['org']);
@@ -75,6 +76,7 @@ class User {
   List<int> parseList(List<dynamic> json) {
     return json != null ? List<int>.from(json) : null;
   }
+
   List<String> parseListString(List<dynamic> json) {
     return json != null ? List<String>.from(json) : null;
   }
@@ -83,15 +85,15 @@ class User {
     return events.contains(e.id);
   }
 
-  void unregister(Event e) {
-    events.remove(e.id);
-    e.registered.remove(id);
-  }
+  // void unregister(Event e) {
+  //   events.remove(e.id);
+  //   e.registered.remove(id);
+  // }
 
-  void register(Event e) {
-    events.add(e.id);
-    e.registered.add(id);
-  }
+  // void register(Event e) {
+  //   events.add(e.id);
+  //   e.registered.add(id);
+  // }
 
   void registerAll(List<Event> ev) {
     for (var e in ev) {

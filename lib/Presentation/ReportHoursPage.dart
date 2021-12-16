@@ -240,11 +240,11 @@ class _ReportHoursState extends State<ReportHoursPage> {
         counts[i] += r.hours;
         counts[11] += r.hours;
       }
-      if (e.isCommunity)
-        counts[13] += r.hours;
-      else //campus
-        counts[12] += r.hours;
-      if (e.isResidential) counts[14]++;
+      // if (e.isCommunity)
+      //   counts[13] += r.hours;
+      // else //campus
+      //   counts[12] += r.hours;
+      // if (e.isResidential) counts[14]++;
     }
     return counts;
   }
