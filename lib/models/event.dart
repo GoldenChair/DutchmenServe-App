@@ -5,7 +5,7 @@ class Event {
   DateTime date; //eventdate should be null if student report
   // String location;
   String description;
-  List<String> interests;
+  List<int> interests;
   String approved;
   // bool isCommunity;
   // bool isResidential;
@@ -130,7 +130,7 @@ class Event {
     eventName = json['projectname'];
     createdDate = DateTime.parse(json['createddate']);
     date = DateTime.parse(json['eventdate']);
-    interests = ["Animals", "Food"];
+    interests = [1,4];
     active = json['active'];
     approved = json['approved'];
     description = json['description'];

@@ -95,11 +95,11 @@ class User {
   //   e.registered.add(id);
   // }
 
-  void registerAll(List<Event> ev) {
-    for (var e in ev) {
-      register(e);
-    }
-  }
+  // void registerAll(List<Event> ev) {
+  //   for (var e in ev) {
+  //     register(e);
+  //   }
+  // }
 
   void printUser() {
     print(lastName + ', ' + firstName);
