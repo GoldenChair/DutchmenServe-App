@@ -2,17 +2,18 @@ import 'package:intl/intl.dart';
 
 class Event {
   String eventName;
-  DateTime date;
-  String location;
+  DateTime date; //eventdate should be null if student report
+  // String location;
   String description;
-  List<int> interests;
-  bool isCommunity;
-  bool isResidential;
-  bool isOngoing; //TODO is this the same as active???
+  List<String> interests;
+  String approved;
+  // bool isCommunity;
+  // bool isResidential;
+  // bool isOngoing; //TODO is this the same as active???
   int id;
-  String imagepath;
-  List<int> registered;
-  bool deleted;
+  // String imagepath;
+  // List<int> registered;
+  // bool deleted;
 
   //new
   DateTime createdDate;
@@ -47,16 +48,16 @@ class Event {
   Event.blank() {
     eventName = '';
     date = null;
-    location = '';
+    // location = '';
     description = '';
     interests = [];
-    isCommunity = false;
-    this.isResidential = false;
-    this.isOngoing = false;
-    registered = [];
+    // isCommunity = false;
+    // this.isResidential = false;
+    // this.isOngoing = false;
+    // registered = [];
     id = null;
-    imagepath = null;
-    deleted = false;
+    // imagepath = null;
+    // deleted = false;
     createdDate = null;
     active = null;
   }
@@ -67,16 +68,16 @@ class Event {
       {List<int> interests, int id}) {
     this.eventName = eventName;
     this.date = date;
-    this.location =
-        'blank'; // not tracked, Jen doesn't need, but cannot be blank
+    // this.location =
+    //     'blank'; // not tracked, Jen doesn't need, but cannot be blank
     this.description = description;
-    this.isCommunity = isCommunity;
-    this.isResidential = false;
-    this.isOngoing = false;
+    // this.isCommunity = isCommunity;
+    // this.isResidential = false;
+    // this.isOngoing = false;
     this.interests = []; // currently not built to input interests
     this.id = id;
-    imagepath = null;
-    deleted = false;
+    // imagepath = null;
+    // deleted = false;
   }
 
   // convert Event to a json Map
@@ -96,6 +97,7 @@ class Event {
   //     };
 
   //new
+  // TODO fix so it submits right data
   Map<String, dynamic> toJson() => {
         'projectName': eventName,
         'createdDate': date.toIso8601String(),
@@ -123,10 +125,15 @@ class Event {
 
   //new
   Event.fromJson(Map<String, dynamic> json) {
+    print(json);
     id = json['projectid'];
     eventName = json['projectname'];
     createdDate = DateTime.parse(json['createddate']);
+    date = DateTime.parse(json['eventdate']);
+    interests = ["Animals", "Food"];
     active = json['active'];
+    approved = json['approved'];
+    description = json['description'];
   }
 
   List<int> parseList(List<dynamic> json) {
@@ -134,7 +141,7 @@ class Event {
   }
 
   void delete() {
-    this.deleted = true;
+    // this.deleted = true;
   }
 
   String dateString() {
@@ -151,9 +158,9 @@ class Event {
   }
 
   void printEvent() {
-    print(eventName + ': ' + date.toString() + ' | ' + location);
+    // print(eventName + ': ' + date.toString() + ' | ' + location);
     print('id: ' + id.toString());
-    print(registered.toString());
+    // print(registered.toString());
     print(interests.toString());
   }
 
@@ -166,7 +173,7 @@ class Event {
     return o is Event &&
         o.eventName == eventName &&
         o.date == date &&
-        o.location == location &&
+        // o.location == location &&
         o.description == description;
   }
 
