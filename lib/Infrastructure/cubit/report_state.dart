@@ -35,12 +35,12 @@ class ReportLoadingState extends ReportState {
 }
 
 class ReportLoadedState extends ReportState {
+  ReportLoadedState(this.reports, this.events, this.interests);
   final List<Report> reports;
   final List<Event> events;
   final Map interests;
 
-  ReportLoadedState(this.reports, this.events, this.interests);
-
+  
   @override
   List<Object> get props => [reports, events, interests];
 }

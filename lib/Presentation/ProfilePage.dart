@@ -45,7 +45,6 @@ class ProfilePage extends StatelessWidget {
               Center(child: Icon(Icons.account_circle, size: 120)),
               BlocBuilder<UsersCubit, UsersState>(builder: (context, state) {
                 if (state is UsersLoadedState) {
-                  print(state.curUser);
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
@@ -143,7 +142,6 @@ class ProfilePage extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (contextInterests) => BlocProvider.value(
                                     value: context.read<UsersCubit>(),
-                                    //TODO change selectinterests so that it is passed nothing and gets user from context
                                     child: InterestEdit(),
                                   )),
                         );

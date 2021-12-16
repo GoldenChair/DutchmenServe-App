@@ -404,6 +404,9 @@ class _ReportHoursState extends State<ReportHoursPage> {
           },
           builder: (context, state) {
             if (state is ReportLoadedState) {
+              //TODO For some reason state.reports have null in most of the fields even though
+              // when checking with print statements in the repository all fields appeard to be
+              // initalized. Needs to be fixed for functionality.
               List<double> res =
                   countHours(state.reports, state.events, state.interests);
               return RefreshIndicator(

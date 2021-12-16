@@ -17,15 +17,10 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   // students want to see how many hours they have
-  Future<void> getReports(int uid) async {
+  void getReports(int uid) async {
     try {
       emit(ReportLoadingState());
-      final reports = await _repository.getReports(1);
-      final events = await _repository.getEvents();
-      // TODO: Temporay fix for interests
-      // final interests = await _repository.getInterests();
-      final interestsT = Constants().interestsMap;
-      emit(ReportLoadedState(reports, events, interestsT));
+      emit(ReportLoadedState(await _repository.getReports(uid), await _repository.getEvents(), Constants().interestsMap));
     } catch (e) {
       emit(ReportErrorState());
     }
@@ -43,7 +38,7 @@ class ReportCubit extends Cubit<ReportState> {
         emit(SendReportFailedState(event.eventName));
       final reports = await _repository.getReports(r.uid);
       final events = await _repository.getEvents();
-            // TODO: Temporay fix for interests
+      // TODO: Temporay fix for interests
       // final interests = await _repository.getInterests();
       final interestsT = Constants().interestsMap;
       emit(ReportLoadedState(reports, events, interestsT));
@@ -69,7 +64,7 @@ class ReportCubit extends Cubit<ReportState> {
         emit(SendReportFailedState(event.eventName));
       final reports = await _repository.getReports(r.uid);
       final events = await _repository.getEvents();
-            // TODO: Temporay fix for interests
+      // TODO: Temporay fix for interests
       // final interests = await _repository.getInterests();
       final interestsT = Constants().interestsMap;
       emit(ReportLoadedState(reports, events, interestsT));

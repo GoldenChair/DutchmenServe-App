@@ -35,7 +35,6 @@ class InterestEdit extends StatefulWidget {
 
 class _InterestEdit extends State<InterestEdit> {
   _InterestEdit();
-
   //final colors = Constants().colors;
   final interests = Constants().interestsMap;
   //final icons = Constants().icons;
@@ -55,33 +54,61 @@ class _InterestEdit extends State<InterestEdit> {
   }
 
   List<Pair<String, Column>> generateWidgets() {
-    return interests.entries.map((entry) => Pair<String, Column>(
-          entry.key,
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 5),
-                child: Icon(
-                  entry.value.icon,
-                  size: 40,
-                  semanticLabel: entry.value.interest,
-                  color: changeColor(entry.value.interest),
+    List<Pair<String, Column>> listPairSC = [];
+    interests.forEach((interestName, interest) => listPairSC.add(Pair(
+        interestName,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 5),
+              child: Icon(
+                interest.icon,
+                size: 40,
+                semanticLabel: interest.interest,
+                color: changeColor(interest.interest),
+              ),
+            ),
+            Flexible(
+              child: Text(
+                interest.interest,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
-              Flexible(
-                child: Text(
-                  entry.value.interest,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ))));
+    // return interests.entries.map((entry) => Pair<String, Column>(
+    //       entry.key,
+    //       Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           Container(
+    //             margin: EdgeInsets.only(bottom: 5),
+    //             child: Icon(
+    //               entry.value.icon,
+    //               size: 40,
+    //               semanticLabel: entry.value.interest,
+    //               color: changeColor(entry.value.interest),
+    //             ),
+    //           ),
+    //           Flexible(
+    //             child: Text(
+    //               entry.value.interest,
+    //               textAlign: TextAlign.center,
+    //               style: TextStyle(
+    //                 fontSize: 18,
+    //                 fontWeight: FontWeight.w300,
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ));
+    return listPairSC;
   }
 
   Flexible createGridView(List<Pair<String, Column>> widgets) {

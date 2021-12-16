@@ -17,7 +17,7 @@ class Report {
   int oid;
   DateTime serviceDate;
   DateTime submissionDate;
-  bool approved;
+  String approved;
   String description;
 
   // Report(Event e, double hrs, User u,
@@ -106,15 +106,15 @@ class Report {
 
   //new
   Report.fromJson(Map<String, dynamic> json) {
-    id = json['logID'];
-    uid = json['studentID'];
-    userName = json['userName'];
-    eid = json['projectID'];
-    projectName = json['projectName'];
-    oid = json['groupID'];
-    hours = json['hoursReported'];
-    serviceDate = json['serviceDate'];
-    submissionDate = json['submissionDate'];
+    id = json['logid'];
+    uid = json['studentid'];
+    userName = json['username'];
+    eid = json['projectid'];
+    projectName = json['projectname'];
+    oid = json['groupid'];
+    hours = json['hoursreported'];
+    serviceDate = DateTime.parse(json['servicedate']);
+    submissionDate = DateTime.parse(json['submissiondate']);
     approved = json['approved'];
     description = json['description'];
   }

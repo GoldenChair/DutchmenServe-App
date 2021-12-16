@@ -57,14 +57,13 @@ class User {
   // temp fix for db user as lvc server currently does not store first/lastname and email in User object
   // TODO possibly add relation from lvc student to lvc user for those fields
   User.fromJson(Map<String, dynamic> json) {
-    print(json);
     // firstName = json['firstName'];
     // lastName = json['lastName'];
-    firstName = "John";
-    lastName = "Doe";
+    firstName = "John"; // Hardcoded, needs to get data from server
+    lastName = "Doe"; // Hardcoded, needs to get data from server
     username = json['username'];
     token = json['token'];
-    emailAddress = json['username'] + "@lvc.edu";
+    emailAddress = json['username'] + "@lvc.edu"; // Hardcoded, Maybe its fine? Need to look into if username will ever be different from email
     id = json['id'];
     interests = parseListString(json['interests']);
     organizations = parseList(json['org']);
@@ -72,23 +71,6 @@ class User {
     imagepath = json['imagepath'];
     events = parseList(json['events']);
   }
-
-  // factory User.fromJson(Map<String, dynamic> json) {
-  //   print(json);
-  //   return User(
-  //     json['firstName'] as String, //firstName:
-  //     json['lastName'] as String, //lastName:
-  //     json['username'] as String, //username:
-  //     json['token'] as String, //token:
-  //     emailAddress: json['emailAddress'] as String,
-  //     id: json['id'] as int,
-  //     interests: json['interests'] as List<String>,
-  //     organizations: json['org'] as List<int>,
-  //     officer: json['officer'] as List<int>,
-  //     imagepath: json['imagepath'] as String,
-  //     events: json['events'] as List<int>,
-  //   );
-  // }
 
   List<int> parseList(List<dynamic> json) {
     return json != null ? List<int>.from(json) : null;
