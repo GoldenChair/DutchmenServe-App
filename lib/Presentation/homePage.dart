@@ -110,7 +110,7 @@ class HomePage extends StatelessWidget {
       },
       body: TabBarView(
         children: [
-          EventsList(),
+          // EventsList(),
           ReportHoursPage(),
           ConnectWUsPage(),
         ],
@@ -179,7 +179,7 @@ class HomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            EventsList(),
+            // EventsList(),
             ReportHoursPage(),
             ConnectWUsPage(),
           ],
